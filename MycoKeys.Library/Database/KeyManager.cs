@@ -178,6 +178,7 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
+                _iSpeciesAttributeTable.DeleteByAttribute(attribute.id);
                 _iAttributeTable.Delete(attribute);
             }
             catch
@@ -228,6 +229,7 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
+                _iSpeciesAttributeTable.DeleteBySpecies(species.id);
                 _iSpeciesTable.Delete(species);
             }
             catch

@@ -190,60 +190,6 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-
-
-        //public bool CanAddSpecies
-        //{
-        //    get
-        //    {
-        //        return (SelectedNode is Model.AttributeNode) && (SelectedNode.Items.Count == 0);
-        //    }
-        //    set
-        //    {
-        //        NotifyPropertyChanged("CanAddSpecies");
-        //    }
-        //}
-
-        //public bool CanEditSpecies
-        //{
-        //    get
-        //    {
-        //        return SelectedNode is Model.SpeciesNode;
-        //    }
-        //    set
-        //    {
-        //        NotifyPropertyChanged("CanEditSpecies");
-        //    }
-        //}
-
-        //public bool CanAddAttribute
-        //{
-        //    get
-        //    {
-        //        return (SelectedNode is Model.RootNode) ||
-        //               (SelectedNode is Model.AttributeNode) &&
-        //               (
-        //                   (SelectedNode.Items.Count == 0) || !(SelectedNode.Items[0] is Model.SpeciesNode)
-        //               );
-        //    }
-        //    set
-        //    {
-        //        NotifyPropertyChanged("CanAddAttribute");
-        //    }
-        //}
-
-        //public bool CanEditAttribute
-        //{
-        //    get
-        //    {
-        //        return (SelectedNode is Model.AttributeNode);
-        //    }
-        //    set
-        //    {
-        //        NotifyPropertyChanged("CanEditAttribute");
-        //    }
-        //}
-
         //public bool CanMovePositionUp
         //{
         //    get

@@ -125,13 +125,13 @@
                         Style="{StaticResource Button60Style}" VerticalAlignment="Top" Click="_buttonAddSpecies_Click"/>
                     <Button Grid.Row="2" Grid.Column="0" x:Name="_buttonEditSpecies" Content="Edit" 
                         Style="{StaticResource Button60Style}" Click="_buttonEditSpecies_Click" 
-                        IsEnabled="{Binding CanEditSpeciesDescription}"/>
+                        IsEnabled="{Binding SelectedSpecies, Converter={StaticResource ObjectToBooleanConverter}}"/>
                     <Button Grid.Row="4" Grid.Column="0" x:Name="_buttonDeleteSpecies" Content="Delete" 
                         Style="{StaticResource Button60Style}" Click="_buttonDeleteSpecies_Click" 
-                        IsEnabled="{Binding CanEditSpeciesDescription}"/>
+                        IsEnabled="{Binding SelectedSpecies, Converter={StaticResource ObjectToBooleanConverter}}"/>
                     <Button Grid.Row="6" Grid.Column="0" x:Name="_buttonAttributes" Content="Attributes" 
                         Style="{StaticResource Button60Style}" Click="_buttonAttributes_Click" 
-                        IsEnabled="{Binding CanEditSpeciesDescription}"/>
+                        IsEnabled="{Binding SelectedSpecies, Converter={StaticResource ObjectToBooleanConverter}}"/>
                 </Grid>
             </Grid>
         </GroupBox>
@@ -171,14 +171,16 @@
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Row="0" Grid.Column="2" x:Name="_buttonAddAttribute" Content="Add" 
-                        Style="{StaticResource Button60Style}" VerticalAlignment="Top" 
-                        Click="_buttonAddAttribute_Click" IsEnabled="{Binding CanAddAttribute}"/>
+                            Style="{StaticResource Button60Style}" VerticalAlignment="Top" 
+                            Click="_buttonAddAttribute_Click" IsEnabled="{Binding CanAddAttribute}"/>
                         <Button Grid.Row="2" Grid.Column="2" x:Name="_buttonEditAttribute" Content="Edit" 
-                        Style="{StaticResource Button60Style}" 
-                        Click="_buttonEditAttribute_Click" IsEnabled="{Binding CanEditAttribute}"/>
+                            Style="{StaticResource Button60Style}" 
+                            Click="_buttonEditAttribute_Click" 
+                            IsEnabled="{Binding SelectedAttribute, Converter={StaticResource ObjectToBooleanConverter}}"/>
                         <Button Grid.Row="4" Grid.Column="2" x:Name="_buttonDeleteAttribute" Content="Delete" 
-                        Style="{StaticResource Button60Style}" 
-                        Click="_buttonDeleteAttribute_Click" IsEnabled="{Binding CanEditAttribute}"/>
+                            Style="{StaticResource Button60Style}" 
+                            Click="_buttonDeleteAttribute_Click" 
+                            IsEnabled="{Binding SelectedAttribute, Converter={StaticResource ObjectToBooleanConverter}}"/>
                     </Grid>
                 </Grid>
             </Grid>
