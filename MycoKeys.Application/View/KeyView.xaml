@@ -1,0 +1,199 @@
+﻿<Window x:Class="MycoKeys.Application.View.KeyView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MycoKeys.Application.View"
+        mc:Ignorable="d"
+        Background="#F0F0F0"
+        Title="Key Editor" Height="600" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SummaryTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
+                <Setter Property="IsReadOnly" Value="True"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="CheckBox">
+                            <Grid Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Ellipse Grid.Row="0" Grid.Column="0" Name="_ellipse" Fill="Transparent" Width="16" Height="16" Stroke="White" StrokeThickness="1"/>
+                                <Line Grid.Row="0" Grid.Column="0" Name="_line_1" X1="6" X2="12" Y1="6" Y2="12" Stroke="White" StrokeThickness="1"/>
+                                <Line Grid.Row="0" Grid.Column="0" Name="_line_2" X1="12" X2="6" Y1="6" Y2="12" Stroke="White" StrokeThickness="1"/>
+                                <Label Grid.Row="0" Grid.Column="2" Content="{TemplateBinding Content}" Style="{StaticResource LabelStyle}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Dictionary.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/OpenControls.Wpf.Utilities;component/View/Dictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Summary" Style="{StaticResource GroupBoxStyle}" >
+            <Grid Grid.Row="1" Grid.Column="1" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Name" Style="{StaticResource LabelStyle}" />
+                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}" Style="{StaticResource SummaryTextBoxStyle}"/>
+                <Button Grid.Row="0" Grid.Column="4" Name="_buttonEditSpeciesName" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditKeyName_Click" Height="Auto"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Title" Style="{StaticResource LabelStyle}"/>
+                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Title}" IsReadOnly="True" Style="{StaticResource SummaryTextBoxStyle}"/>
+                <Button Grid.Row="2" Grid.Column="4" Name="_buttonEditTitle" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditTitle_Click" Height="Auto"/>
+                <Label Grid.Row="4" Grid.Column="0" Content="Description" Style="{StaticResource LabelStyle}"/>
+                <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Description}" IsReadOnly="True" Style="{StaticResource SummaryTextBoxStyle}"/>
+                <Button Grid.Row="4" Grid.Column="4" Name="_buttonEditDescription" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditDescription_Click" Height="Auto"/>
+                <Label Grid.Row="6" Grid.Column="0" Content="Copyright" Style="{StaticResource LabelStyle}"/>
+                <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Copyright}" IsReadOnly="True" Style="{StaticResource SummaryTextBoxStyle}"/>
+                <Button Grid.Row="6" Grid.Column="4" Name="_buttonEditCopyright" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditCopyright_Click" Height="Auto"/>
+            </Grid>
+        </GroupBox>
+        
+        <GroupBox Grid.Row="3" Grid.Column="1" Header="Species" Style="{StaticResource GroupBoxStyle}">
+            <Grid Grid.Row="0" Grid.Column="0" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Row="0" Grid.Column="0" x:Name="_dataGridSpecies" ItemsSource="{Binding Species}" 
+                          SelectedItem="{Binding SelectedSpecies}" MouseDoubleClick="_dataGridSpecies_MouseDoubleClick"
+                          HeadersVisibility="None"
+                          Style="{StaticResource DataGridStyle}" VerticalAlignment="Stretch" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Grid.Row="0" Grid.Column="2" Margin="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Row="0" Grid.Column="0" x:Name="_buttonAddSpecies" Content="Add" 
+                        Style="{StaticResource Button60Style}" VerticalAlignment="Top" Click="_buttonAddSpecies_Click"/>
+                    <Button Grid.Row="2" Grid.Column="0" x:Name="_buttonEditSpecies" Content="Edit" 
+                        Style="{StaticResource Button60Style}" Click="_buttonEditSpecies_Click" 
+                        IsEnabled="{Binding CanEditSpeciesDescription}"/>
+                    <Button Grid.Row="4" Grid.Column="0" x:Name="_buttonDeleteSpecies" Content="Delete" 
+                        Style="{StaticResource Button60Style}" Click="_buttonDeleteSpecies_Click" 
+                        IsEnabled="{Binding CanEditSpeciesDescription}"/>
+                    <Button Grid.Row="6" Grid.Column="0" x:Name="_buttonAttributes" Content="Attributes" 
+                        Style="{StaticResource Button60Style}" Click="_buttonAttributes_Click" 
+                        IsEnabled="{Binding CanEditSpeciesDescription}"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+
+        <GridSplitter Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent" />
+        
+        <GroupBox Grid.Row="5" Grid.Column="1" Header="Attributes" Style="{StaticResource GroupBoxStyle}">
+            <Grid Grid.Row="0" Grid.Column="0" Margin="0">
+                <Grid Grid.Row="0" Grid.Column="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Row="0" Grid.Column="0" x:Name="_dataGridAttributes" ItemsSource="{Binding Attributes}" 
+                          SelectedItem="{Binding SelectedAttribute}" MouseDoubleClick="_dataGridAttributes_MouseDoubleClick"
+                          HeadersVisibility="None"
+                          Style="{StaticResource DataGridStyle}" VerticalAlignment="Stretch" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid Grid.Row="0" Grid.Column="2" Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Row="0" Grid.Column="2" x:Name="_buttonAddAttribute" Content="Add" 
+                        Style="{StaticResource Button60Style}" VerticalAlignment="Top" 
+                        Click="_buttonAddAttribute_Click" IsEnabled="{Binding CanAddAttribute}"/>
+                        <Button Grid.Row="2" Grid.Column="2" x:Name="_buttonEditAttribute" Content="Edit" 
+                        Style="{StaticResource Button60Style}" 
+                        Click="_buttonEditAttribute_Click" IsEnabled="{Binding CanEditAttribute}"/>
+                        <Button Grid.Row="4" Grid.Column="2" x:Name="_buttonDeleteAttribute" Content="Delete" 
+                        Style="{StaticResource Button60Style}" 
+                        Click="_buttonDeleteAttribute_Click" IsEnabled="{Binding CanEditAttribute}"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </GroupBox>
+
+        <Grid Grid.Row="7" Grid.Column="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" Grid.Column="1" x:Name="_buttonClose" Content="Close" Style="{StaticResource Button80Style}" Click="_buttonClose_Click"/>
+        </Grid>
+    </Grid>
+</Window>

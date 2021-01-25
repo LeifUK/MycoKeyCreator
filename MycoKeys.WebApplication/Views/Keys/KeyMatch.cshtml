@@ -1,0 +1,123 @@
+﻿@model MycoKeys.WebApplication.Model.KeyMatchViewData
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1 class="mainheader">@Model.KeyTitle</h1>
+
+    <ol type="i">
+        <li><a href="#Features">Features</a></li>
+        <li><a href="#MatchResults">Match Results</a></li>
+        <li><a href="#TraditionalKey">Traditional Key</a></li>
+    </ol>
+
+    <h2 class="mainheader"><a name="Features"></a>Features</h2>
+    <form action="/Keys/Update" method="post">
+        <input type="hidden" name="KeyName" value="@Model.KeyName" />
+        <table border="0" cellspacing="0" cellpadding="0" class="standard-table">
+            <tbody>
+                @{
+                    int i = 0;
+                    foreach (var item in Model.AttributeSelections)
+                    {
+                        string isSelected = "Selections[" + i + "].IsSelected";
+                        string conditionId = "Selections[" + i + "].AttributeId";
+                        <tr>
+                            <td>
+                                <p style="width:80%;">
+                                    <input type="checkbox" name="@isSelected" value="true" checked="@item.Value" />
+                                    <label asp-for="isSelected">@item.Key.description</label>
+                                    <input type="hidden" name="@conditionId" value="@item.Key.id" />
+                                </p>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        ++i;
+                    }
+                }
+            </tbody>
+        </table>
+        <input type="submit" value="Update" style="margin-left:30px; margin-top: 10px; margin-bottom: 10px; padding-left:10px; padding-right:10px; padding-top: 4px; padding-bottom: 4px;" />
+    </form>
+
+    <h2 class="mainheader"><a name="MatchResults"></a>Match Results</h2>
+    <table border="0" cellspacing="0" cellpadding="0" class="standard-table">
+        <tbody>
+            @{
+                <tr>
+                    <th><p>Species</p></th>
+                    <th><p>Matches</p></th>
+                    <th><p>Mismatches</p></th>
+                </tr>
+                foreach (var item in Model.Species)
+                {
+                    <tr>
+                        <td class="shrink">
+                            <p>@item.Species.name</p>
+                        </td>
+                        <td class="shrink">
+                            <p>@item.Matches / @item.AttributeCount</p>
+                        </td>
+                        <td class="expand">
+                            <p>@item.Mismatches</p>
+                        </td>
+                    </tr>
+                    ++i;
+                }
+            }
+        </tbody>
+    </table>
+
+    <h2 class="mainheader"><a name="TraditionalKey"></a>Traditional Key</h2>
+    <table border="0" cellspacing="0" cellpadding="0" class="standard-table">
+        <tbody>
+            @{
+                int number = 0;
+                foreach (var item in Model.KeyItems)
+                {
+                    <tr>
+                        <td width="60px">
+                            @{
+                                if (item.Number != number)
+                                {
+                                    <p id="@item.Number">@item.Number</p>
+                                }
+                                else
+                                {
+                                    <p>@item.Number*</p>
+                                }
+                                number = item.Number;
+                            }
+                        </td>
+                        <td width="60px">
+                            @{
+                                if (item.ParentNumber > 0)
+                                {
+                                    string text = "#" + @item.ParentNumber;
+                                    <p style="margin-right: 20px;"><a href=@text>(@item.ParentNumber)</a></p>
+                                }
+                                number = item.Number;
+                            }
+                        </td>
+                        <td style="min-width:500px;">
+                            @item.Attribute
+                        </td>
+                        <td class="expand">
+                            <p style="margin-left: 20px; font-weight: bold; font-style: italic;">@item.Species</p>
+                            @{
+                                if (item.ChildKeyItem != null)
+                                {
+                                    string text = "#" + @item.ChildKeyItem.Number;
+                                    <p style="margin-left: 20px;"><a href=@text>(@item.ChildKeyItem.Number)</a></p>
+                                }
+                            }
+                        </td>
+                    </tr>
+                    ++i;
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,50 @@
+﻿@model System.Collections.Generic.List<MycoKeys.Library.DBObject.Key>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    .key-name {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        text-align: left;
+        color: black;
+        background-color: white;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-left: 30px;
+        margin-right: 10px;
+        vertical-align: central;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+
+    h1 {
+        text-align: left;
+    }
+
+</style>
+
+<div class="container">
+    <h1 class="mainheader">Fungal Keys</h1>
+    <table border="0" cellspacing="0" cellpadding="0"
+           style="width: 940px; border:0px ; border-color:darkgray; background-color:white; margin:0px">
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td style="width:30px; background-color:white; border-style:none;vertical-align:top;text-align:center">
+                @{ 
+                    string path = "/Keys/" + @item.name;
+                    <a href="@path" class="key-name">@item.name </a>         
+                }
+                </td>
+                <td>
+                    @item.description
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

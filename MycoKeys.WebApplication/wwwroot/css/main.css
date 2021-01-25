@@ -1,0 +1,140 @@
+/* The menu stuff */
+
+/*------------------------------------*\
+	RESET
+\*------------------------------------*/
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{
+  margin:0;
+  padding:0;
+}
+
+p, h1, h2, h3, h4 {
+    padding: 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+ul, ol {
+    margin-left: 60px;
+    margin-right: 30px;
+    margin-bottom:5px
+}
+
+li
+{
+  font-family : Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    padding: 0px;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    text-align: justify;
+}
+
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    padding: 0px;
+    margin-bottom: 4px;
+    margin-top: 5px;
+}
+
+h2 
+{
+  font-size: 16px;
+  font-family : Arial, Helvetica, sans-serif;
+  padding:0px;
+  margin-bottom:4px; 
+  margin-top:5px;
+}
+
+h3
+{
+  font-size: 12px;
+  font-family : Arial, Helvetica, sans-serif;
+  padding:0px;
+  margin-bottom:4px; 
+  margin-top:5px;
+}
+
+A {
+    display: block;
+    color: #fff;
+    background: transparent;
+    text-decoration: none;
+}
+
+A:link {
+    color: #408080;
+}
+
+A:visited {
+    color: #408080;
+}
+
+A:hover {
+    color: red;
+}
+
+A:active {
+    color: red;
+}
+
+.table-standard {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    /*overflow-y: scroll;*/
+    position: relative;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+.table-data {
+    padding: 4px;
+    border: 1px solid black;
+    text-align: left;
+    vertical-align: top;
+}
+
+.mainheader
+{
+  font-family : Arial, Helvetica, sans-serif;
+  padding:0px;
+  margin-bottom:4px; 
+  padding-right:50px;
+  margin-top:5px;
+  text-align:left;
+  border-bottom: 1px solid #CCCCCC; 
+  padding-bottom: 4px; 
+  margin-bottom: 8px;
+}
+
+.list-item-header {
+    font-size: 20px;
+    text-align: left;
+    vertical-align: central;
+    background-color: white;
+    padding-top: 14px;
+    padding-bottom: 2px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.standard-list-item
+{
+  font-family : Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  margin-top:0px;
+  margin-bottom:0px;
+  margin-right:4px;
+}
+
