@@ -19,10 +19,5 @@ namespace MycoKeys.Application.View
         {
             DialogResult = true;
         }
-
-        private void _buttonEditFields_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

@@ -6,9 +6,20 @@
         xmlns:local="clr-namespace:MycoKeys.Application.View"
         mc:Ignorable="d"
         Background="#F0F0F0"
-        Title="Key Editor" Height="600" Width="800">
+        Title="Key Editor" Height="800" Width="800">
     <Window.Resources>
         <ResourceDictionary>
+            <Style x:Key="HeaderLabelStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="VerticalContentAlignment" Value="Top"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+            </Style>
+            <Style x:Key="TextBoxLabelStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="FontStyle" Value="Italic" />
+            </Style>
             <Style x:Key="SummaryTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
                 <Setter Property="IsReadOnly" Value="True"/>
                 <Setter Property="BorderThickness" Value="1"/>
@@ -57,7 +68,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Row="1" Grid.Column="1" Header="Summary" Style="{StaticResource GroupBoxStyle}" >
+        <Grid Grid.Row="1" Grid.Column="1" >
             <Grid Grid.Row="1" Grid.Column="1" Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -75,20 +86,20 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Name" Style="{StaticResource LabelStyle}" />
-                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}" Style="{StaticResource SummaryTextBoxStyle}"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="Name" Style="{StaticResource HeaderLabelStyle}"/>
+                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}" Style="{StaticResource TextBoxLabelStyle}"/>
                 <Button Grid.Row="0" Grid.Column="4" Name="_buttonEditSpeciesName" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditKeyName_Click" Height="Auto"/>
-                <Label Grid.Row="2" Grid.Column="0" Content="Title" Style="{StaticResource LabelStyle}"/>
-                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Title}" IsReadOnly="True" Style="{StaticResource SummaryTextBoxStyle}"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Title" Style="{StaticResource HeaderLabelStyle}"/>
+                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Title}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}"/>
                 <Button Grid.Row="2" Grid.Column="4" Name="_buttonEditTitle" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditTitle_Click" Height="Auto"/>
-                <Label Grid.Row="4" Grid.Column="0" Content="Description" Style="{StaticResource LabelStyle}"/>
-                <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Description}" IsReadOnly="True" Style="{StaticResource SummaryTextBoxStyle}"/>
-                <Button Grid.Row="4" Grid.Column="4" Name="_buttonEditDescription" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditDescription_Click" Height="Auto"/>
-                <Label Grid.Row="6" Grid.Column="0" Content="Copyright" Style="{StaticResource LabelStyle}"/>
-                <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Copyright}" IsReadOnly="True" Style="{StaticResource SummaryTextBoxStyle}"/>
+                <Label Grid.Row="4" Grid.Column="0" Content="Description" Style="{StaticResource HeaderLabelStyle}"/>
+                <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Description}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}" TextWrapping="Wrap"/>
+                <Button Grid.Row="4" Grid.Column="4" Name="_buttonEditDescription" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditDescription_Click" VerticalAlignment="Top"/>
+                <Label Grid.Row="6" Grid.Column="0" Content="Copyright" Style="{StaticResource HeaderLabelStyle}"/>
+                <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Copyright}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}"/>
                 <Button Grid.Row="6" Grid.Column="4" Name="_buttonEditCopyright" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditCopyright_Click" Height="Auto"/>
             </Grid>
-        </GroupBox>
+        </Grid>
         
         <GroupBox Grid.Row="3" Grid.Column="1" Header="Species" Style="{StaticResource GroupBoxStyle}">
             <Grid Grid.Row="0" Grid.Column="0" Margin="10">
@@ -122,15 +133,15 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Row="0" Grid.Column="0" x:Name="_buttonAddSpecies" Content="Add" 
-                        Style="{StaticResource Button60Style}" VerticalAlignment="Top" Click="_buttonAddSpecies_Click"/>
+                        Style="{StaticResource Button80Style}" VerticalAlignment="Top" Click="_buttonAddSpecies_Click"/>
                     <Button Grid.Row="2" Grid.Column="0" x:Name="_buttonEditSpecies" Content="Edit" 
-                        Style="{StaticResource Button60Style}" Click="_buttonEditSpecies_Click" 
+                        Style="{StaticResource Button80Style}" Click="_buttonEditSpecies_Click" 
                         IsEnabled="{Binding SelectedSpecies, Converter={StaticResource ObjectToBooleanConverter}}"/>
                     <Button Grid.Row="4" Grid.Column="0" x:Name="_buttonDeleteSpecies" Content="Delete" 
-                        Style="{StaticResource Button60Style}" Click="_buttonDeleteSpecies_Click" 
+                        Style="{StaticResource Button80Style}" Click="_buttonDeleteSpecies_Click" 
                         IsEnabled="{Binding SelectedSpecies, Converter={StaticResource ObjectToBooleanConverter}}"/>
                     <Button Grid.Row="6" Grid.Column="0" x:Name="_buttonAttributes" Content="Attributes" 
-                        Style="{StaticResource Button60Style}" Click="_buttonAttributes_Click" 
+                        Style="{StaticResource Button80Style}" Click="_buttonAttributes_Click" 
                         IsEnabled="{Binding SelectedSpecies, Converter={StaticResource ObjectToBooleanConverter}}"/>
                 </Grid>
             </Grid>
@@ -165,22 +176,33 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="10"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Row="0" Grid.Column="2" x:Name="_buttonAddAttribute" Content="Add" 
-                            Style="{StaticResource Button60Style}" VerticalAlignment="Top" 
-                            Click="_buttonAddAttribute_Click" IsEnabled="{Binding CanAddAttribute}"/>
+                            Style="{StaticResource Button80Style}" VerticalAlignment="Top" 
+                            Click="_buttonAddAttribute_Click" />
                         <Button Grid.Row="2" Grid.Column="2" x:Name="_buttonEditAttribute" Content="Edit" 
-                            Style="{StaticResource Button60Style}" 
+                            Style="{StaticResource Button80Style}" 
                             Click="_buttonEditAttribute_Click" 
                             IsEnabled="{Binding SelectedAttribute, Converter={StaticResource ObjectToBooleanConverter}}"/>
                         <Button Grid.Row="4" Grid.Column="2" x:Name="_buttonDeleteAttribute" Content="Delete" 
-                            Style="{StaticResource Button60Style}" 
+                            Style="{StaticResource Button80Style}" 
                             Click="_buttonDeleteAttribute_Click" 
                             IsEnabled="{Binding SelectedAttribute, Converter={StaticResource ObjectToBooleanConverter}}"/>
+
+                        <Button Grid.Row="6" Grid.Column="2" x:Name="_buttonMoveAttributeUp" Content="Up" 
+                            Style="{StaticResource Button80Style}" VerticalAlignment="Top" Click="_buttonMoveAttributeUp_Click" 
+                            IsEnabled="{Binding CanMoveAttributeUp}"/>
+                        <Button Grid.Row="8" Grid.Column="2" x:Name="_buttonMoveAttributeDown" Content="Down" 
+                            Style="{StaticResource Button80Style}" VerticalAlignment="Top" Click="_buttonMoveAttributeDown_Click" 
+                            IsEnabled="{Binding CanMoveAttributeDown}"/>
                     </Grid>
                 </Grid>
             </Grid>

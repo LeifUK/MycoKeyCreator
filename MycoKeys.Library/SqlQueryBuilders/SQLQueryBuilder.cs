@@ -12,6 +12,12 @@ namespace MycoKeys.Library.SqlQueryBuilders
             stringBuilder.Append(" INTEGER");
         }
 
+        public void AppendSmallIntColumn(StringBuilder stringBuilder, string columnName)
+        {
+            stringBuilder.Append(columnName);
+            stringBuilder.Append(" SMALLINT");
+        }
+
         public void AppendStringColumn(StringBuilder stringBuilder, string columnName, int sizeInBytes, bool notNull)
         {
             stringBuilder.Append(columnName);
@@ -81,6 +87,8 @@ namespace MycoKeys.Library.SqlQueryBuilders
             AppendIntegerColumn(stringBuilder, "key_id");
             stringBuilder.Append(", ");
             AppendStringColumnNull(stringBuilder, "description", 8000);
+            stringBuilder.Append(", ");
+            AppendSmallIntColumn(stringBuilder, "position");
             stringBuilder.Append(", ");
             AppendForeignKeyConstraint(stringBuilder, "FK_attribute_key_id", "key_id", Database.TableNames.Key, "id");
             stringBuilder.Append(");");

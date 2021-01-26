@@ -44,7 +44,7 @@ namespace MycoKeys.Application.ViewModel
         {
             SpeciesAttributeItems = new List<SpeciesAttributeItem>();
             var map = IKeyManager.GetSpeciesAttributeEnumerator(Species.id).ToDictionary(n => n.attribute_id, n => n);
-            foreach (var item in IKeyManager.GetKeyAttributeEnumerator(Key.id))
+            foreach (var item in IKeyManager.GetKeyAttributeEnumerator(Key.id).OrderBy(n => n.position)) 
             {
                 bool applied = map.ContainsKey(item.id);
                 SpeciesAttributeItem speciesAttributeItem = new SpeciesAttributeItem() { Attribute = item, Applied = applied, SpeciesAttribute = applied ? map[item.id] : null };

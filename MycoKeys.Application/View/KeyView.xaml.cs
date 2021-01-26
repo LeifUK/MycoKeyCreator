@@ -13,16 +13,6 @@ namespace MycoKeys.Application.View
             InitializeComponent();
         }
 
-        private void _datagridSpecies_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void _datagridAttributes_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
         private void _buttonClose_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
@@ -209,6 +199,16 @@ namespace MycoKeys.Application.View
             speciesAttributesView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             speciesAttributesView.Owner = this;
             speciesAttributesView.ShowDialog();
+        }
+
+        private void _buttonMoveAttributeUp_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MycoKeys.Application.ViewModel.KeyViewModel).MoveSelectedAttributeUp();
+        }
+
+        private void _buttonMoveAttributeDown_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MycoKeys.Application.ViewModel.KeyViewModel).MoveSelectedAttributeDown();
         }
     }
 }

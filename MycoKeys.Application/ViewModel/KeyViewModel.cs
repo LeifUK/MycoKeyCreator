@@ -21,14 +21,14 @@ namespace MycoKeys.Application.ViewModel
         public void LoadSpecies()
         {
             Species = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Species>(
-                IKeyManager.GetKeySpeciesEnumerator(Key.id));
+                IKeyManager.GetKeySpeciesEnumerator(Key.id).OrderBy(n => n.name));
             SelectedSpecies = Species.Count > 0 ? Species[0] : null;
         }
 
         public void LoadAttributes()
         {
             Attributes = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Attribute>(
-                IKeyManager.GetKeyAttributeEnumerator(Key.id));
+                IKeyManager.GetKeyAttributeEnumerator(Key.id).OrderBy(n => n.position));
             SelectedAttribute = Attributes.Count > 0 ? Attributes[0] : null;
         }
 
@@ -162,12 +162,15 @@ namespace MycoKeys.Application.ViewModel
             {
                 _selectedAttribute = value;
                 NotifyPropertyChanged("SelectedAttribute");
+                NotifyPropertyChanged("CanMoveAttributeUp");
+                NotifyPropertyChanged("CanMoveAttributeDown");
             }
         }
 
         public void Insert(Library.DBObject.Attribute attribute)
         {
             attribute.key_id = Key.id;
+            attribute.position = (short)Attributes.Count;
             IKeyManager.Insert(attribute);
             Attributes.Add(attribute);
             SelectedAttribute = attribute;
@@ -190,47 +193,72 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        //public bool CanMovePositionUp
-        //{
-        //    get
-        //    {
-        //        if (!(SelectedNode is Model.AttributeNode))
-        //        {
-        //            return false;
-        //        }
+        public bool CanMoveAttributeUp
+        {
+            get
+            {
+                if (SelectedAttribute == null)
+                {
+                    return false;
+                }
 
-        //        Model.AttributeNode attributeNode = (SelectedNode as Model.AttributeNode);
-        //        return (attributeNode.Attribute.position > 0);
-        //    }
-        //    set
-        //    {
-        //        NotifyPropertyChanged("CanMovePositionUp");
-        //    }
-        //}
+                int index = Attributes.IndexOf(SelectedAttribute);
+                return index > 0;
+            }
+            set
+            {
+                NotifyPropertyChanged("CanMoveAttributeUp");
+            }
+        }
 
-        //public bool CanMovePositionDown
-        //{
-        //    get
-        //    {
-        //        if (!(SelectedNode is Model.AttributeNode))
-        //        {
-        //            return false;
-        //        }
-                
-        //        Model.AttributeNode attributeNode = (SelectedNode as Model.AttributeNode);
-        //        if (!_nodeMap.ContainsKey((SelectedNode as Model.AttributeNode).Attribute.parent_id))
-        //        {
-        //            // Should never happen
-        //            return false;
-        //        }
+        public bool CanMoveAttributeDown
+        {
+            get
+            {
+                if (SelectedAttribute == null)
+                {
+                    return false;
+                }
 
-        //        var parentKeyNode = _nodeMap[(SelectedNode as Model.AttributeNode).Attribute.parent_id];
-        //        return (attributeNode.Attribute.position < (parentKeyNode.Items.Count - 1));
-        //    }
-        //    set
-        //    {
-        //        NotifyPropertyChanged("CanMovePositionDown");
-        //    }
-        //}
+                int index = Attributes.IndexOf(SelectedAttribute);
+                return index < (Attributes.Count - 1);
+            }
+            set
+            {
+                NotifyPropertyChanged("CanMoveAttributeDown");
+            }
+        }
+
+        public void MoveSelectedAttributeUp()
+        {
+            if (!CanMoveAttributeUp)
+            {
+                return;
+            }
+
+            int index = Attributes.IndexOf(SelectedAttribute);
+            SelectedAttribute.position = (short)(index - 1);
+            Attributes[index - 1].position = (short)index;
+            IKeyManager.Update(Attributes[index - 1]);
+            IKeyManager.Update(Attributes[index]);
+            LoadAttributes();
+            SelectedAttribute = Attributes[index - 1];
+        }
+
+        public void MoveSelectedAttributeDown()
+        {
+            if (!CanMoveAttributeDown)
+            {
+                return;
+            }
+
+            int index = Attributes.IndexOf(SelectedAttribute);
+            SelectedAttribute.position = (short)(index + 1);
+            Attributes[index + 1].position = (short)index;
+            IKeyManager.Update(Attributes[index]);
+            IKeyManager.Update(Attributes[index + 1]);
+            LoadAttributes();
+            SelectedAttribute = Attributes[index + 1];
+        }
     }
 }
