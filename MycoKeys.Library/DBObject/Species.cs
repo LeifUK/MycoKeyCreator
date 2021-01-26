@@ -1,7 +1,9 @@
 ﻿using System;
+using PetaPoco.NetCore;
 
 namespace MycoKeys.Library.DBObject
 {
+    [TableName(Database.TableNames.Species)]
     public class Species : DBObject.IObject
     {
         public Species Clone()

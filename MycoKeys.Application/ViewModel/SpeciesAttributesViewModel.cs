@@ -58,6 +58,7 @@ namespace MycoKeys.Application.ViewModel
             if (sender.Applied)
             {
                 Library.DBObject.SpeciesAttribute speciesAttribute = new Library.DBObject.SpeciesAttribute();
+                speciesAttribute.key_id = Key.id;
                 speciesAttribute.species_id = Species.id;
                 speciesAttribute.attribute_id = sender.Attribute.id;
                 IKeyManager.Insert(speciesAttribute);

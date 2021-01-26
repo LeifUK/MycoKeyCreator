@@ -38,28 +38,21 @@ namespace MycoKeys.Library.Database
         public bool Delete(DBObject.Key key)
         {
             bool success = true;
-            //try
-            //{
-            //    _database.BeginTransaction();
-
-            //    foreach (DBObject.Attribute attribute in _iAttributeTable.GetEnumeratorForKey(key.id))
-            //    {
-            //        _iSpeciesAttributeTable.DeleteForAttribute(attribute.id);
-            //        _iAttributeTable.Delete(attribute);
-            //    }
-            //    foreach (DBObject.Species species in _iSpeciesTable.GetEnumeratorForKey(key.id))
-            //    {
-            //        _iSpeciesTable.Delete(species);
-            //    }
-            //    _iKeyTable.Delete(key);
-
-            //    _database.CommitTransaction();
-            //}
-            //catch
-            //{
-            //    _database.RollbackTransaction();
-            //    success = false;
-            //}
+            try
+            {
+                _database.BeginTransaction();
+                _iSpeciesAttributeTable.DeleteByKey(key.id);
+                _iSpeciesTable.DeleteByKey(key.id);
+                _iAttributeTable.DeleteByKey(key.id);
+                _iKeyTable.Delete(key);
+                _database.CommitTransaction();
+            }
+            // Warning warning => error logging
+            catch
+            {
+                _database.RollbackTransaction();
+                success = false;
+            }
 
             return success;
         }

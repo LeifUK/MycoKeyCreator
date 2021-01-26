@@ -15,6 +15,11 @@ namespace MycoKeys.Library.PetaPocoAdapter
             return _database.Query<DBObject.SpeciesAttribute>(_iSqlQueryBuilder.SelectByColumn(_tableName, "species_id"), species_id);
         }
 
+        public void DeleteByKey(Int64 key_id)
+        {
+            _database.Delete<DBObject.SpeciesAttribute>("WHERE key_id=@0", key_id);
+        }
+
         public void DeleteBySpecies(Int64 species_id)
         {
             _database.Delete<DBObject.SpeciesAttribute>("WHERE species_id=@0", species_id);
