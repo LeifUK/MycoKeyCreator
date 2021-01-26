@@ -40,50 +40,6 @@ namespace MycoKeys.Application.View
             return success;
         }
 
-        private void _buttonEditKeyName_Click(object sender, RoutedEventArgs e)
-        {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
-            string text = keyViewModel.Name;
-            if (EditText("Name", ref text))
-            {
-                keyViewModel.Name = text;
-                keyViewModel.Save();
-            }
-        }
-
-        private void _buttonEditTitle_Click(object sender, RoutedEventArgs e)
-        {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
-            string text = keyViewModel.Title;
-            if (EditText("Title", ref text))
-            {
-                keyViewModel.Title = text;
-                keyViewModel.Save();
-            }
-        }
-
-        private void _buttonEditCopyright_Click(object sender, RoutedEventArgs e)
-        {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
-            string text = keyViewModel.Copyright;
-            if (EditText("Copyright", ref text))
-            {
-                keyViewModel.Copyright = text;
-                keyViewModel.Save();
-            }
-        }
-
-        private void _buttonEditDescription_Click(object sender, RoutedEventArgs e)
-        {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
-            string text = keyViewModel.Description;
-            if (EditText("Description", ref text))
-            {
-                keyViewModel.Description = text;
-                keyViewModel.Save();
-            }
-        }
-
         private void EditSpecies(Library.DBObject.Species species)
         {
             if (species == null)
@@ -209,6 +165,65 @@ namespace MycoKeys.Application.View
         private void _buttonMoveAttributeDown_Click(object sender, RoutedEventArgs e)
         {
             (DataContext as MycoKeys.Application.ViewModel.KeyViewModel).MoveSelectedAttributeDown();
+        }
+
+        private void _buttonEditHeader_Click(object sender, RoutedEventArgs e)
+        {
+            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+
+            View.KeyHeaderView keyHeaderView = new KeyHeaderView();
+            ViewModel.KeyHeaderViewModel keyHeaderViewModel = new ViewModel.KeyHeaderViewModel(keyViewModel.IKeyManager, keyViewModel.Key);
+            keyHeaderView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            keyHeaderView.Owner = this;
+            keyHeaderView.DataContext = keyHeaderViewModel;
+            if (keyHeaderView.ShowDialog() == true)
+            {
+                keyViewModel.LoadHeader();
+            }
+        }
+
+        private void _buttonEditKeyName_Click(object sender, RoutedEventArgs e)
+        {
+            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            string text = keyViewModel.Name;
+            if (EditText("Name", ref text))
+            {
+                keyViewModel.Name = text;
+                keyViewModel.Save();
+            }
+        }
+
+        private void _buttonEditTitle_Click(object sender, RoutedEventArgs e)
+        {
+            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            string text = keyViewModel.Title;
+            if (EditText("Title", ref text))
+            {
+                keyViewModel.Title = text;
+                keyViewModel.Save();
+            }
+        }
+
+        private void _buttonEditCopyright_Click(object sender, RoutedEventArgs e)
+        {
+            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            string text = keyViewModel.Copyright;
+            if (EditText("Copyright", ref text))
+            {
+                keyViewModel.Copyright = text;
+                keyViewModel.Save();
+            }
+        }
+
+        private void _buttonEditDescription_Click(object sender, RoutedEventArgs e)
+        {
+            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            string text = keyViewModel.Description;
+            if (EditText("Description", ref text))
+            {
+                keyViewModel.Description = text;
+                keyViewModel.Save();
+            }
         }
     }
 }

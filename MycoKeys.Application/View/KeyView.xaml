@@ -9,17 +9,6 @@
         Title="Key Editor" Height="800" Width="800">
     <Window.Resources>
         <ResourceDictionary>
-            <Style x:Key="HeaderLabelStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
-                <Setter Property="VerticalAlignment" Value="Top"/>
-                <Setter Property="VerticalContentAlignment" Value="Top"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-            </Style>
-            <Style x:Key="TextBoxLabelStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
-                <Setter Property="VerticalAlignment" Value="Top"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="FontStyle" Value="Italic" />
-            </Style>
             <Style x:Key="SummaryTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
                 <Setter Property="IsReadOnly" Value="True"/>
                 <Setter Property="BorderThickness" Value="1"/>
@@ -69,7 +58,7 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="1" Grid.Column="1" >
-            <Grid Grid.Row="1" Grid.Column="1" Margin="10">
+            <Grid Grid.Row="1" Grid.Column="1" Margin="10,0,20,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="10"/>
@@ -88,16 +77,13 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Name" Style="{StaticResource HeaderLabelStyle}"/>
                 <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}" Style="{StaticResource TextBoxLabelStyle}"/>
-                <Button Grid.Row="0" Grid.Column="4" Name="_buttonEditSpeciesName" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditKeyName_Click" Height="Auto"/>
+                <Button Grid.Row="0" Grid.Column="4" Grid.RowSpan="3" Name="_buttonEditHeader" Content="Edit" Style="{StaticResource Button80Style}" Click="_buttonEditHeader_Click"/>
                 <Label Grid.Row="2" Grid.Column="0" Content="Title" Style="{StaticResource HeaderLabelStyle}"/>
                 <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Title}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}"/>
-                <Button Grid.Row="2" Grid.Column="4" Name="_buttonEditTitle" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditTitle_Click" Height="Auto"/>
                 <Label Grid.Row="4" Grid.Column="0" Content="Description" Style="{StaticResource HeaderLabelStyle}"/>
                 <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Description}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}" TextWrapping="Wrap"/>
-                <Button Grid.Row="4" Grid.Column="4" Name="_buttonEditDescription" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditDescription_Click" VerticalAlignment="Top"/>
                 <Label Grid.Row="6" Grid.Column="0" Content="Copyright" Style="{StaticResource HeaderLabelStyle}"/>
                 <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Copyright}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}"/>
-                <Button Grid.Row="6" Grid.Column="4" Name="_buttonEditCopyright" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditCopyright_Click" Height="Auto"/>
             </Grid>
         </Grid>
         

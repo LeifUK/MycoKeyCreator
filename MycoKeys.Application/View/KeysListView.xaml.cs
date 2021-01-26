@@ -52,18 +52,14 @@ namespace MycoKeys.Application.View
         {
             MycoKeys.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeys.Application.ViewModel.KeysListViewModel;
 
-            OpenControls.Wpf.Utilities.ViewModel.InputTextViewModel inputTextViewModel = new OpenControls.Wpf.Utilities.ViewModel.InputTextViewModel();
-            OpenControls.Wpf.Utilities.View.InputTextView inputTextView = new OpenControls.Wpf.Utilities.View.InputTextView();
-            inputTextView.DataContext = inputTextViewModel;
-
-            inputTextViewModel.Label = "Key Name";
-            inputTextViewModel.Title = "New Key";
-            if ((inputTextView.ShowDialog() == true) && !string.IsNullOrEmpty(inputTextViewModel.Text))
+            MycoKeys.Library.DBObject.Key key = new MycoKeys.Library.DBObject.Key();
+            View.KeyHeaderView keyHeaderView = new KeyHeaderView();
+            ViewModel.KeyHeaderViewModel keyHeaderViewModel = new ViewModel.KeyHeaderViewModel(keysListViewModel.IKeyManager, key);
+            keyHeaderView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            keyHeaderView.Owner = this;
+            keyHeaderView.DataContext = keyHeaderViewModel;
+            if (keyHeaderView.ShowDialog() == true)
             {
-                MycoKeys.Library.DBObject.Key key = new MycoKeys.Library.DBObject.Key();
-                key.name = inputTextViewModel.Text;
-                keysListViewModel.IKeyManager.Insert(key);
-
                 ShowKeyView(keysListViewModel.IKeyManager, key);
                 keysListViewModel.Load();
             }

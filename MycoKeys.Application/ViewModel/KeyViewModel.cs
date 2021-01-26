@@ -10,14 +10,19 @@ namespace MycoKeys.Application.ViewModel
         {
             IKeyManager = iKeyManager;
             Key = key;
-            Name = Key.name;
-            Title = Key.title;
-            Description = Key.description;
-            Copyright = Key.copyright;
+            LoadHeader();
             LoadSpecies();
             LoadAttributes();
         }
 
+        public void LoadHeader()
+        {
+            Name = Key.name;
+            Title = Key.title;
+            Description = Key.description;
+            Copyright = Key.copyright;
+        }
+        
         public void LoadSpecies()
         {
             Species = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Species>(
