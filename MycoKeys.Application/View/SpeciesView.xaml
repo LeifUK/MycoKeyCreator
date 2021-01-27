@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:MycoKeys.Application.View"
         mc:Ignorable="d"
         Background="#F0F0F0"
+        ResizeMode="NoResize"
         SizeToContent="WidthAndHeight"
-        Title="Species Description Editor" Height="450" Width="800">
+        Title="Species Editor" MinWidth="400" MaxWidth="800">
     <Window.Resources>
         <ResourceDictionary>
             <!--<Style x:Key="SpeciesLabelStyle" TargetType="Label">
@@ -87,7 +88,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Name" Style="{StaticResource LabelStyle}"/>
             <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}" Style="{StaticResource TextBoxStyle}"/>
@@ -162,15 +163,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="10"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Row="0" Grid.Column="1" x:Name="_buttonOK" Content="OK" Style="{StaticResource Button80Style}" Click="_buttonOK_Click"/>
             <Button Grid.Row="0" Grid.Column="3" x:Name="_buttonCancel" Content="Cancel" Style="{StaticResource Button80Style}" Click="_buttonCancel_Click"/>

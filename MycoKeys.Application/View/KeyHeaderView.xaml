@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Background="#F0F0F0"
         SizeToContent="Height"
-        Title="KeyHeaderView" Height="450" Width="600">
+        Title="Key Summary" Height="450" Width="600">
     <Window.Resources>
         <ResourceDictionary>
             <Style x:Key="SummaryTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
@@ -56,6 +56,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -70,6 +72,8 @@
             <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Description}" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap"/>
             <Label Grid.Row="6" Grid.Column="0" Content="Copyright" Style="{StaticResource LabelStyle}"/>
             <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Copyright}" Style="{StaticResource TextBoxStyle}"/>
+            <Label Grid.Row="8" Grid.Column="0" Content="Publish" Style="{StaticResource HeaderLabelStyle}"/>
+            <CheckBox Grid.Row="8" Grid.Column="2" IsChecked="{Binding Publish}" />
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0" >
             <Grid.RowDefinitions>

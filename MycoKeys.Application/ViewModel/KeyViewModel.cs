@@ -21,8 +21,9 @@ namespace MycoKeys.Application.ViewModel
             Title = Key.title;
             Description = Key.description;
             Copyright = Key.copyright;
+            Publish = Key.Publish;
         }
-        
+
         public void LoadSpecies()
         {
             Species = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Species>(
@@ -43,6 +44,7 @@ namespace MycoKeys.Application.ViewModel
             Key.title = Title;
             Key.description = Description;
             Key.copyright = Copyright;
+            Key.Publish = Publish;
             IKeyManager.Update(Key);
         }
 
@@ -103,6 +105,20 @@ namespace MycoKeys.Application.ViewModel
             {
                 _copyright = value;
                 NotifyPropertyChanged("Copyright");
+            }
+        }
+
+        private bool _publish;
+        public bool Publish
+        {
+            get
+            {
+                return _publish;
+            }
+            set
+            {
+                _publish = value;
+                NotifyPropertyChanged("Publish");
             }
         }
 

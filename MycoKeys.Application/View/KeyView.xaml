@@ -67,6 +67,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -75,15 +77,17 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Name" Style="{StaticResource HeaderLabelStyle}"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="Name:" Style="{StaticResource HeaderLabelStyle}"/>
                 <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}" Style="{StaticResource TextBoxLabelStyle}"/>
                 <Button Grid.Row="0" Grid.Column="4" Grid.RowSpan="3" Name="_buttonEditHeader" Content="Edit" Style="{StaticResource Button80Style}" Click="_buttonEditHeader_Click"/>
-                <Label Grid.Row="2" Grid.Column="0" Content="Title" Style="{StaticResource HeaderLabelStyle}"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Title:" Style="{StaticResource HeaderLabelStyle}"/>
                 <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Title}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}"/>
-                <Label Grid.Row="4" Grid.Column="0" Content="Description" Style="{StaticResource HeaderLabelStyle}"/>
+                <Label Grid.Row="4" Grid.Column="0" Content="Description:" Style="{StaticResource HeaderLabelStyle}"/>
                 <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Description}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}" TextWrapping="Wrap"/>
-                <Label Grid.Row="6" Grid.Column="0" Content="Copyright" Style="{StaticResource HeaderLabelStyle}"/>
+                <Label Grid.Row="6" Grid.Column="0" Content="Copyright:" Style="{StaticResource HeaderLabelStyle}"/>
                 <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Copyright}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}"/>
+                <Label Grid.Row="8" Grid.Column="0" Content="Publish:" Style="{StaticResource HeaderLabelStyle}"/>
+                <CheckBox Grid.Row="8" Grid.Column="2" IsChecked="{Binding Publish}" IsEnabled="False" />
             </Grid>
         </Grid>
         

@@ -42,5 +42,14 @@
                 NotifyPropertyChanged("SelectedKey");
             }
         }
+
+        public void DeleteSelectedKey()
+        {
+            if (SelectedKey != null)
+            {
+                IKeyManager.Delete(SelectedKey);
+                Load();
+            }
+        }
     }
 }

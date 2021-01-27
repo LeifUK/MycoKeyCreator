@@ -80,10 +80,10 @@ namespace MycoKeys.Application.View
 
         private void _buttonDeleteSpecies_Click(object sender, RoutedEventArgs e)
         {
-            //if (System.Windows.MessageBox.Show("Are you sure you want to delete the selected species?\nThis operation cannot be undone.", "Delete Species", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-            //{
-            //    (DataContext as MycoKeys.Application.ViewModel.KeyViewModel).DeleteSelectedSpecies();
-            //}
+            if (System.Windows.MessageBox.Show("Are you sure you want to delete the selected species?\nThis operation cannot be undone.", "Delete Species", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                (DataContext as MycoKeys.Application.ViewModel.KeyViewModel).DeleteSelectedSpecies();
+            }
         }
 
         private void _dataGridAttributes_MouseDoubleClick(object sender, MouseButtonEventArgs e)

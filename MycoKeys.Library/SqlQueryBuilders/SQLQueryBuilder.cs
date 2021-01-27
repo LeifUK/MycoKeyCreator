@@ -18,6 +18,12 @@ namespace MycoKeys.Library.SqlQueryBuilders
             stringBuilder.Append(" SMALLINT");
         }
 
+        public void AppendTinyIntColumn(StringBuilder stringBuilder, string columnName)
+        {
+            stringBuilder.Append(columnName);
+            stringBuilder.Append(" TINYINT");
+        }
+
         public void AppendStringColumn(StringBuilder stringBuilder, string columnName, int sizeInBytes, bool notNull)
         {
             stringBuilder.Append(columnName);
@@ -72,6 +78,8 @@ namespace MycoKeys.Library.SqlQueryBuilders
             AppendStringColumnNull(stringBuilder, "description", 1000);
             stringBuilder.Append(", ");
             AppendStringColumnNull(stringBuilder, "copyright", 200);
+            stringBuilder.Append(", ");
+            AppendSmallIntColumn(stringBuilder, "flags");
             stringBuilder.Append(");");
             return stringBuilder.ToString();
         }

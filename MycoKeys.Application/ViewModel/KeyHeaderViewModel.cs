@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MycoKeys.Application.ViewModel
+﻿namespace MycoKeys.Application.ViewModel
 {
     public class KeyHeaderViewModel : OpenControls.Wpf.Utilities.ViewModel.BaseViewModel
     {
@@ -16,6 +10,7 @@ namespace MycoKeys.Application.ViewModel
             Title = _key.title;
             Description = _key.description;
             Copyright = _key.copyright;
+            Publish = _key.Publish;
         }
 
         public void Save()
@@ -24,6 +19,7 @@ namespace MycoKeys.Application.ViewModel
             _key.title = Title;
             _key.description = Description;
             _key.copyright = Copyright;
+            _key.Publish = Publish;
             if (_key.id == 0)
             {
                 _iKeyManager.Insert(_key);
@@ -90,6 +86,20 @@ namespace MycoKeys.Application.ViewModel
             {
                 _copyright = value;
                 NotifyPropertyChanged("Copyright");
+            }
+        }
+
+        private bool _publish;
+        public bool Publish
+        {
+            get
+            {
+                return _publish;
+            }
+            set
+            {
+                _publish = value;
+                NotifyPropertyChanged("Publish");
             }
         }
     }

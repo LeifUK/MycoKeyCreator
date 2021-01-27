@@ -67,14 +67,10 @@ namespace MycoKeys.Application.View
 
         private void _buttonDelete_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeys.Application.ViewModel.KeysListViewModel;
-            keysListViewModel.IKeyManager.Delete(keysListViewModel.SelectedKey);
-            keysListViewModel.Load();
-        }
-
-        private void _buttonConfigure_Click(object sender, RoutedEventArgs e)
-        {
-
+            if (System.Windows.MessageBox.Show("Are you sure you want to delete the selected key?\nThis operation cannot be undone.", "Delete Key", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                (DataContext as MycoKeys.Application.ViewModel.KeysListViewModel).DeleteSelectedKey();
+            }
         }
 
         private void _buttonCloseDB_Click(object sender, RoutedEventArgs e)
