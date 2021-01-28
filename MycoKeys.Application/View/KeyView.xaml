@@ -150,6 +150,7 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
+
                     <DataGrid Grid.Row="0" Grid.Column="0" x:Name="_dataGridAttributes" ItemsSource="{Binding Attributes}" 
                           SelectedItem="{Binding SelectedAttribute}" MouseDoubleClick="_dataGridAttributes_MouseDoubleClick"
                           HeadersVisibility="None"

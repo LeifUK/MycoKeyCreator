@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace MycoKeys.Library.Database
@@ -10,20 +11,23 @@ namespace MycoKeys.Library.Database
             Database.IKeyTable iKeyTable,
             Database.ISpeciesTable iSpeciesTable,
             Database.IAttributeTable iAttributeTable,
-            Database.ISpeciesAttributeTable iSpeciesAttributeTable)
+            Database.IAttributeValueTable iAttributeValueTable,
+        Database.ISpeciesAttributeValueTable iSpeciesAttributeTable)
         {
-            _database = iDatabase;
+            _iDatabase = iDatabase;
             _iKeyTable = iKeyTable;
             _iSpeciesTable = iSpeciesTable;
             _iAttributeTable = iAttributeTable;
-            _iSpeciesAttributeTable = iSpeciesAttributeTable;
+            _iAttributeValueTable = iAttributeValueTable;
+            _iSpeciesAttributeValueTable = iSpeciesAttributeTable;
         }
 
-        private readonly Database.IDatabase _database;
+        private readonly Database.IDatabase _iDatabase;
         private readonly Database.IKeyTable _iKeyTable;
         private readonly Database.ISpeciesTable _iSpeciesTable;
         private readonly Database.IAttributeTable _iAttributeTable;
-        private readonly Database.ISpeciesAttributeTable _iSpeciesAttributeTable;
+        private readonly Database.IAttributeValueTable _iAttributeValueTable;
+        private readonly Database.ISpeciesAttributeValueTable _iSpeciesAttributeValueTable;
         
         public void Insert(DBObject.Key key)
         {
@@ -40,17 +44,17 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
-                _database.BeginTransaction();
-                _iSpeciesAttributeTable.DeleteByKey(key.id);
+                _iDatabase.BeginTransaction();
+                _iSpeciesAttributeValueTable.DeleteByKey(key.id);
                 _iSpeciesTable.DeleteByKey(key.id);
                 _iAttributeTable.DeleteByKey(key.id);
                 _iKeyTable.Delete(key);
-                _database.CommitTransaction();
+                _iDatabase.CommitTransaction();
             }
             // Warning warning => error logging
             catch
             {
-                _database.RollbackTransaction();
+                _iDatabase.RollbackTransaction();
                 success = false;
             }
 
@@ -62,17 +66,17 @@ namespace MycoKeys.Library.Database
             return _iKeyTable.Enumerator;
         }
 
-        public Library.DBObject.SpeciesAttribute Select(Library.DBObject.SpeciesAttribute speciesAttribute)
+        public Library.DBObject.SpeciesAttributeValue Select(Library.DBObject.SpeciesAttributeValue speciesAttribute)
         {
             if (speciesAttribute.id == 0)
             {
                 return null;
             }
 
-            Library.DBObject.SpeciesAttribute newSpeciesAttribute = null;
+            Library.DBObject.SpeciesAttributeValue newSpeciesAttribute = null;
             try
             {
-                newSpeciesAttribute = _iSpeciesAttributeTable.Query(speciesAttribute.id);
+                newSpeciesAttribute = _iSpeciesAttributeValueTable.Query(speciesAttribute.id);
             }
             catch
             {
@@ -81,12 +85,12 @@ namespace MycoKeys.Library.Database
             return newSpeciesAttribute;
         }
 
-        public bool Insert(Library.DBObject.SpeciesAttribute speciesAttribute)
+        public bool Insert(Library.DBObject.SpeciesAttributeValue speciesAttribute)
         {
             bool success = true;
             try
             {
-                _iSpeciesAttributeTable.Insert(speciesAttribute);
+                _iSpeciesAttributeValueTable.Insert(speciesAttribute);
             }
             catch
             {
@@ -96,12 +100,12 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public bool Update(Library.DBObject.SpeciesAttribute speciesAttribute)
+        public bool Update(Library.DBObject.SpeciesAttributeValue speciesAttribute)
         {
             bool success = true;
             try
             {
-                _iSpeciesAttributeTable.Update(speciesAttribute);
+                _iSpeciesAttributeValueTable.Update(speciesAttribute);
             }
             catch
             {
@@ -111,12 +115,12 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public bool Delete(Library.DBObject.SpeciesAttribute speciesAttribute)
+        public bool Delete(Library.DBObject.SpeciesAttributeValue speciesAttribute)
         {
             bool success = true;
             try
             {
-                _iSpeciesAttributeTable.Delete(speciesAttribute);
+                _iSpeciesAttributeValueTable.Delete(speciesAttribute);
             }
             catch
             {
@@ -126,9 +130,9 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public IEnumerable<DBObject.SpeciesAttribute> GetSpeciesAttributeEnumerator(Int64 species_id)
+        public IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeEnumerator(Int64 species_id)
         {
-            return _iSpeciesAttributeTable.GetEnumeratorForSpecies(species_id);
+            return _iSpeciesAttributeValueTable.GetEnumeratorForSpecies(species_id);
         }
 
         public IEnumerable<DBObject.Species> GetKeySpeciesEnumerator(Int64 key_id)
@@ -136,12 +140,24 @@ namespace MycoKeys.Library.Database
             return _iSpeciesTable.GetEnumeratorForKey(key_id);
         }
 
-        public bool Insert(DBObject.Attribute attribute)
+        public IEnumerable<DBObject.AttributeValue> GetAttributeValueEnumerator(Int64 attribute_id)
+        {
+            return _iAttributeValueTable.GetEnumeratorForAttribute(attribute_id);
+        }
+
+        public bool Insert(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues)
         {
             bool success = true;
             try
             {
                 _iAttributeTable.Insert(attribute);
+
+                foreach (var attributeValue in attributeValues)
+                {
+                    attributeValue.key_id = attribute.key_id;
+                    attributeValue.attribute_id = attribute.id;
+                    _iAttributeValueTable.Insert(attributeValue);
+                }
             }
             catch
             {
@@ -151,12 +167,37 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public bool Update(DBObject.Attribute attribute)
+        public bool Update(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues)
         {
             bool success = true;
             try
             {
                 _iAttributeTable.Update(attribute);
+
+                Dictionary<Int64, Library.DBObject.AttributeValue> attributeValueMap = _iAttributeValueTable.GetEnumeratorForAttribute(attribute.id).ToDictionary(n => n.id, n => n);
+                if (attributeValues != null)
+                {
+                    foreach (var attributeValue in attributeValues)
+                    {
+                        attributeValue.key_id = attribute.key_id;
+                        attributeValue.attribute_id = attribute.id;
+                        if (attributeValue.id == 0)
+                        {
+                            _iAttributeValueTable.Insert(attributeValue);
+                        }
+                        else
+                        {
+                            attributeValueMap.Remove(attributeValue.id);
+                            _iAttributeValueTable.Update(attributeValue);
+                        }
+                    }
+                }
+
+                foreach (var attributeValue in attributeValueMap.Values)
+                {
+                    _iSpeciesAttributeValueTable.DeleteByAttributeValue(attributeValue.id);
+                    _iAttributeValueTable.Delete(attributeValue);
+                }
             }
             catch
             {
@@ -171,7 +212,12 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
-                _iSpeciesAttributeTable.DeleteByAttribute(attribute.id);
+                var attributeValues = _iAttributeValueTable.GetEnumeratorForAttribute(attribute.id).ToList();
+                foreach (var attributeValue in attributeValues)
+                {
+                    _iSpeciesAttributeValueTable.DeleteByAttributeValue(attributeValue.id);
+                    _iAttributeValueTable.Delete(attributeValue);
+                }
                 _iAttributeTable.Delete(attribute);
             }
             catch
@@ -182,6 +228,22 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
+        public bool Delete(DBObject.AttributeValue attributeValue)
+        {
+            bool success = true;
+            try
+            {
+                _iSpeciesAttributeValueTable.DeleteByAttributeValue(attributeValue.id);
+                _iAttributeValueTable.Delete(attributeValue);
+            }
+            catch
+            {
+                success = false;
+            }
+
+            return success;
+        }
+        
         public IEnumerable<DBObject.Attribute> GetKeyAttributeEnumerator(Int64 key_id)
         {
             return _iAttributeTable.GetEnumeratorForKey(key_id);
@@ -222,7 +284,7 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
-                _iSpeciesAttributeTable.DeleteBySpecies(species.id);
+                _iSpeciesAttributeValueTable.DeleteBySpecies(species.id);
                 _iSpeciesTable.Delete(species);
             }
             catch

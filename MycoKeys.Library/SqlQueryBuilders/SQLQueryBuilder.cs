@@ -103,11 +103,34 @@ namespace MycoKeys.Library.SqlQueryBuilders
             return stringBuilder.ToString();
         }
 
-        public string CreateSpeciesAttributeTable()
+        public string CreateAttributeValueTable()
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("CREATE TABLE ");
-            stringBuilder.Append(Database.TableNames.SpeciesAttribute);
+            stringBuilder.Append(Database.TableNames.AttributeValue);
+            stringBuilder.Append(" (");
+            AppendIdentityColumn(stringBuilder, "id");
+            stringBuilder.Append(", ");
+            AppendIntegerColumn(stringBuilder, "key_id");
+            stringBuilder.Append(", ");
+            AppendIntegerColumn(stringBuilder, "attribute_id");
+            stringBuilder.Append(", ");
+            AppendStringColumnNull(stringBuilder, "description", 8000);
+            stringBuilder.Append(", ");
+            AppendSmallIntColumn(stringBuilder, "position");
+            stringBuilder.Append(", ");
+            AppendForeignKeyConstraint(stringBuilder, "FK_attributevalue_key_id", "key_id", Database.TableNames.Key, "id");
+            stringBuilder.Append(", ");
+            AppendForeignKeyConstraint(stringBuilder, "FK_attributevalue_attribute_id", "attribute_id", Database.TableNames.Attribute, "id");
+            stringBuilder.Append(");");
+            return stringBuilder.ToString();
+        }
+
+        public string CreateSpeciesAttributeValueTable()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("CREATE TABLE ");
+            stringBuilder.Append(Database.TableNames.SpeciesAttributeValue);
             stringBuilder.Append(" (");
             AppendIdentityColumn(stringBuilder, "id");
             stringBuilder.Append(", ");
@@ -115,13 +138,13 @@ namespace MycoKeys.Library.SqlQueryBuilders
             stringBuilder.Append(", ");
             AppendIntegerColumn(stringBuilder, "species_id");
             stringBuilder.Append(", ");
-            AppendIntegerColumn(stringBuilder, "attribute_id");
+            AppendIntegerColumn(stringBuilder, "attributevalue_id");
             stringBuilder.Append(", ");
             AppendForeignKeyConstraint(stringBuilder, "FK_speciesattribute_key_id", "key_id", Database.TableNames.Key, "id");
             stringBuilder.Append(", ");
             AppendForeignKeyConstraint(stringBuilder, "FK_speciesattribute_species_id", "species_id", Database.TableNames.Species, "id");
             stringBuilder.Append(", ");
-            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattribute_attribute_id", "attribute_id", Database.TableNames.Attribute, "id");
+            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattribute_attributevalue_id", "attributevalue_id", Database.TableNames.AttributeValue, "id");
             stringBuilder.Append(");");
             return stringBuilder.ToString();
         }

@@ -5,8 +5,9 @@
         string CreateDatabase(string folder, string dbName);
         string CreateKeyTable();
         string CreateAttributeTable();
+        string CreateAttributeValueTable();
         string CreateSpeciesTable();
-        string CreateSpeciesAttributeTable();
+        string CreateSpeciesAttributeValueTable();
         string SelectByKey(string tableName);
         string SelectByColumn(string tableName, string columnName);
     }

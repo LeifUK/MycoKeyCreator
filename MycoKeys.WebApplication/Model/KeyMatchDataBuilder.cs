@@ -33,9 +33,9 @@ namespace MycoKeys.WebApplication.Model
             keyMatchData.KeyTitle = selectedKey.title;
             keyMatchData.KeyDescription = selectedKey.description;
             keyMatchData.Copyright = selectedKey.copyright;
-            keyMatchData.AttributeSelections = iKeyManager.GetKeyAttributeEnumerator(selectedKey.id).ToDictionary(
-                n => n, 
-                n => attributeChoices != null ? attributeChoices[n.id] : false);
+            keyMatchData.AttributeSelections = iKeyManager.GetKeyAttributeEnumerator(selectedKey.id).Select(n => 
+                new KeyValuePair<MycoKeys.Library.DBObject.Attribute, bool>(n, (attributeChoices != null ? attributeChoices[n.id] : false)))
+                .OrderBy(n => n.Key.position).ToList();
 
             var selectedAttributeIds = keyMatchData.AttributeSelections.Where(n => n.Value).Select(n => n.Key.id).ToList();
             int totalNumberOfSelectedAttributes = selectedAttributeIds.Count();
@@ -44,7 +44,7 @@ namespace MycoKeys.WebApplication.Model
             for (int i = 0; i < species.Count; ++i)
             {
                 var list = iKeyManager.GetSpeciesAttributeEnumerator(species[i].id).ToList();
-                int matches = list.Where(n => selectedAttributeIds.Contains(n.attribute_id)).Count();
+                int matches = list.Where(n => selectedAttributeIds.Contains(n.attributevalue_id)).Count();
 
                 keyMatchData.Species.Add(new SpeciesMatchData() 
                 { 

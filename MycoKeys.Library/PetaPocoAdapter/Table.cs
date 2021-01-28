@@ -62,5 +62,10 @@ namespace MycoKeys.Library.PetaPocoAdapter
         {
             return _database.Query<T>(_iSqlQueryBuilder.SelectByKey(_tableName), key_id);
         }
+
+        public IEnumerable<T> GetEnumeratorForColumn(string columnName, Int64 columnValue)
+        {
+            return _database.Query<T>(_iSqlQueryBuilder.SelectByColumn(_tableName, columnName), columnValue);
+        }
     }
 }

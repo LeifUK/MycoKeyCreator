@@ -11,7 +11,8 @@
                 new PetaPocoAdapter.KeyTable(iDatabase.ISqlQueryBuilder, database),
                 new PetaPocoAdapter.SpeciesTable(iDatabase.ISqlQueryBuilder, database),
                 new PetaPocoAdapter.AttributeTable(iDatabase.ISqlQueryBuilder, database),
-                new PetaPocoAdapter.SpeciesAttributeTable(iDatabase.ISqlQueryBuilder, database));
+                new PetaPocoAdapter.AttributeValueTable(iDatabase.ISqlQueryBuilder, database),
+                new PetaPocoAdapter.SpeciesAttributeValueTable(iDatabase.ISqlQueryBuilder, database));
             return keyManager;
         }
     }

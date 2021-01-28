@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace MycoKeys.Application.ViewModel
 {
@@ -8,7 +7,7 @@ namespace MycoKeys.Application.ViewModel
         public class SpeciesAttributeItem
         {
             public Library.DBObject.Attribute Attribute { get; set; }
-            public Library.DBObject.SpeciesAttribute SpeciesAttribute;
+            public Library.DBObject.SpeciesAttributeValue SpeciesAttribute;
             private bool _applied;
             public bool Applied 
             { 
@@ -42,14 +41,20 @@ namespace MycoKeys.Application.ViewModel
 
         public void Load()
         {
-            SpeciesAttributeItems = new List<SpeciesAttributeItem>();
-            var map = IKeyManager.GetSpeciesAttributeEnumerator(Species.id).ToDictionary(n => n.attribute_id, n => n);
-            foreach (var item in IKeyManager.GetKeyAttributeEnumerator(Key.id).OrderBy(n => n.position)) 
+            SpeciesAttributeValues = new List<SpeciesAttributeValue>();
+
+            List<Library.DBObject.Attribute> attributes = new List<Library.DBObject.Attribute>(
+                IKeyManager.GetKeyAttributeEnumerator(Species.key_id));
+
+            foreach (var attribute in attributes)
             {
-                bool applied = map.ContainsKey(item.id);
-                SpeciesAttributeItem speciesAttributeItem = new SpeciesAttributeItem() { Attribute = item, Applied = applied, SpeciesAttribute = applied ? map[item.id] : null };
-                speciesAttributeItem.OnCheck += SpeciesAttributeItem_OnCheck;
-                SpeciesAttributeItems.Add(speciesAttributeItem);
+                foreach (var item in IKeyManager.GetAttributeValueEnumerator(attribute.id))
+                {
+                    SpeciesAttributeValue speciesAttributeValue = new SpeciesAttributeValue();
+                    speciesAttributeValue.Attribute = attribute;
+                    speciesAttributeValue.AttributeValue = item;
+                    SpeciesAttributeValues.Add(speciesAttributeValue);
+                }
             }
         }
 
@@ -57,10 +62,10 @@ namespace MycoKeys.Application.ViewModel
         {
             if (sender.Applied)
             {
-                Library.DBObject.SpeciesAttribute speciesAttribute = new Library.DBObject.SpeciesAttribute();
+                Library.DBObject.SpeciesAttributeValue speciesAttribute = new Library.DBObject.SpeciesAttributeValue();
                 speciesAttribute.key_id = Key.id;
                 speciesAttribute.species_id = Species.id;
-                speciesAttribute.attribute_id = sender.Attribute.id;
+                speciesAttribute.attributevalue_id = sender.Attribute.id;
                 IKeyManager.Insert(speciesAttribute);
             }
             else
@@ -82,7 +87,7 @@ namespace MycoKeys.Application.ViewModel
         {
             get
             {
-                return "Species Attributes Editor: " + Name;
+                return "Attributes: " + Name;
             }
         }
 
@@ -94,17 +99,17 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        private List<SpeciesAttributeItem> _speciesAttributeItems;
-        public List<SpeciesAttributeItem> SpeciesAttributeItems
+        private List<SpeciesAttributeValue> _speciesAttributeValues;
+        public List<SpeciesAttributeValue> SpeciesAttributeValues
         {
             get
             {
-                return _speciesAttributeItems;
+                return _speciesAttributeValues;
             }
             set
             {
-                _speciesAttributeItems = value;
-                NotifyPropertyChanged("SpeciesAttributeItems");
+                _speciesAttributeValues = value;
+                NotifyPropertyChanged("SpeciesAttributeValues");
             }
         }
     }

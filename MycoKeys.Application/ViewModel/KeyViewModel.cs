@@ -33,8 +33,7 @@ namespace MycoKeys.Application.ViewModel
 
         public void LoadAttributes()
         {
-            Attributes = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Attribute>(
-                IKeyManager.GetKeyAttributeEnumerator(Key.id).OrderBy(n => n.position));
+            Attributes = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Attribute>(IKeyManager.GetKeyAttributeEnumerator(Key.id));
             SelectedAttribute = Attributes.Count > 0 ? Attributes[0] : null;
         }
 
@@ -158,8 +157,8 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        private System.Collections.ObjectModel.ObservableCollection<MycoKeys.Library.DBObject.Attribute> _attributes;
-        public System.Collections.ObjectModel.ObservableCollection<MycoKeys.Library.DBObject.Attribute> Attributes
+        private System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Attribute> _attributes;
+        public System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Attribute> Attributes
         {
             get
             {
@@ -172,8 +171,8 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        private MycoKeys.Library.DBObject.Attribute _selectedAttribute;
-        public MycoKeys.Library.DBObject.Attribute SelectedAttribute
+        private Library.DBObject.Attribute _selectedAttribute;
+        public Library.DBObject.Attribute SelectedAttribute
         {
             get
             {
@@ -190,20 +189,14 @@ namespace MycoKeys.Application.ViewModel
 
         public void Insert(Library.DBObject.Attribute attribute)
         {
-            attribute.key_id = Key.id;
-            attribute.position = (short)Attributes.Count;
-            IKeyManager.Insert(attribute);
             Attributes.Add(attribute);
             SelectedAttribute = attribute;
         }
 
         public void Update(Library.DBObject.Attribute attribute)
         {
-            IKeyManager.Update(attribute);
-            SelectedAttribute = attribute;
-            Int64 id = attribute.id;
             LoadAttributes();
-            SelectedAttribute = Attributes.Where(n => n.id == id).FirstOrDefault();
+            SelectedAttribute = Attributes.Where(n => attribute.id == n.id).FirstOrDefault();
         }
 
         public void DeleteSelectedAttribute()
@@ -214,72 +207,72 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        public bool CanMoveAttributeUp
-        {
-            get
-            {
-                if (SelectedAttribute == null)
-                {
-                    return false;
-                }
+        //public bool CanMoveAttributeUp
+        //{
+        //    get
+        //    {
+        //        if (SelectedAttribute == null)
+        //        {
+        //            return false;
+        //        }
 
-                int index = Attributes.IndexOf(SelectedAttribute);
-                return index > 0;
-            }
-            set
-            {
-                NotifyPropertyChanged("CanMoveAttributeUp");
-            }
-        }
+        //        int index = Attributes.IndexOf(SelectedAttribute);
+        //        return index > 0;
+        //    }
+        //    set
+        //    {
+        //        NotifyPropertyChanged("CanMoveAttributeUp");
+        //    }
+        //}
 
-        public bool CanMoveAttributeDown
-        {
-            get
-            {
-                if (SelectedAttribute == null)
-                {
-                    return false;
-                }
+        //public bool CanMoveAttributeDown
+        //{
+        //    get
+        //    {
+        //        if (SelectedAttribute == null)
+        //        {
+        //            return false;
+        //        }
 
-                int index = Attributes.IndexOf(SelectedAttribute);
-                return index < (Attributes.Count - 1);
-            }
-            set
-            {
-                NotifyPropertyChanged("CanMoveAttributeDown");
-            }
-        }
+        //        int index = Attributes.IndexOf(SelectedAttribute);
+        //        return index < (Attributes.Count - 1);
+        //    }
+        //    set
+        //    {
+        //        NotifyPropertyChanged("CanMoveAttributeDown");
+        //    }
+        //}
 
         public void MoveSelectedAttributeUp()
         {
-            if (!CanMoveAttributeUp)
-            {
-                return;
-            }
+            //if (!CanMoveAttributeUp)
+            //{
+            //    return;
+            //}
 
-            int index = Attributes.IndexOf(SelectedAttribute);
-            SelectedAttribute.position = (short)(index - 1);
-            Attributes[index - 1].position = (short)index;
-            IKeyManager.Update(Attributes[index - 1]);
-            IKeyManager.Update(Attributes[index]);
-            LoadAttributes();
-            SelectedAttribute = Attributes[index - 1];
+            //int index = Attributes.IndexOf(SelectedAttribute);
+            //SelectedAttribute.position = (short)(index - 1);
+            //Attributes[index - 1].position = (short)index;
+            //IKeyManager.Update(Attributes[index - 1]);
+            //IKeyManager.Update(Attributes[index]);
+            //LoadAttributes();
+            //SelectedAttribute = Attributes[index - 1];
         }
 
         public void MoveSelectedAttributeDown()
         {
-            if (!CanMoveAttributeDown)
-            {
-                return;
-            }
+            //if (!CanMoveAttributeDown)
+            //{
+            //    return;
+            //}
 
-            int index = Attributes.IndexOf(SelectedAttribute);
-            SelectedAttribute.position = (short)(index + 1);
-            Attributes[index + 1].position = (short)index;
-            IKeyManager.Update(Attributes[index]);
-            IKeyManager.Update(Attributes[index + 1]);
-            LoadAttributes();
-            SelectedAttribute = Attributes[index + 1];
+            //int index = Attributes.IndexOf(SelectedAttribute);
+            //SelectedAttribute.position = (short)(index + 1);
+            //Attributes[index + 1].position = (short)index;
+            //IKeyManager.Update(Attributes[index]);
+            //IKeyManager.Update(Attributes[index + 1]);
+            //LoadAttributes();
+            //SelectedAttribute = Attributes[index + 1];
         }
     }
 }

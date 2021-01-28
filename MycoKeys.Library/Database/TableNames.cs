@@ -5,6 +5,7 @@
         public const string Key = "keytable";
         public const string Species = "speciestable";
         public const string Attribute = "attributetable";
-        public const string SpeciesAttribute = "speciesattributetable";
+        public const string AttributeValue = "attributevaluetable";
+        public const string SpeciesAttributeValue = "speciesattributevaluetable";
     }
 }

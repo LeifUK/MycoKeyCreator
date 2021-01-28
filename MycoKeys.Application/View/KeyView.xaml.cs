@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MycoKeys.Application.View
 {
@@ -88,7 +90,7 @@ namespace MycoKeys.Application.View
 
         private void _dataGridAttributes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            EditAttribute((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedAttribute);
+            //EditAttribute((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedAttribute);
         }
 
         private bool EditAttribute(MycoKeys.Library.DBObject.Attribute attribute)
@@ -99,7 +101,7 @@ namespace MycoKeys.Application.View
             }
 
             MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
-            ViewModel.AttributeViewModel attributeViewModel = new ViewModel.AttributeViewModel(attribute);
+            ViewModel.AttributeViewModel attributeViewModel = new ViewModel.AttributeViewModel(keyViewModel.IKeyManager, keyViewModel.Key, attribute);
             View.AttributeView attributeView = new AttributeView();
             attributeView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             attributeView.Owner = this;
@@ -111,6 +113,7 @@ namespace MycoKeys.Application.View
         {
             MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
             Library.DBObject.Attribute attribute = new Library.DBObject.Attribute();
+            List<Library.DBObject.AttributeValue> attributeValues = new List<Library.DBObject.AttributeValue>();
             if (EditAttribute(attribute))
             {
                 keyViewModel.Insert(attribute);

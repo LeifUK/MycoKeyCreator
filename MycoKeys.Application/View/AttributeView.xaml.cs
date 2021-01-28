@@ -22,5 +22,61 @@ namespace MycoKeys.Application.View
         {
             DialogResult = false;
         }
+
+        private void _dataGridValues_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
+
+        private bool EditAttributeValue(Library.DBObject.AttributeValue attributeValue)
+        {
+            OpenControls.Wpf.Utilities.ViewModel.InputTextViewModel inputTextViewModel = new OpenControls.Wpf.Utilities.ViewModel.InputTextViewModel();
+            inputTextViewModel.Title = "MycoKeys.Application";
+            inputTextViewModel.Label = "Attribute Value";
+            inputTextViewModel.Text = attributeValue.description;
+
+            OpenControls.Wpf.Utilities.View.InputTextView inputTextView = new OpenControls.Wpf.Utilities.View.InputTextView();
+            inputTextView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            inputTextView.Owner = this;
+            inputTextView.DataContext = inputTextViewModel;
+
+            bool success = inputTextView.ShowDialog() == true;
+            if (success)
+            {
+                attributeValue.description = inputTextViewModel.Text;
+            }
+
+            return success;
+        }
+
+        private void _buttonAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Library.DBObject.AttributeValue attributeValue = new Library.DBObject.AttributeValue();
+            if (EditAttributeValue(attributeValue))
+            {
+                ViewModel.AttributeViewModel attributeViewModel = (DataContext as ViewModel.AttributeViewModel);
+                attributeViewModel.AttributeValues.Add(attributeValue);
+            }
+        }
+
+        private void _buttonEdit_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.AttributeViewModel attributeViewModel = (DataContext as ViewModel.AttributeViewModel);
+            if (attributeViewModel.SelectedAttributeValue == null)
+            {
+                return;
+            }
+
+            EditAttributeValue(attributeViewModel.SelectedAttributeValue);
+            attributeViewModel.LoadValues();
+        }
+
+        private void _buttonDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (System.Windows.MessageBox.Show("Are you sure you want to delete the selectedattribute value?\nThis operation cannot be undone.", "Delete Attribute Value", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                (DataContext as ViewModel.AttributeViewModel).DeleteSelectedValue();
+            }
+        }
     }
 }

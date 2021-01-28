@@ -61,8 +61,9 @@ namespace MycoKeys.Library.PetaPocoAdapter
 
             database.Execute(iSqlQueryBuilder.CreateKeyTable());
             database.Execute(iSqlQueryBuilder.CreateAttributeTable());
+            database.Execute(iSqlQueryBuilder.CreateAttributeValueTable());
             database.Execute(iSqlQueryBuilder.CreateSpeciesTable());
-            database.Execute(iSqlQueryBuilder.CreateSpeciesAttributeTable());
+            database.Execute(iSqlQueryBuilder.CreateSpeciesAttributeValueTable());
 
             iDatabase = new DatabaseWrapper(database);
             iDatabase.ISqlQueryBuilder = iSqlQueryBuilder;
