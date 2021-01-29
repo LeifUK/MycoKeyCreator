@@ -16,10 +16,22 @@ namespace MycoKeys.Application.ViewModel
 
         public void LoadValues()
         {
-            AttributeValues = new ObservableCollection<Library.DBObject.AttributeValue>(_keyManager.GetAttributeValueEnumerator(_attribute.id));
+            AttributeValues = new ObservableCollection<Library.DBObject.AttributeValue>(
+                _keyManager.GetAttributeValueEnumerator(_attribute.id).OrderBy(n => n.position));
+            AssignPositions();
             if (AttributeValues.Count > 0)
             {
                 SelectedAttributeValue = AttributeValues[0];
+            }
+        }
+
+        public void Refresh()
+        {
+            int index = (SelectedAttributeValue != null) ? SelectedAttributeValue.position : -1;
+            AttributeValues = new ObservableCollection<Library.DBObject.AttributeValue>(AttributeValues.OrderBy(n => n.position));
+            if (index != -1)
+            {
+                SelectedAttributeValue = AttributeValues[index];
             }
         }
 
@@ -51,7 +63,7 @@ namespace MycoKeys.Application.ViewModel
             set
             {
                 _attributeValues = value;
-                NotifyPropertyChanged("Values");
+                NotifyPropertyChanged("AttributeValues");
             }
         }
 
@@ -66,6 +78,8 @@ namespace MycoKeys.Application.ViewModel
             {
                 _selectedAttributeValue = value;
                 NotifyPropertyChanged("SelectedAttributeValue");
+                NotifyPropertyChanged("CanMoveValueUp");
+                NotifyPropertyChanged("CanMoveValueDown");
             }
         }
 
@@ -83,12 +97,97 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
+        private void AssignPositions()
+        {
+            for (int i = 0; i < AttributeValues.Count; ++i)
+            {
+                AttributeValues[i].position = (short)i;
+            }
+        }
+
+        public void Add(Library.DBObject.AttributeValue attributeValue)
+        {
+            int index = SelectedAttributeValue != null ? SelectedAttributeValue.position : 0;
+            if (index < AttributeValues.Count)
+            {
+                ++index;
+            }
+            AttributeValues.Insert(index, attributeValue);
+            AssignPositions();
+            SelectedAttributeValue = AttributeValues[index];
+        }
+
         public void DeleteSelectedValue()
         {
             if (SelectedAttributeValue != null)
             {
                 AttributeValues.Remove(SelectedAttributeValue);
+                AssignPositions();
             }
+        }
+
+        public bool CanMoveValueUp
+        {
+            get
+            {
+                if (SelectedAttributeValue == null)
+                {
+                    return false;
+                }
+
+                int index = AttributeValues.IndexOf(SelectedAttributeValue);
+                return index > 0;
+            }
+            set
+            {
+                NotifyPropertyChanged("CanMoveValueUp");
+            }
+        }
+
+        public bool CanMoveValueDown
+        {
+            get
+            {
+                if (SelectedAttributeValue == null)
+                {
+                    return false;
+                }
+
+                int index = AttributeValues.IndexOf(SelectedAttributeValue);
+                return index < (AttributeValues.Count - 1);
+            }
+            set
+            {
+                NotifyPropertyChanged("CanMoveValueDown");
+            }
+        }
+
+        public void MoveSelectedAttributeUp()
+        {
+            if (!CanMoveValueUp)
+            {
+                return;
+            }
+
+            int index = AttributeValues.IndexOf(SelectedAttributeValue);
+            AttributeValues[index].position = (short)(index - 1);
+            AttributeValues[index - 1].position = (short)index;
+            AttributeValues = new ObservableCollection<Library.DBObject.AttributeValue>(AttributeValues.OrderBy(n => n.position));
+            SelectedAttributeValue = AttributeValues[index - 1];
+        }
+
+        public void MoveSelectedAttributeDown()
+        {
+            if (!CanMoveValueDown)
+            {
+                return;
+            }
+
+            int index = AttributeValues.IndexOf(SelectedAttributeValue);
+            AttributeValues[index].position = (short)(index + 1);
+            AttributeValues[index + 1].position = (short)index;
+            AttributeValues = new ObservableCollection<Library.DBObject.AttributeValue>(AttributeValues.OrderBy(n => n.position));
+            SelectedAttributeValue = AttributeValues[index + 1];
         }
     }
 }

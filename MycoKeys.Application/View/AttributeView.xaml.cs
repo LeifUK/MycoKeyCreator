@@ -30,6 +30,11 @@ namespace MycoKeys.Application.View
 
         private bool EditAttributeValue(Library.DBObject.AttributeValue attributeValue)
         {
+            if (attributeValue == null)
+            {
+                return false;
+            }
+
             OpenControls.Wpf.Utilities.ViewModel.InputTextViewModel inputTextViewModel = new OpenControls.Wpf.Utilities.ViewModel.InputTextViewModel();
             inputTextViewModel.Title = "MycoKeys.Application";
             inputTextViewModel.Label = "Attribute Value";
@@ -54,8 +59,7 @@ namespace MycoKeys.Application.View
             Library.DBObject.AttributeValue attributeValue = new Library.DBObject.AttributeValue();
             if (EditAttributeValue(attributeValue))
             {
-                ViewModel.AttributeViewModel attributeViewModel = (DataContext as ViewModel.AttributeViewModel);
-                attributeViewModel.AttributeValues.Add(attributeValue);
+                (DataContext as ViewModel.AttributeViewModel).Add(attributeValue);
             }
         }
 
@@ -68,7 +72,7 @@ namespace MycoKeys.Application.View
             }
 
             EditAttributeValue(attributeViewModel.SelectedAttributeValue);
-            attributeViewModel.LoadValues();
+            attributeViewModel.Refresh();
         }
 
         private void _buttonDelete_Click(object sender, RoutedEventArgs e)
@@ -77,6 +81,16 @@ namespace MycoKeys.Application.View
             {
                 (DataContext as ViewModel.AttributeViewModel).DeleteSelectedValue();
             }
+        }
+
+        private void _buttonUp_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModel.AttributeViewModel).MoveSelectedAttributeUp();
+        }
+
+        private void _buttonDown_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModel.AttributeViewModel).MoveSelectedAttributeDown();
         }
     }
 }

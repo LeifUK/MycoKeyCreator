@@ -70,15 +70,13 @@ namespace MycoKeys.Application.View
 
         private void _buttonEditSpecies_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
-            Library.DBObject.Species species = new Library.DBObject.Species();
-            EditSpecies(keyViewModel.SelectedSpecies);
+            EditSpecies((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedSpecies);
         }
 
-        //private void _dataGridSpeciesDescriptions_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        //{
-        //    EditSpeciesDescription();
-        //}
+        private void _dataGridSpeciesDescriptions_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditSpecies((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedSpecies);
+        }
 
         private void _buttonDeleteSpecies_Click(object sender, RoutedEventArgs e)
         {
@@ -88,16 +86,11 @@ namespace MycoKeys.Application.View
             }
         }
 
-        private void _dataGridAttributes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            //EditAttribute((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedAttribute);
-        }
-
-        private bool EditAttribute(MycoKeys.Library.DBObject.Attribute attribute)
+        private void EditAttribute(MycoKeys.Library.DBObject.Attribute attribute)
         {
             if (attribute == null)
             {
-                return false;
+                return;
             }
 
             MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
@@ -106,27 +99,29 @@ namespace MycoKeys.Application.View
             attributeView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             attributeView.Owner = this;
             attributeView.DataContext = attributeViewModel;
-            return (attributeView.ShowDialog() == true);
+            if (attributeView.ShowDialog() == true)
+            {
+                keyViewModel.ReloadAttributes();
+            }
         }
 
         private void _buttonAddAttribute_Click(object sender, RoutedEventArgs e)
         {
             MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
             Library.DBObject.Attribute attribute = new Library.DBObject.Attribute();
+            attribute.position = (short)keyViewModel.Attributes.Count();
             List<Library.DBObject.AttributeValue> attributeValues = new List<Library.DBObject.AttributeValue>();
-            if (EditAttribute(attribute))
-            {
-                keyViewModel.Insert(attribute);
-            }
+            EditAttribute(attribute);
         }
 
         private void _buttonEditAttribute_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
-            if (EditAttribute(keyViewModel.SelectedAttribute))
-            {
-                keyViewModel.Update(keyViewModel.SelectedAttribute);
-            }
+            EditAttribute((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedAttribute);
+        }
+
+        private void _dataGridAttributes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditAttribute((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedAttribute);
         }
 
         private void _buttonDeleteAttribute_Click(object sender, RoutedEventArgs e)

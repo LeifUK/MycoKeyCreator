@@ -7,7 +7,8 @@
         xmlns:database="clr-namespace:MycoKeys.Library.Database;assembly=MycoKeys.Library"
         Background="#F0F0F0"
         mc:Ignorable="d"
-        Title="Attribute Editor" Height="300" Width="400">
+        SizeToContent="Height"
+        Title="Attribute Editor" Height="417" Width="400">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -40,6 +41,10 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -58,6 +63,10 @@
                 <Button Grid.Row="0" Grid.Column="2" x:Name="_buttonAdd" Content="Add" Style="{StaticResource Button80Style}" Click="_buttonAdd_Click"/>
                 <Button Grid.Row="2" Grid.Column="2" x:Name="_buttonEdit" Content="Edit" Style="{StaticResource Button80Style}" Click="_buttonEdit_Click"/>
                 <Button Grid.Row="4" Grid.Column="2" x:Name="_buttonDelete" Content="Delete" Style="{StaticResource Button80Style}" Click="_buttonDelete_Click"/>
+                <Button Grid.Row="6" Grid.Column="2" x:Name="_buttonUp" Content="Up" Style="{StaticResource Button80Style}" 
+                        Click="_buttonUp_Click" IsEnabled="{Binding CanMoveValueUp}"/>
+                <Button Grid.Row="8" Grid.Column="2" x:Name="_buttonDown" Content="Down" Style="{StaticResource Button80Style}" 
+                        Click="_buttonDown_Click" IsEnabled="{Binding CanMoveValueDown}"/>
             </Grid>
         </GroupBox>
 

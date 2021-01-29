@@ -17,6 +17,7 @@ namespace MycoKeys.Library.Database
         IEnumerable<DBObject.Species> GetKeySpeciesEnumerator(Int64 key_id);
         bool Insert(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues);
         bool Update(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues);
+        bool Update(DBObject.Attribute attribute);
         bool Delete(DBObject.Attribute attribute);
         bool Delete(DBObject.AttributeValue attributeValue);
         IEnumerable<DBObject.Attribute> GetKeyAttributeEnumerator(Int64 key_id);

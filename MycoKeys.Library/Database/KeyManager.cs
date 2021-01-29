@@ -150,6 +150,7 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
+                _iDatabase.BeginTransaction();
                 _iAttributeTable.Insert(attribute);
 
                 foreach (var attributeValue in attributeValues)
@@ -158,10 +159,12 @@ namespace MycoKeys.Library.Database
                     attributeValue.attribute_id = attribute.id;
                     _iAttributeValueTable.Insert(attributeValue);
                 }
+                _iDatabase.CommitTransaction();
             }
             catch
             {
                 success = false;
+                _iDatabase.RollbackTransaction();
             }
 
             return success;
@@ -172,6 +175,7 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
+                _iDatabase.BeginTransaction();
                 _iAttributeTable.Update(attribute);
 
                 Dictionary<Int64, Library.DBObject.AttributeValue> attributeValueMap = _iAttributeValueTable.GetEnumeratorForAttribute(attribute.id).ToDictionary(n => n.id, n => n);
@@ -198,6 +202,23 @@ namespace MycoKeys.Library.Database
                     _iSpeciesAttributeValueTable.DeleteByAttributeValue(attributeValue.id);
                     _iAttributeValueTable.Delete(attributeValue);
                 }
+                _iDatabase.CommitTransaction();
+            }
+            catch
+            {
+                success = false;
+                _iDatabase.RollbackTransaction();
+            }
+
+            return success;
+        }
+
+        public bool Update(DBObject.Attribute attribute)
+        {
+            bool success = true;
+            try
+            {
+                _iAttributeTable.Update(attribute);
             }
             catch
             {
@@ -284,12 +305,15 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
+                _iDatabase.BeginTransaction();
                 _iSpeciesAttributeValueTable.DeleteBySpecies(species.id);
                 _iSpeciesTable.Delete(species);
+                _iDatabase.CommitTransaction();
             }
             catch
             {
                 success = false;
+                _iDatabase.RollbackTransaction();
             }
 
             return success;
