@@ -15,6 +15,11 @@ namespace MycoKeys.Library.PetaPocoAdapter
             return _database.Query<DBObject.SpeciesAttributeValue>(_iSqlQueryBuilder.SelectByColumn(_tableName, "species_id"), species_id);
         }
 
+        public IEnumerable<DBObject.SpeciesAttributeValue> GetEnumeratorForAttributeValue(Int64 attributevalue_id)
+        {
+            return _database.Query<DBObject.SpeciesAttributeValue>(_iSqlQueryBuilder.SelectByColumn(_tableName, "attributevalue_id"), attributevalue_id);
+        }
+
         public void DeleteByKey(Int64 key_id)
         {
             _database.Delete<DBObject.SpeciesAttributeValue>("WHERE key_id=@0", key_id);

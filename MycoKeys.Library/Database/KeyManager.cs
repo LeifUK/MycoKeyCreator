@@ -144,6 +144,11 @@ namespace MycoKeys.Library.Database
         {
             return _iAttributeValueTable.GetEnumeratorForAttribute(attribute_id);
         }
+        
+        public IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator(Int64 attributevalue_id)
+        {
+            return _iSpeciesAttributeValueTable.GetEnumeratorForAttributeValue(attributevalue_id);
+        }
 
         public bool Insert(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues)
         {

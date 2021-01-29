@@ -1,32 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace MycoKeys.Application.ViewModel
 {
     class SpeciesAttributesViewModel : OpenControls.Wpf.Utilities.ViewModel.BaseViewModel
     {
-        public class SpeciesAttributeItem
-        {
-            public Library.DBObject.Attribute Attribute { get; set; }
-            public Library.DBObject.SpeciesAttributeValue SpeciesAttribute;
-            private bool _applied;
-            public bool Applied 
-            { 
-                get
-                {
-                    return _applied;
-                }
-                set
-                {
-                    _applied = value;
-                    OnCheck?.Invoke(this);
-                }
-            }
-
-            public delegate void OnCheckHandler(SpeciesAttributeItem sender);
-
-            public event OnCheckHandler OnCheck;
-        }
-
         public SpeciesAttributesViewModel(MycoKeys.Library.Database.IKeyManager iKeyManager, MycoKeys.Library.DBObject.Key key, MycoKeys.Library.DBObject.Species species)
         {
             Species = species;
@@ -41,39 +19,48 @@ namespace MycoKeys.Application.ViewModel
 
         public void Load()
         {
-            SpeciesAttributeValues = new List<SpeciesAttributeValue>();
+            SpeciesAttributeValues = new List<SpeciesAttributeValueModel>();
 
             List<Library.DBObject.Attribute> attributes = new List<Library.DBObject.Attribute>(
-                IKeyManager.GetKeyAttributeEnumerator(Species.key_id));
+                IKeyManager.GetKeyAttributeEnumerator(Species.key_id).OrderBy(n => n.position));
 
             foreach (var attribute in attributes)
             {
-                foreach (var item in IKeyManager.GetAttributeValueEnumerator(attribute.id))
+                List<Library.DBObject.AttributeValue> attributeValues = IKeyManager.GetAttributeValueEnumerator(attribute.id).OrderBy(n => n.position).ToList();
+                foreach (var attributeValue in attributeValues)
                 {
-                    SpeciesAttributeValue speciesAttributeValue = new SpeciesAttributeValue();
-                    speciesAttributeValue.Attribute = attribute;
-                    speciesAttributeValue.AttributeValue = item;
-                    SpeciesAttributeValues.Add(speciesAttributeValue);
+                    SpeciesAttributeValueModel speciesAttributeValueModel = new SpeciesAttributeValueModel();
+                    speciesAttributeValueModel.Attribute = attribute;
+                    speciesAttributeValueModel.AttributeValue = attributeValue;
+                    foreach (var speciesAttributeValue in IKeyManager.GetSpeciesAttributeValueEnumerator(attributeValue.id))
+                    {
+                        speciesAttributeValueModel.IsUsed = true;
+                        speciesAttributeValueModel.SpeciesAttributeValue = speciesAttributeValue;
+                        break;
+                    }
+
+                    speciesAttributeValueModel.OnCheck += SpeciesAttributeValue_OnCheck;
+                    SpeciesAttributeValues.Add(speciesAttributeValueModel);
                 }
             }
         }
 
-        private void SpeciesAttributeItem_OnCheck(SpeciesAttributeItem sender)
+        private void SpeciesAttributeValue_OnCheck(SpeciesAttributeValueModel sender)
         {
-            if (sender.Applied)
+            if (sender.IsUsed)
             {
-                Library.DBObject.SpeciesAttributeValue speciesAttribute = new Library.DBObject.SpeciesAttributeValue();
-                speciesAttribute.key_id = Key.id;
-                speciesAttribute.species_id = Species.id;
-                speciesAttribute.attributevalue_id = sender.Attribute.id;
-                IKeyManager.Insert(speciesAttribute);
+                Library.DBObject.SpeciesAttributeValue speciesAttributeValue = new Library.DBObject.SpeciesAttributeValue();
+                speciesAttributeValue.key_id = Key.id;
+                speciesAttributeValue.species_id = Species.id;
+                speciesAttributeValue.attributevalue_id = sender.AttributeValue.id;
+                IKeyManager.Insert(speciesAttributeValue);
             }
             else
             {
-                if (sender.SpeciesAttribute != null)
+                if (sender.SpeciesAttributeValue != null)
                 {
-                    IKeyManager.Delete(sender.SpeciesAttribute);
-                    sender.SpeciesAttribute = null;
+                    IKeyManager.Delete(sender.SpeciesAttributeValue);
+                    sender.SpeciesAttributeValue = null;
                 }
             }
         }
@@ -99,8 +86,8 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        private List<SpeciesAttributeValue> _speciesAttributeValues;
-        public List<SpeciesAttributeValue> SpeciesAttributeValues
+        private List<SpeciesAttributeValueModel> _speciesAttributeValues;
+        public List<SpeciesAttributeValueModel> SpeciesAttributeValues
         {
             get
             {

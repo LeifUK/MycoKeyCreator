@@ -77,7 +77,7 @@
     <Compile Include="ViewModel\KeyHeaderViewModel.cs" />
     <Compile Include="ViewModel\KeysListViewModel.cs" />
     <Compile Include="ViewModel\KeyViewModel.cs" />
-    <Compile Include="ViewModel\SpeciesAttributeValue.cs" />
+    <Compile Include="ViewModel\SpeciesAttributeValueModel.cs" />
     <Compile Include="ViewModel\SpeciesViewModel.cs" />
     <Compile Include="ViewModel\SpeciesAttributesViewModel.cs" />
     <Compile Include="View\AttributeView.xaml.cs">

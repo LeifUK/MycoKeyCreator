@@ -11,6 +11,54 @@
         Title="{Binding Title}" Height="400" Width="400">
     <Window.Resources>
         <ResourceDictionary>
+            <ControlTemplate x:Key="ExpanderButtonTemplate" TargetType="{x:Type ToggleButton}">
+                <Border x:Name="ExpanderButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Height="{TemplateBinding Height}">
+                    <Grid Margin="0,2,2,2"  IsHitTestVisible="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Grid.Column="0" Height="15" Width="15" IsHitTestVisible="True" Fill="Transparent"/>
+                        <Line Grid.Column="0" Name="_line_1" X1="3" X2="13" Y1="9" Y2="9" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
+                        <Line Grid.Column="0" Name="_line_2" X1="8" X2="8" Y1="4" Y2="14" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
+                        <ContentPresenter x:Name="HeaderContent" Grid.Column="1" Margin="4,0,0,0" ContentSource="Content" VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter TargetName="_line_1" Property="Visibility" Value="Visible" />
+                        <Setter TargetName="_line_2" Property="Visibility" Value="Hidden" />
+                    </Trigger>
+                    <Trigger Property="IsChecked" Value="False">
+                        <Setter TargetName="_line_1" Property="Visibility" Value="Visible" />
+                        <Setter TargetName="_line_2" Property="Visibility" Value="Visible" />
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <ControlTemplate x:Key="ExpanderTemplate" TargetType="{x:Type Expander}">
+                <DockPanel Background="{TemplateBinding Background}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" DockPanel.Dock="Top" Background="Transparent" Margin="0,0,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton Grid.Column="0" x:Name="ExpanderButton" DockPanel.Dock="Top" Template="{StaticResource ExpanderButtonTemplate}"
+                                Content="{TemplateBinding Header}" IsChecked="{Binding Path=IsExpanded, 
+                                RelativeSource={RelativeSource TemplatedParent}}" OverridesDefaultStyle="True" Padding="1.5,0">
+                            </ToggleButton>
+                            <ContentPresenter Grid.Column="1" x:Name="ExpanderHeader" Visibility="Collapsed" DockPanel.Dock="Right"/>
+                        </Grid>
+                    </Border>
+                    <ContentPresenter x:Name="ExpanderContent" Visibility="Collapsed" DockPanel.Dock="Bottom"/>
+                </DockPanel>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsExpanded" Value="True">
+                        <Setter TargetName="ExpanderContent" Property="Visibility" Value="Visible"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="./Dictionary.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/OpenControls.Wpf.Utilities;component/View/Dictionary.xaml"/>
@@ -20,43 +68,44 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <DataGrid Grid.Row="0" Grid.Column="0" x:Name="_dataGridAttributes" 
-                          SelectedItem="{Binding SelectedAttribute}" HeadersVisibility="None"
-                          Style="{StaticResource DataGridStyle}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" AutoGenerateColumns="False"
-                  GridLinesVisibility="None">
+        <DataGrid Grid.Row="0" Grid.Column="0" x:Name="_dataGridAttributes" SelectedItem="{Binding SelectedAttribute}" 
+            HeadersVisibility="None" Style="{StaticResource DataGridStyle}" VerticalAlignment="Stretch" 
+            VerticalContentAlignment="Stretch" AutoGenerateColumns="False" GridLinesVisibility="None" >
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Applied" Width="SizeToCells" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Applied, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="30,0,0,0"/>
+                            <CheckBox IsChecked="{Binding IsUsed, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="30,0,0,0"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Path=AttributeValue.description}" Width="SizeToCells"  />
+                <DataGridTextColumn Binding="{Binding Path=AttributeValue.description}" Width="SizeToCells" />
             </DataGrid.Columns>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{x:Null}" />
+                            <Setter Property="BorderBrush" Value="{x:Null}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
             <DataGrid.GroupStyle>
                 <GroupStyle>
-                    <!--<GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="Test" />
-                                <TextBlock Text="{Binding Path=Attribute.description}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>-->
                     <GroupStyle.ContainerStyle>
                         <Style TargetType="{x:Type GroupItem}">
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <Expander>
+                                        <Expander Background="#F0F0F0" Foreground="Black" IsExpanded="True" Template="{StaticResource ExpanderTemplate}" BorderBrush="Gainsboro" BorderThickness="0,0,0,1">
                                             <Expander.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Path=Name}" FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding Path=Name}" FontWeight="Normal"/>
                                                 </StackPanel>
                                             </Expander.Header>
                                             <ItemsPresenter />

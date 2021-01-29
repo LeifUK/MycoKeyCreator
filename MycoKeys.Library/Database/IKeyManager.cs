@@ -10,6 +10,7 @@ namespace MycoKeys.Library.Database
         bool Delete(DBObject.Key key);
         IEnumerable<DBObject.Key> GetKeyEnumerator();
         Library.DBObject.SpeciesAttributeValue Select(Library.DBObject.SpeciesAttributeValue speciesDescription);
+        IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator(Int64 attributevalue_id);
         bool Insert(Library.DBObject.SpeciesAttributeValue speciesAttribute);
         bool Update(Library.DBObject.SpeciesAttributeValue speciesAttribute);
         bool Delete(Library.DBObject.SpeciesAttributeValue speciesAttribute);
