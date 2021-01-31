@@ -21,7 +21,7 @@ namespace MycoKeys.Application.View
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ViewModel.SpeciesAttributesViewModel speciesAttributesViewModel = (DataContext as ViewModel.SpeciesAttributesViewModel);
-            ListCollectionView listCollectionView = new ListCollectionView(speciesAttributesViewModel.SpeciesAttributeValues);
+            ListCollectionView listCollectionView = new ListCollectionView(speciesAttributesViewModel.SpeciesAttributeValueModels);
             listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Attribute.description"));
             _dataGridAttributes.ItemsSource = listCollectionView;
         }

@@ -140,14 +140,14 @@ namespace MycoKeys.Library.Database
             return _iSpeciesTable.GetEnumeratorForKey(key_id);
         }
 
-        public IEnumerable<DBObject.AttributeValue> GetAttributeValueEnumerator(Int64 attribute_id)
+        public IEnumerable<DBObject.SpeciesAttributeValue> GetKeySpeciesAttributeValueEnumerator(Int64 key_id)
         {
-            return _iAttributeValueTable.GetEnumeratorForAttribute(attribute_id);
+            return _iSpeciesAttributeValueTable.GetEnumeratorForKey(key_id);
         }
-        
-        public IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator(Int64 attributevalue_id)
+
+        public IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator(Int64 species_id)
         {
-            return _iSpeciesAttributeValueTable.GetEnumeratorForAttributeValue(attributevalue_id);
+            return _iSpeciesAttributeValueTable.GetEnumeratorForSpecies(species_id);
         }
 
         public bool Insert(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues)
@@ -254,6 +254,21 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
+        public IEnumerable<DBObject.Attribute> GetKeyAttributeEnumerator(Int64 key_id)
+        {
+            return _iAttributeTable.GetEnumeratorForKey(key_id);
+        }
+
+        public IEnumerable<DBObject.AttributeValue> GetKeyAttributeValueEnumerator(Int64 key_id)
+        {
+            return _iAttributeValueTable.GetEnumeratorForKey(key_id);
+        }
+
+        public IEnumerable<DBObject.AttributeValue> GetAttributeValueEnumerator(Int64 attribute_id)
+        {
+            return _iAttributeValueTable.GetEnumeratorForAttribute(attribute_id);
+        }
+
         public bool Delete(DBObject.AttributeValue attributeValue)
         {
             bool success = true;
@@ -268,11 +283,6 @@ namespace MycoKeys.Library.Database
             }
 
             return success;
-        }
-        
-        public IEnumerable<DBObject.Attribute> GetKeyAttributeEnumerator(Int64 key_id)
-        {
-            return _iAttributeTable.GetEnumeratorForKey(key_id);
         }
 
         public bool Insert(DBObject.Species species)

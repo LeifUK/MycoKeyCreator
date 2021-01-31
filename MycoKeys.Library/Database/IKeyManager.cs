@@ -10,7 +10,8 @@ namespace MycoKeys.Library.Database
         bool Delete(DBObject.Key key);
         IEnumerable<DBObject.Key> GetKeyEnumerator();
         Library.DBObject.SpeciesAttributeValue Select(Library.DBObject.SpeciesAttributeValue speciesDescription);
-        IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator(Int64 attributevalue_id);
+        IEnumerable<DBObject.SpeciesAttributeValue> GetKeySpeciesAttributeValueEnumerator(Int64 key_id);
+        IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator(Int64 species_id);
         bool Insert(Library.DBObject.SpeciesAttributeValue speciesAttribute);
         bool Update(Library.DBObject.SpeciesAttributeValue speciesAttribute);
         bool Delete(Library.DBObject.SpeciesAttributeValue speciesAttribute);
@@ -20,8 +21,9 @@ namespace MycoKeys.Library.Database
         bool Update(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues);
         bool Update(DBObject.Attribute attribute);
         bool Delete(DBObject.Attribute attribute);
-        bool Delete(DBObject.AttributeValue attributeValue);
         IEnumerable<DBObject.Attribute> GetKeyAttributeEnumerator(Int64 key_id);
+        bool Delete(DBObject.AttributeValue attributeValue);
+        IEnumerable<DBObject.AttributeValue> GetKeyAttributeValueEnumerator(Int64 key_id);
         IEnumerable<DBObject.AttributeValue> GetAttributeValueEnumerator(Int64 attribute_id);
         bool Insert(DBObject.Species species);
         bool Update(DBObject.Species species);

@@ -1,4 +1,4 @@
-﻿@model MycoKeys.WebApplication.Model.KeyMatchViewData
+﻿@model MycoKeys.WebApplication.Model.KeyMatchViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -23,20 +23,33 @@
             <tbody>
                 @{
                     int i = 0;
-                    foreach (var item in Model.AttributeSelections)
+                    foreach (var attributeSelection in Model.AttributeSelections)
                     {
-                        string isSelected = "Selections[" + i + "].IsSelected";
-                        string attributeId = "Selections[" + i + "].AttributeId";
-
+                        string IsSelected = "AttributeSelections[" + i + "].IsSelected";
+                        string AttributeId = "AttributeSelections[" + i + "].AttributeId";
+                        string AttributeValueId = "AttributeSelections[" + i + "].AttributeValueId";
                         <tr>
-                            <td>
-                                <p style="width:80%;">
-                                    <input type="checkbox" name="@isSelected" value="true" checked="@item.Value" />
-                                    <label asp-for="isSelected">@item.Key.description</label>
-                                    <input type="hidden" name="@attributeId" value="@item.Key.id" />
+                            <td class="shrink">
+                                <p>
+                                    <input type="checkbox" name="@IsSelected" value="true" checked="@attributeSelection.IsSelected" />
+                                    <label asp-for="IsSelected">@attributeSelection.Attribute.description</label>
+                                    <input type="hidden" name="@AttributeId" value="@attributeSelection.Attribute.id" />
                                 </p>
                             </td>
-                            <td>
+                            <td class="expand">
+                                <select name="@AttributeValueId">
+                                    @foreach (var item in @attributeSelection.AttributeValueSelections)
+                                    {
+                                        if (item.AttributeValue.id == @Model.AttributeSelections[i].SelectedAttributeValueId)
+                                        {
+                                            <option value="@item.AttributeValue.id" selected>@item.AttributeValue.description</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.AttributeValue.id">@item.AttributeValue.description</option>
+                                        }
+                                    }
+                                </select>
                             </td>
                         </tr>
                         ++i;
@@ -44,6 +57,7 @@
                 }
             </tbody>
         </table>
+
         <input type="submit" value="Update" style="margin-left:30px; margin-top: 10px; margin-bottom: 10px; padding-left:10px; padding-right:10px; padding-top: 4px; padding-bottom: 4px;" />
     </form>
 

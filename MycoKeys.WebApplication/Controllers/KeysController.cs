@@ -21,10 +21,10 @@ namespace MycoKeys.WebApplication.Controllers
 
         public IActionResult KeyMatch(string keyName)
         {
-            Model.KeyMatchViewData keyMatchData = Model.KeyMatchViewDataBuilder.Build(_iKeyManagerFactory.GetKeyManager(), keyName, null);
-            if (keyMatchData != null)
+            Model.KeyMatchViewModel keyMatchViewModel = Model.KeyMatchViewDataBuilder.Build(_iKeyManagerFactory.GetKeyManager(), keyName, null);
+            if (keyMatchViewModel != null)
             {
-                return View(keyMatchData);
+                return View(keyMatchViewModel);
             }
 
             return View();
@@ -40,11 +40,10 @@ namespace MycoKeys.WebApplication.Controllers
                 return View();
             }
 
-            Dictionary<Int64, bool> selectionsMap = keyMatchViewOutput.Selections.ToDictionary(n => n.AttributeId, n => n.IsSelected);
-            Model.KeyMatchViewData keyMatchData = Model.KeyMatchViewDataBuilder.Build(_iKeyManagerFactory.GetKeyManager(), keyMatchViewOutput.KeyName, selectionsMap);
-            if (keyMatchData != null)
+            Model.KeyMatchViewModel keyMatchViewModel = Model.KeyMatchViewDataBuilder.Build(_iKeyManagerFactory.GetKeyManager(), keyMatchViewOutput.KeyName, keyMatchViewOutput);
+            if (keyMatchViewModel != null)
             {
-                return View("KeyMatch", keyMatchData);
+                return View("KeyMatch", keyMatchViewModel);
             }
 
             return View();

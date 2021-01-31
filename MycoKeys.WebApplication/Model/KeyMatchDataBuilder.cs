@@ -13,10 +13,10 @@ namespace MycoKeys.WebApplication.Model
          *  
          *  attributeChoices: 
          *  
-         *      Key:   Attribute id
-         *      Value: True if the attribute is selected and False otherwise. 
+         *      Key:   Attribute value id
+         *      Value: True if the attribute value is selected and False otherwise. 
          */
-        public static Model.KeyMatchViewData Build(Library.Database.IKeyManager iKeyManager, string keyName, Dictionary<Int64, bool> attributeChoices)
+        public static Model.KeyMatchViewModel Build(Library.Database.IKeyManager iKeyManager, string keyName, Model.KeyMatchViewOutput keyMatchViewOutput)
         {
             /*
              * Locate the key
@@ -27,38 +27,99 @@ namespace MycoKeys.WebApplication.Model
                 return null;
             }
 
-            Model.KeyMatchViewData keyMatchData = new Model.KeyMatchViewData();
-            keyMatchData.Species = new List<Model.SpeciesMatchData>();
-            keyMatchData.KeyName = selectedKey.name;
-            keyMatchData.KeyTitle = selectedKey.title;
-            keyMatchData.KeyDescription = selectedKey.description;
-            keyMatchData.Copyright = selectedKey.copyright;
-            keyMatchData.AttributeSelections = iKeyManager.GetKeyAttributeEnumerator(selectedKey.id).Select(n => 
-                new KeyValuePair<MycoKeys.Library.DBObject.Attribute, bool>(n, (attributeChoices != null ? attributeChoices[n.id] : false)))
-                .OrderBy(n => n.Key.position).ToList();
+            Model.KeyMatchViewModel keyMatchViewModel = new Model.KeyMatchViewModel();
+            keyMatchViewModel.Species = new List<Model.SpeciesMatchData>();
+            keyMatchViewModel.KeyName = selectedKey.name;
+            keyMatchViewModel.KeyTitle = selectedKey.title;
+            keyMatchViewModel.KeyDescription = selectedKey.description;
+            keyMatchViewModel.Copyright = selectedKey.copyright;
+            keyMatchViewModel.AttributeSelections = new List<KeyMatchViewModel.AttributeSelection>();
 
-            var selectedAttributeIds = keyMatchData.AttributeSelections.Where(n => n.Value).Select(n => n.Key.id).ToList();
-            int totalNumberOfSelectedAttributes = selectedAttributeIds.Count();
+            var attributeValueSelections = keyMatchViewOutput != null ? keyMatchViewOutput.AttributeSelections.ToDictionary(n => n.AttributeValueId, n => n.IsSelected) : null;
+
+            /*
+             * Key:   Attribute value id
+             * Value: Attribute ids
+             */
+            Dictionary<Int64, List<Int64>> attributeValueToAttributeMap = new Dictionary<long, List<long>>();
+            Dictionary<Int64, bool> attributeTicked = new Dictionary<long, bool>();
+
+            List<Library.DBObject.Attribute> attributes = iKeyManager.GetKeyAttributeEnumerator(selectedKey.id).OrderBy(n => n.position).ToList();
+            foreach (Library.DBObject.Attribute attribute in attributes)
+            {
+                var list = new List<Int64>();
+                attributeValueToAttributeMap.Add(attribute.id, list);
+
+                KeyMatchViewModel.AttributeSelection attributeSelection = new KeyMatchViewModel.AttributeSelection();
+                attributeSelection.Attribute = attribute;
+                attributeSelection.AttributeValueSelections = new List<KeyMatchViewModel.AttributeValueSelection>();
+                foreach (Library.DBObject.AttributeValue attributeValue in iKeyManager.GetAttributeValueEnumerator(attribute.id))
+                {
+                    list.Add(attributeValue.id);
+
+                    bool isSelected = ((attributeValueSelections == null) || !attributeValueSelections.ContainsKey(attributeValue.id)) ?
+                        false :
+                        attributeValueSelections[attributeValue.id];
+
+                    attributeSelection.AttributeValueSelections.Add(new KeyMatchViewModel.AttributeValueSelection()
+                    {
+                        AttributeValue = attributeValue,
+                        IsSelected = isSelected
+                    });
+
+                    if (isSelected)
+                    {
+                        attributeSelection.SelectedAttributeValueId = attributeValue.id;
+                        attributeSelection.IsSelected = isSelected;
+                    }
+                }
+
+                keyMatchViewModel.AttributeSelections.Add(attributeSelection);
+            }
+
+            List<Library.DBObject.SpeciesAttributeValue> speciesAttributeValues = iKeyManager.GetKeySpeciesAttributeValueEnumerator(selectedKey.id).ToList();
 
             var species = iKeyManager.GetKeySpeciesEnumerator(selectedKey.id).ToList();
             for (int i = 0; i < species.Count; ++i)
             {
-                var list = iKeyManager.GetSpeciesAttributeEnumerator(species[i].id).ToList();
-                int matches = list.Where(n => selectedAttributeIds.Contains(n.attributevalue_id)).Count();
+                List<Library.DBObject.SpeciesAttributeValue> currentSpeciesAttributeValues = speciesAttributeValues.Where(n => n.species_id == species[i].id).ToList();
 
-                keyMatchData.Species.Add(new SpeciesMatchData() 
-                { 
+                int matches = 0;
+                int mismatches = 0;
+
+                if (attributeValueSelections != null)
+                {
+                    Dictionary<Int64, Library.DBObject.SpeciesAttributeValue> map = currentSpeciesAttributeValues.ToDictionary(n => n.attributevalue_id, n => n);
+                    foreach (var item in attributeValueSelections)
+                    {
+                        if (item.Value)
+                        {
+                            if (map.ContainsKey(item.Key))
+                            {
+                                ++matches;
+                            }
+                            else
+                            {
+                                ++mismatches;
+                            }
+                        }
+                    }
+                }
+
+                keyMatchViewModel.Species.Add(new SpeciesMatchData()
+                {
                     Species = species[i],
-                    AttributeCount = list.Count(),
+                    AttributeCount = currentSpeciesAttributeValues.Count,
                     Matches = matches,
-                    Mismatches = totalNumberOfSelectedAttributes - matches
+                    Mismatches = mismatches
                 });
+
             }
 
-            keyMatchData.Species = keyMatchData.Species.OrderBy(
-                n => ( n.AttributeCount > 0 ) ? (100 * (n.AttributeCount - n.Matches)) / n.AttributeCount : 100 + 50 * n.Mismatches).ToList();
+            keyMatchViewModel.Species = keyMatchViewModel.Species.OrderBy(
+                n => (n.AttributeCount > 0) ? (100 * (n.AttributeCount - n.Matches)) / n.AttributeCount : 100 + 50 * n.Mismatches).ToList();
 
-            return keyMatchData;
+            return keyMatchViewModel;
         }
     }
 }

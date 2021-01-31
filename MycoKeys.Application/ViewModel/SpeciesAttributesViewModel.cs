@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MycoKeys.Application.ViewModel
@@ -19,10 +20,13 @@ namespace MycoKeys.Application.ViewModel
 
         public void Load()
         {
-            SpeciesAttributeValues = new List<SpeciesAttributeValueModel>();
+            SpeciesAttributeValueModels = new List<SpeciesAttributeValueModel>();
 
             List<Library.DBObject.Attribute> attributes = new List<Library.DBObject.Attribute>(
                 IKeyManager.GetKeyAttributeEnumerator(Species.key_id).OrderBy(n => n.position));
+
+            Dictionary<Int64, Library.DBObject.SpeciesAttributeValue> speciesAttributeValuesMap = 
+                IKeyManager.GetSpeciesAttributeValueEnumerator(Species.id).ToDictionary(n=> n.attributevalue_id, n => n);
 
             foreach (var attribute in attributes)
             {
@@ -32,20 +36,19 @@ namespace MycoKeys.Application.ViewModel
                     SpeciesAttributeValueModel speciesAttributeValueModel = new SpeciesAttributeValueModel();
                     speciesAttributeValueModel.Attribute = attribute;
                     speciesAttributeValueModel.AttributeValue = attributeValue;
-                    foreach (var speciesAttributeValue in IKeyManager.GetSpeciesAttributeValueEnumerator(attributeValue.id))
+                    if (speciesAttributeValuesMap.ContainsKey(attributeValue.id))
                     {
                         speciesAttributeValueModel.IsUsed = true;
-                        speciesAttributeValueModel.SpeciesAttributeValue = speciesAttributeValue;
-                        break;
+                        speciesAttributeValueModel.SpeciesAttributeValue = speciesAttributeValuesMap[attributeValue.id];
                     }
 
-                    speciesAttributeValueModel.OnCheck += SpeciesAttributeValue_OnCheck;
-                    SpeciesAttributeValues.Add(speciesAttributeValueModel);
+                    speciesAttributeValueModel.OnCheck += SpeciesAttributeValueModel_OnCheck;
+                    SpeciesAttributeValueModels.Add(speciesAttributeValueModel);
                 }
             }
         }
 
-        private void SpeciesAttributeValue_OnCheck(SpeciesAttributeValueModel sender)
+        private void SpeciesAttributeValueModel_OnCheck(SpeciesAttributeValueModel sender)
         {
             if (sender.IsUsed)
             {
@@ -86,17 +89,17 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        private List<SpeciesAttributeValueModel> _speciesAttributeValues;
-        public List<SpeciesAttributeValueModel> SpeciesAttributeValues
+        private List<SpeciesAttributeValueModel> _speciesAttributeValueModels;
+        public List<SpeciesAttributeValueModel> SpeciesAttributeValueModels
         {
             get
             {
-                return _speciesAttributeValues;
+                return _speciesAttributeValueModels;
             }
             set
             {
-                _speciesAttributeValues = value;
-                NotifyPropertyChanged("SpeciesAttributeValues");
+                _speciesAttributeValueModels = value;
+                NotifyPropertyChanged("SpeciesAttributeValueModels");
             }
         }
     }

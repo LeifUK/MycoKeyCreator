@@ -102,7 +102,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <Expander Background="#F0F0F0" Foreground="Black" IsExpanded="True" Template="{StaticResource ExpanderTemplate}" BorderBrush="Gainsboro" BorderThickness="0,0,0,1">
+                                        <Expander Background="#F8F8F8" Foreground="Black" Template="{StaticResource ExpanderTemplate}" BorderBrush="Gainsboro" BorderThickness="0,0,0,1">
                                             <Expander.Header>
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="{Binding Path=Name}" FontWeight="Normal"/>

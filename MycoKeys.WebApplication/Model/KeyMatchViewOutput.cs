@@ -7,16 +7,17 @@ namespace MycoKeys.WebApplication.Model
     {
         public KeyMatchViewOutput()
         {
-            Selections = new List<Selection>();
+            AttributeSelections = new List<Selection>();
         }
 
         public class Selection
         {
             public bool IsSelected { get; set; }
             public Int64 AttributeId { get; set; }
+            public Int64 AttributeValueId { get; set; }
         }
 
         public string KeyName { get; set; }
-        public List<Selection> Selections { get; set; }
+        public List<Selection> AttributeSelections { get; set; }
     }
 }
