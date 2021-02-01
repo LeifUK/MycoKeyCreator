@@ -78,23 +78,25 @@ namespace MycoKeys.WebApplication.Model
             }
 
             List<Library.DBObject.SpeciesAttributeValue> speciesAttributeValues = iKeyManager.GetKeySpeciesAttributeValueEnumerator(selectedKey.id).ToList();
+            List<Library.DBObject.AttributeValue> attributeValues = iKeyManager.GetKeyAttributeValueEnumerator(selectedKey.id).ToList();
 
             var species = iKeyManager.GetKeySpeciesEnumerator(selectedKey.id).ToList();
             for (int i = 0; i < species.Count; ++i)
             {
-                List<Library.DBObject.SpeciesAttributeValue> currentSpeciesAttributeValues = speciesAttributeValues.Where(n => n.species_id == species[i].id).ToList();
-
+                List<Int64> speciesAttributeValueIds = speciesAttributeValues.Where(n => n.species_id == species[i].id).
+                    Select(n => n.attributevalue_id).ToList();
+                int numberOfAttributes = attributeValues.Where(n => speciesAttributeValueIds.Contains(n.id)).
+                    Select(n => n.attribute_id).Distinct().Count();
                 int matches = 0;
                 int mismatches = 0;
 
                 if (attributeValueSelections != null)
                 {
-                    Dictionary<Int64, Library.DBObject.SpeciesAttributeValue> map = currentSpeciesAttributeValues.ToDictionary(n => n.attributevalue_id, n => n);
                     foreach (var item in attributeValueSelections)
                     {
                         if (item.Value)
                         {
-                            if (map.ContainsKey(item.Key))
+                            if (speciesAttributeValueIds.Contains(item.Key))
                             {
                                 ++matches;
                             }
@@ -109,7 +111,7 @@ namespace MycoKeys.WebApplication.Model
                 keyMatchViewModel.Species.Add(new SpeciesMatchData()
                 {
                     Species = species[i],
-                    AttributeCount = currentSpeciesAttributeValues.Count,
+                    AttributeCount = numberOfAttributes,
                     Matches = matches,
                     Mismatches = mismatches
                 });
