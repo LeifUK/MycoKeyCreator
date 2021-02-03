@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MycoKeys.Application.View"
         mc:Ignorable="d"
         Background="#F0F0F0"
-        Title="Keys View" Height="450" Width="800">
+        Title="{Binding Title}" Height="450" Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -36,9 +36,41 @@
                       ItemsSource="{Binding Keys}" SelectedItem="{Binding SelectedKey}" CanUserSortColumns="False" 
                       MouseDoubleClick="_datagridKeys_MouseDoubleClick" KeyDown="_datagridKeys_KeyDown">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*" />
-                    <DataGridTextColumn Header="Copyright" Binding="{Binding copyright}" Width="*" />
-                    <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="*" />
+                    <DataGridTemplateColumn Header="Name" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding name}" Padding="4,0,4,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Title" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding title}" Padding="4,0,4,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Publish" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Publish}" Padding="4,0,4,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Copyright" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding copyright}" Padding="4,0,4,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Description" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding description}" Padding="4,0,4,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -55,7 +87,9 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="20"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="10"/>
                 </Grid.ColumnDefinitions>
@@ -64,7 +98,9 @@
                     Click="_buttonEdit_Click" IsEnabled="{Binding SelectedKey, Converter={StaticResource ObjectToBooleanConverter}}"/>
                 <Button Grid.Row="0" Grid.Column="5" x:Name="_buttonDelete" Content="Delete" Style="{StaticResource Button80Style}"
                     Click="_buttonDelete_Click" IsEnabled="{Binding SelectedKey, Converter={StaticResource ObjectToBooleanConverter}}"/>
-                <Button Grid.Row="0" Grid.Column="9" x:Name="_buttonCloseDB" Content="Close" Style="{StaticResource Button80Style}" Click="_buttonCloseDB_Click"/>
+                <Button Grid.Row="0" Grid.Column="7" x:Name="_buttonImportDB" Content="Import" Style="{StaticResource Button80Style}" Click="_buttonImportDB_Click"/>
+                <Button Grid.Row="0" Grid.Column="9" x:Name="_buttonExportDB" Content="Export" Style="{StaticResource Button80Style}" Click="_buttonExportDB_Click"/>
+                <Button Grid.Row="0" Grid.Column="11" x:Name="_buttonCloseDB" Content="Close" Style="{StaticResource Button80Style}" Click="_buttonCloseDB_Click"/>
             </Grid>
         </Grid>
     </Grid>

@@ -35,12 +35,11 @@ namespace MycoKeys.Application.View
                 return false;
             }
 
-            OpenControls.Wpf.Utilities.ViewModel.InputTextViewModel inputTextViewModel = new OpenControls.Wpf.Utilities.ViewModel.InputTextViewModel();
+            ViewModel.InputTextViewModel inputTextViewModel = new ViewModel.InputTextViewModel();
             inputTextViewModel.Title = "MycoKeys.Application";
-            inputTextViewModel.Label = "Attribute Value";
             inputTextViewModel.Text = attributeValue.description;
 
-            OpenControls.Wpf.Utilities.View.InputTextView inputTextView = new OpenControls.Wpf.Utilities.View.InputTextView();
+            InputTextView inputTextView = new InputTextView();
             inputTextView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             inputTextView.Owner = this;
             inputTextView.DataContext = inputTextViewModel;

@@ -52,7 +52,7 @@ namespace MycoKeys.WebApplication.Model
 
                 KeyMatchViewModel.AttributeSelection attributeSelection = new KeyMatchViewModel.AttributeSelection();
                 attributeSelection.Attribute = attribute;
-                attributeSelection.AttributeValueSelections = new List<KeyMatchViewModel.AttributeValueSelection>();
+                attributeSelection.AttributeValues = new List<Library.DBObject.AttributeValue>();
                 foreach (Library.DBObject.AttributeValue attributeValue in iKeyManager.GetAttributeValueEnumerator(attribute.id))
                 {
                     list.Add(attributeValue.id);
@@ -61,16 +61,11 @@ namespace MycoKeys.WebApplication.Model
                         false :
                         attributeValueSelections[attributeValue.id];
 
-                    attributeSelection.AttributeValueSelections.Add(new KeyMatchViewModel.AttributeValueSelection()
-                    {
-                        AttributeValue = attributeValue,
-                        IsSelected = isSelected
-                    });
-
+                    attributeSelection.AttributeValues.Add(attributeValue);
                     if (isSelected)
                     {
-                        attributeSelection.SelectedAttributeValueId = attributeValue.id;
                         attributeSelection.IsSelected = isSelected;
+                        attributeSelection.SelectedAttributeValueId = attributeValue.id;
                     }
                 }
 

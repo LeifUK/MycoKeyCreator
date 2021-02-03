@@ -7,7 +7,7 @@
         Background="#F0F0F0"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
-        Title="MycoKeys.Application" Height="130" Width="450">
+        Title="MycoKeys.Application" Height="100" Width="600">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,24 +15,27 @@
                 <ResourceDictionary Source="pack://application:,,,/OpenControls.Wpf.Utilities;component/View/Dictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Window.Resources>    <Grid>
+    </Window.Resources>    
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="1" Grid.Column="1" Name="_buttonOpenDatabase" Content="Open Database" Click="_buttonOpenDatabase_Click" Style="{StaticResource ButtonStyle}" Width="110"/>
-        <Button Grid.Row="1" Grid.Column="3" Name="_buttonNewDatabase" Content="New Database" Click="_buttonNewDatabase_Click" Style="{StaticResource ButtonStyle}" Width="110"/>
+        <Button Grid.Row="1" Grid.Column="1" Name="_buttonNewDatabase" Content="New Database" Click="_buttonNewDatabase_Click" Style="{StaticResource ButtonStyle}" Width="110"/>
+        <Button Grid.Row="1" Grid.Column="3" Name="_buttonOpenDatabase" Content="Open Database" Click="_buttonOpenDatabase_Click" Style="{StaticResource ButtonStyle}" Width="110"/>
         <Button Grid.Row="1" Grid.Column="5" Name="_buttonExportDatabase" Content="Export Database" Click="_buttonExportDatabase_Click" Style="{StaticResource ButtonStyle}" Width="110"/>
+        <Button Grid.Row="1" Grid.Column="7" Name="_buttonExit" Content="Exit" Click="_buttonExit_Click" Style="{StaticResource Button80Style}" />
     </Grid>
-
 </Window>

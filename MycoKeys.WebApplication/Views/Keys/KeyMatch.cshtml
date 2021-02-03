@@ -38,15 +38,15 @@
                             </td>
                             <td class="expand">
                                 <select name="@AttributeValueId">
-                                    @foreach (var item in @attributeSelection.AttributeValueSelections)
+                                    @foreach (var item in @attributeSelection.AttributeValues)
                                     {
-                                        if (item.AttributeValue.id == @Model.AttributeSelections[i].SelectedAttributeValueId)
+                                        if (item.id == @Model.AttributeSelections[i].SelectedAttributeValueId)
                                         {
-                                            <option value="@item.AttributeValue.id" selected>@item.AttributeValue.description</option>
+                                            <option value="@item.id" selected>@item.description</option>
                                         }
                                         else
                                         {
-                                            <option value="@item.AttributeValue.id">@item.AttributeValue.description</option>
+                                            <option value="@item.id">@item.description</option>
                                         }
                                     }
                                 </select>

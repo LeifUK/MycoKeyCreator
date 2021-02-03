@@ -74,6 +74,9 @@
     </ApplicationDefinition>
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModel\AttributeViewModel.cs" />
+    <Compile Include="ViewModel\ISerialise.cs" />
+    <Compile Include="ViewModel\IImporter.cs" />
+    <Compile Include="ViewModel\InputTextViewModel.cs" />
     <Compile Include="ViewModel\KeyHeaderViewModel.cs" />
     <Compile Include="ViewModel\KeysListViewModel.cs" />
     <Compile Include="ViewModel\KeyViewModel.cs" />
@@ -82,6 +85,9 @@
     <Compile Include="ViewModel\SpeciesAttributesViewModel.cs" />
     <Compile Include="View\AttributeView.xaml.cs">
       <DependentUpon>AttributeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InputTextView.xaml.cs">
+      <DependentUpon>InputTextView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\KeyHeaderView.xaml.cs">
       <DependentUpon>KeyHeaderView.xaml</DependentUpon>
@@ -117,6 +123,10 @@
     <Page Include="View\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InputTextView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\KeyHeaderView.xaml">
       <SubType>Designer</SubType>

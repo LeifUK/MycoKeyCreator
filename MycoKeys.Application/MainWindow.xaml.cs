@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MycoKeys.Library.Database;
+using PetaPoco.NetCore;
+using System;
 using System.Windows;
 
 namespace MycoKeys.Application
@@ -6,7 +8,7 @@ namespace MycoKeys.Application
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, ViewModel.IImporter
     {
         public MainWindow()
         {
@@ -17,8 +19,8 @@ namespace MycoKeys.Application
 
         private void ShowKeysView(MycoKeys.Library.Database.IDatabase iDatabase, MycoKeys.Library.Database.KeyManager keyManager)
         {
-            MycoKeys.Application.View.KeysListView keysListView = new View.KeysListView();
-            ViewModel.KeysListViewModel keysListViewModel = new ViewModel.KeysListViewModel(keyManager);
+            MycoKeys.Application.View.KeysListView keysListView = new View.KeysListView(this);
+            ViewModel.KeysListViewModel keysListViewModel = new ViewModel.KeysListViewModel(iDatabase.Name, keyManager);
             keysListView.DataContext = keysListViewModel;
             keysListViewModel.Load();
             keysListView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -226,7 +228,99 @@ namespace MycoKeys.Application
 
         private void _buttonExportDatabase_Click(object sender, RoutedEventArgs e)
         {
+            if (!OpenDatabase(out MycoKeys.Library.Database.IDatabase iSourceDatabase, out MycoKeys.Library.Database.KeyManager sourceKeyManager))
+            {
+                if (iSourceDatabase != null)
+                {
+                    iSourceDatabase.CloseConnection();
+                }
+                return;
+            }
 
+            if (!NewDatabase(out MycoKeys.Library.Database.IDatabase iTargetDatabase, out MycoKeys.Library.Database.KeyManager targetKeyManager))
+            {
+                if (iTargetDatabase != null)
+                {
+                    iTargetDatabase.CloseConnection();
+                }
+                if (iSourceDatabase != null)
+                {
+                    iSourceDatabase.CloseConnection();
+                }
+                return;
+            }
+
+            MycoKeys.Library.Database.KeyManager.Export(sourceKeyManager, targetKeyManager);
+
+            // Warning warning
+            iSourceDatabase.CloseConnection();
+            iTargetDatabase.CloseConnection();
+        }
+
+        private void _buttonImportDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            if (!OpenDatabase(out MycoKeys.Library.Database.IDatabase iSourceDatabase, out MycoKeys.Library.Database.KeyManager sourceKeyManager))
+            {
+                if (iSourceDatabase != null)
+                {
+                    iSourceDatabase.CloseConnection();
+                }
+                return;
+            }
+
+            if (!OpenDatabase(out MycoKeys.Library.Database.IDatabase iTargetDatabase, out MycoKeys.Library.Database.KeyManager targetKeyManager))
+            {
+                if (iTargetDatabase != null)
+                {
+                    iTargetDatabase.CloseConnection();
+                }
+                if (iSourceDatabase != null)
+                {
+                    iSourceDatabase.CloseConnection();
+                }
+                return;
+            }
+
+            MycoKeys.Library.Database.KeyManager.Export(sourceKeyManager, targetKeyManager);
+
+            // Warning warning
+            iSourceDatabase.CloseConnection();
+            iTargetDatabase.CloseConnection();
+        }
+
+        public void Import(IKeyManager targetKeyManager)
+        {
+            if (!OpenDatabase(out MycoKeys.Library.Database.IDatabase iSourceDatabase, out MycoKeys.Library.Database.KeyManager sourceKeyManager))
+            {
+                if (iSourceDatabase != null)
+                {
+                    iSourceDatabase.CloseConnection();
+                }
+                return;
+            }
+
+            MycoKeys.Library.Database.KeyManager.Export(sourceKeyManager, targetKeyManager);
+            iSourceDatabase.CloseConnection();
+        }
+
+        public void Export(IKeyManager sourceKeyManager)
+        {
+            if (!NewDatabase(out MycoKeys.Library.Database.IDatabase iTargetDatabase, out MycoKeys.Library.Database.KeyManager targetKeyManager))
+            {
+                if (iTargetDatabase != null)
+                {
+                    iTargetDatabase.CloseConnection();
+                }
+                return;
+            }
+
+            MycoKeys.Library.Database.KeyManager.Export(sourceKeyManager, targetKeyManager);
+            iTargetDatabase.CloseConnection();
+        }
+
+        private void _buttonExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

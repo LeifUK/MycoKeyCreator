@@ -2,6 +2,7 @@
 {
     public interface IDatabase
     {
+        string Name { get; }
         SqlQueryBuilders.ISqlQueryBuilder ISqlQueryBuilder { get; set; }
         void CloseConnection();
         void BeginTransaction();

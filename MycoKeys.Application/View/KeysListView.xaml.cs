@@ -8,10 +8,13 @@ namespace MycoKeys.Application.View
     /// </summary>
     public partial class KeysListView : Window
     {
-        public KeysListView()
+        public KeysListView(ViewModel.ISerialise iSerialise)
         {
+            _iISerialise = iSerialise;
             InitializeComponent();
         }
+
+        private readonly ViewModel.ISerialise _iISerialise;
 
         private void _datagridKeys_KeyDown(object sender, KeyEventArgs e)
         {
@@ -76,6 +79,20 @@ namespace MycoKeys.Application.View
         private void _buttonCloseDB_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
+        }
+
+        private void _buttonImportDB_Click(object sender, RoutedEventArgs e)
+        {
+            MycoKeys.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeys.Application.ViewModel.KeysListViewModel;
+            _iISerialise.Import(keysListViewModel.IKeyManager);
+            keysListViewModel.Load();
+        }
+
+        private void _buttonExportDB_Click(object sender, RoutedEventArgs e)
+        {
+            MycoKeys.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeys.Application.ViewModel.KeysListViewModel;
+            _iISerialise.Export(keysListViewModel.IKeyManager);
+            keysListViewModel.Load();
         }
     }
 }

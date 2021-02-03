@@ -5,18 +5,12 @@ namespace MycoKeys.WebApplication.Model
 {
     public class KeyMatchViewModel
     {
-        public class AttributeValueSelection
-        {
-            public MycoKeys.Library.DBObject.AttributeValue AttributeValue { get; set; }
-            public bool IsSelected { get; set; }
-        }
-
         public class AttributeSelection
         {
             public bool IsSelected { get; set; }
             public MycoKeys.Library.DBObject.Attribute Attribute { get; set; }
             public Int64 SelectedAttributeValueId { get; set; }
-            public List<AttributeValueSelection> AttributeValueSelections { get; set; }
+            public List<MycoKeys.Library.DBObject.AttributeValue> AttributeValues { get; set; }
         }
 
         public string KeyName { get; set; }

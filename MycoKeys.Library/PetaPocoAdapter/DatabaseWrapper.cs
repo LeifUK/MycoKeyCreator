@@ -11,6 +11,14 @@
 
         public readonly PetaPoco.NetCore.Database Database;
 
+        public string Name
+        {
+            get
+            {
+                return Database.Connection.Database;
+            }
+        }
+
         public void CloseConnection()
         {
             Database.CloseSharedConnection();

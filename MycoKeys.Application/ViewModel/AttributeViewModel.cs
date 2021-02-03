@@ -112,6 +112,7 @@ namespace MycoKeys.Application.ViewModel
             {
                 ++index;
             }
+            _keyManager.Insert(attributeValue);
             AttributeValues.Insert(index, attributeValue);
             AssignPositions();
             SelectedAttributeValue = AttributeValues[index];
@@ -121,6 +122,7 @@ namespace MycoKeys.Application.ViewModel
         {
             if (SelectedAttributeValue != null)
             {
+                _keyManager.Delete(SelectedAttributeValue);
                 AttributeValues.Remove(SelectedAttributeValue);
                 AssignPositions();
             }
@@ -172,6 +174,8 @@ namespace MycoKeys.Application.ViewModel
             int index = AttributeValues.IndexOf(SelectedAttributeValue);
             AttributeValues[index].position = (short)(index - 1);
             AttributeValues[index - 1].position = (short)index;
+            _keyManager.Update(AttributeValues[index - 1]);
+            _keyManager.Update(AttributeValues[index]);
             AttributeValues = new ObservableCollection<Library.DBObject.AttributeValue>(AttributeValues.OrderBy(n => n.position));
             SelectedAttributeValue = AttributeValues[index - 1];
         }
@@ -186,6 +190,8 @@ namespace MycoKeys.Application.ViewModel
             int index = AttributeValues.IndexOf(SelectedAttributeValue);
             AttributeValues[index].position = (short)(index + 1);
             AttributeValues[index + 1].position = (short)index;
+            _keyManager.Update(AttributeValues[index]);
+            _keyManager.Update(AttributeValues[index + 1]);
             AttributeValues = new ObservableCollection<Library.DBObject.AttributeValue>(AttributeValues.OrderBy(n => n.position));
             SelectedAttributeValue = AttributeValues[index + 1];
         }

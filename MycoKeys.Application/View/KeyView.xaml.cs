@@ -24,12 +24,11 @@ namespace MycoKeys.Application.View
         {
             MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
 
-            OpenControls.Wpf.Utilities.ViewModel.InputTextViewModel inputTextViewModel = new OpenControls.Wpf.Utilities.ViewModel.InputTextViewModel();
+            ViewModel.InputTextViewModel inputTextViewModel = new ViewModel.InputTextViewModel();
             inputTextViewModel.Title = "MycoKeys.Application";
-            inputTextViewModel.Label = label;
             inputTextViewModel.Text = text;
 
-            OpenControls.Wpf.Utilities.View.InputTextView inputTextView = new OpenControls.Wpf.Utilities.View.InputTextView();
+            InputTextView inputTextView = new InputTextView();
             inputTextView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             inputTextView.Owner = this;
             inputTextView.DataContext = inputTextViewModel;
@@ -132,12 +131,7 @@ namespace MycoKeys.Application.View
             }
         }
 
-        private void _dataGridSpecies_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void _buttonAttributes_Click(object sender, RoutedEventArgs e)
+        private void EditAttributes()
         {
             MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
 
@@ -146,13 +140,23 @@ namespace MycoKeys.Application.View
                 return;
             }
 
-            ViewModel.SpeciesAttributesViewModel speciesAttributesViewModel = 
+            ViewModel.SpeciesAttributesViewModel speciesAttributesViewModel =
                 new ViewModel.SpeciesAttributesViewModel(keyViewModel.IKeyManager, keyViewModel.Key, keyViewModel.SelectedSpecies);
             View.SpeciesAttributesView speciesAttributesView = new SpeciesAttributesView();
             speciesAttributesView.DataContext = speciesAttributesViewModel;
             speciesAttributesView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             speciesAttributesView.Owner = this;
             speciesAttributesView.ShowDialog();
+        }
+
+        private void _dataGridSpecies_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditAttributes();
+        }
+
+        private void _buttonAttributes_Click(object sender, RoutedEventArgs e)
+        {
+            EditAttributes();
         }
 
         private void _buttonMoveAttributeUp_Click(object sender, RoutedEventArgs e)
