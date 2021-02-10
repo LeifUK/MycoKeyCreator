@@ -53,7 +53,7 @@ namespace MycoKeys.WebApplication.Model
                 KeyMatchViewModel.AttributeSelection attributeSelection = new KeyMatchViewModel.AttributeSelection();
                 attributeSelection.Attribute = attribute;
                 attributeSelection.AttributeValues = new List<Library.DBObject.AttributeValue>();
-                foreach (Library.DBObject.AttributeValue attributeValue in iKeyManager.GetAttributeValueEnumerator(attribute.id))
+                foreach (Library.DBObject.AttributeValue attributeValue in iKeyManager.GetAttributeValueEnumerator(attribute.id).OrderBy(n => n.position))
                 {
                     list.Add(attributeValue.id);
 
@@ -74,7 +74,6 @@ namespace MycoKeys.WebApplication.Model
 
             List<Library.DBObject.SpeciesAttributeValue> speciesAttributeValues = iKeyManager.GetKeySpeciesAttributeValueEnumerator(selectedKey.id).ToList();
             List<Library.DBObject.AttributeValue> attributeValues = iKeyManager.GetKeyAttributeValueEnumerator(selectedKey.id).ToList();
-
             var species = iKeyManager.GetKeySpeciesEnumerator(selectedKey.id).ToList();
             for (int i = 0; i < species.Count; ++i)
             {
@@ -114,7 +113,7 @@ namespace MycoKeys.WebApplication.Model
             }
 
             keyMatchViewModel.Species = keyMatchViewModel.Species.OrderBy(
-                n => (n.AttributeCount > 0) ? (100 * (n.AttributeCount - n.Matches)) / n.AttributeCount : 100 + 50 * n.Mismatches).ToList();
+                n => (n.AttributeCount > 0) ? (100 * (-n.AttributeCount - n.Matches + n.Mismatches)) / n.AttributeCount : 1000).ToList();
 
             return keyMatchViewModel;
         }

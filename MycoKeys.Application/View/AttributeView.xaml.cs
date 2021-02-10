@@ -23,11 +23,6 @@ namespace MycoKeys.Application.View
             DialogResult = false;
         }
 
-        private void _dataGridValues_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-
-        }
-
         private bool EditAttributeValue(Library.DBObject.AttributeValue attributeValue)
         {
             if (attributeValue == null)
@@ -53,16 +48,7 @@ namespace MycoKeys.Application.View
             return success;
         }
 
-        private void _buttonAdd_Click(object sender, RoutedEventArgs e)
-        {
-            Library.DBObject.AttributeValue attributeValue = new Library.DBObject.AttributeValue();
-            if (EditAttributeValue(attributeValue))
-            {
-                (DataContext as ViewModel.AttributeViewModel).Add(attributeValue);
-            }
-        }
-
-        private void _buttonEdit_Click(object sender, RoutedEventArgs e)
+        private void EditSelectedAttributeValue()
         {
             ViewModel.AttributeViewModel attributeViewModel = (DataContext as ViewModel.AttributeViewModel);
             if (attributeViewModel.SelectedAttributeValue == null)
@@ -72,6 +58,25 @@ namespace MycoKeys.Application.View
 
             EditAttributeValue(attributeViewModel.SelectedAttributeValue);
             attributeViewModel.Refresh();
+        }
+
+        private void _buttonAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Library.DBObject.AttributeValue attributeValue = new Library.DBObject.AttributeValue();
+            if (EditAttributeValue(attributeValue))
+            {
+                (DataContext as ViewModel.AttributeViewModel).Add(attributeValue);
+            }
+        }
+
+        private void _dataGridValues_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            EditSelectedAttributeValue();
+        }
+
+        private void _buttonEdit_Click(object sender, RoutedEventArgs e)
+        {
+            EditSelectedAttributeValue();
         }
 
         private void _buttonDelete_Click(object sender, RoutedEventArgs e)

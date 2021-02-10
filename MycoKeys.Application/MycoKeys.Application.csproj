@@ -75,7 +75,6 @@
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModel\AttributeViewModel.cs" />
     <Compile Include="ViewModel\ISerialise.cs" />
-    <Compile Include="ViewModel\IImporter.cs" />
     <Compile Include="ViewModel\InputTextViewModel.cs" />
     <Compile Include="ViewModel\KeyHeaderViewModel.cs" />
     <Compile Include="ViewModel\KeysListViewModel.cs" />
