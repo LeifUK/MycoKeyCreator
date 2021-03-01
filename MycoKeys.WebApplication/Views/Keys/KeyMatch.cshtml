@@ -73,14 +73,20 @@
                 foreach (var item in Model.Species)
                 {
                     <tr>
-                        <td class="shrink">
+                        <td class="shrink" valign="top">
                             <p>@item.Species.name</p>
                         </td>
-                        <td class="shrink">
+                        <td class="shrink" valign="top">
                             <p>@item.Matches / @item.AttributeCount</p>
                         </td>
-                        <td class="expand">
+                        <td class="shrink" valign="top">
                             <p>@item.Mismatches</p>
+                        </td>
+                        <td class="expand">
+                            @foreach (var text in item.MismatchedFeatures)
+                            {
+                                <p>@text</p>
+                            }
                         </td>
                     </tr>
                     ++i;

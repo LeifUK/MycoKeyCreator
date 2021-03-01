@@ -199,7 +199,9 @@ namespace MycoKeys.Application.ViewModel
         {
             Library.DBObject.Attribute attribute = SelectedAttribute;
             LoadAttributes();
-            SelectedAttribute = Attributes.Where(n => attribute.id == n.id).FirstOrDefault();
+            SelectedAttribute = (Attributes != null) && (Attributes.Count > 0) ? 
+                Attributes.Where(n => attribute.id == n.id).FirstOrDefault() :
+                null;
         }
 
         public void DeleteSelectedAttribute()

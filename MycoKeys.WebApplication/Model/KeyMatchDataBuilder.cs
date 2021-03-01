@@ -35,31 +35,38 @@ namespace MycoKeys.WebApplication.Model
             keyMatchViewModel.Copyright = selectedKey.copyright;
             keyMatchViewModel.AttributeSelections = new List<KeyMatchViewModel.AttributeSelection>();
 
-            var attributeValueSelections = keyMatchViewOutput != null ? keyMatchViewOutput.AttributeSelections.ToDictionary(n => n.AttributeValueId, n => n.IsSelected) : null;
+            /*
+             * Key: The id of the selected attribute value
+             * Value: The Selection object
+             */
+            Dictionary<Int64, KeyMatchViewOutput.Selection> attributeSelections = 
+                keyMatchViewOutput != null ? 
+                keyMatchViewOutput.AttributeSelections.ToDictionary(n => n.AttributeValueId, n => n) : 
+                null;
 
             /*
              * Key:   Attribute value id
-             * Value: Attribute ids
+             * Value: Attribute value
              */
-            Dictionary<Int64, List<Int64>> attributeValueToAttributeMap = new Dictionary<long, List<long>>();
+            Dictionary<Int64, Library.DBObject.AttributeValue> attributeValueIdToAttributeValueMap = new Dictionary<long, Library.DBObject.AttributeValue>();
+
             Dictionary<Int64, bool> attributeTicked = new Dictionary<long, bool>();
 
-            List<Library.DBObject.Attribute> attributes = iKeyManager.GetKeyAttributeEnumerator(selectedKey.id).OrderBy(n => n.position).ToList();
-            foreach (Library.DBObject.Attribute attribute in attributes)
+            Dictionary<Int64, Library.DBObject.Attribute> attributesMap = iKeyManager.GetKeyAttributeEnumerator(selectedKey.id).OrderBy(n => n.position).ToDictionary(n => n.id, nameof => nameof);
+            Dictionary<Int64, Library.DBObject.AttributeValue> attributeValuesMap = iKeyManager.GetKeyAttributeValueEnumerator(selectedKey.id).ToDictionary(n => n.id, n => n);
+
+            foreach (KeyValuePair<Int64, Library.DBObject.Attribute> item in attributesMap)
             {
-                var list = new List<Int64>();
-                attributeValueToAttributeMap.Add(attribute.id, list);
-
                 KeyMatchViewModel.AttributeSelection attributeSelection = new KeyMatchViewModel.AttributeSelection();
-                attributeSelection.Attribute = attribute;
+                attributeSelection.Attribute = item.Value;
                 attributeSelection.AttributeValues = new List<Library.DBObject.AttributeValue>();
-                foreach (Library.DBObject.AttributeValue attributeValue in iKeyManager.GetAttributeValueEnumerator(attribute.id).OrderBy(n => n.position))
+                foreach (Library.DBObject.AttributeValue attributeValue in iKeyManager.GetAttributeValueEnumerator(item.Value.id).OrderBy(n => n.position))
                 {
-                    list.Add(attributeValue.id);
+                    attributeValueIdToAttributeValueMap.Add(attributeValue.id, attributeValue);
 
-                    bool isSelected = ((attributeValueSelections == null) || !attributeValueSelections.ContainsKey(attributeValue.id)) ?
+                    bool isSelected = ((attributeSelections == null) || !attributeSelections.ContainsKey(attributeValue.id)) ?
                         false :
-                        attributeValueSelections[attributeValue.id];
+                        attributeSelections[attributeValue.id].IsSelected;
 
                     attributeSelection.AttributeValues.Add(attributeValue);
                     if (isSelected)
@@ -72,30 +79,54 @@ namespace MycoKeys.WebApplication.Model
                 keyMatchViewModel.AttributeSelections.Add(attributeSelection);
             }
 
-            List<Library.DBObject.SpeciesAttributeValue> speciesAttributeValues = iKeyManager.GetKeySpeciesAttributeValueEnumerator(selectedKey.id).ToList();
-            List<Library.DBObject.AttributeValue> attributeValues = iKeyManager.GetKeyAttributeValueEnumerator(selectedKey.id).ToList();
-            var species = iKeyManager.GetKeySpeciesEnumerator(selectedKey.id).ToList();
-            for (int i = 0; i < species.Count; ++i)
+            List<Library.DBObject.SpeciesAttributeValue> allSpeciesAttributeValues = iKeyManager.GetKeySpeciesAttributeValueEnumerator(selectedKey.id).ToList();
+
+            var allSpecies = iKeyManager.GetKeySpeciesEnumerator(selectedKey.id).ToList();
+            foreach (Library.DBObject.Species species in allSpecies)
             {
-                List<Int64> speciesAttributeValueIds = speciesAttributeValues.Where(n => n.species_id == species[i].id).
-                    Select(n => n.attributevalue_id).ToList();
-                int numberOfAttributes = attributeValues.Where(n => speciesAttributeValueIds.Contains(n.id)).
-                    Select(n => n.attribute_id).Distinct().Count();
+                // Warning warning 
+                List<Library.DBObject.SpeciesAttributeValue> currentSpeciesAttributeValues = allSpeciesAttributeValues.Where(n => n.species_id == species.id).ToList();
+                List<Int64> currentSpeciesAttributeValueIds = currentSpeciesAttributeValues.Select(n => n.attributevalue_id).ToList();
+                int numberOfAttributes = attributeValuesMap.Where(n => currentSpeciesAttributeValueIds.Contains(n.Key)).
+                    Select(n => n.Value.attribute_id).Distinct().Count();
                 int matches = 0;
                 int mismatches = 0;
 
-                if (attributeValueSelections != null)
+                Dictionary<Int64, List<Int64>> currentSpeciesAttributeIdToAttributeValueIdMap = new Dictionary<Int64, List<Int64>>();
+                foreach (var item in currentSpeciesAttributeValues)
                 {
-                    foreach (var item in attributeValueSelections)
+                    Int64 attributeId = attributeValueIdToAttributeValueMap[item.attributevalue_id].attribute_id;
+                    if (!currentSpeciesAttributeIdToAttributeValueIdMap.ContainsKey(attributeId))
                     {
-                        if (item.Value)
+                        currentSpeciesAttributeIdToAttributeValueIdMap.Add(
+                            attributeId, new List<long>());
+                    }
+                    currentSpeciesAttributeIdToAttributeValueIdMap[attributeId].Add(item.attributevalue_id);
+                }
+
+                List<string> mismatchedFeatures = new List<string>();
+                if (attributeSelections != null)
+                {
+                    foreach (var item in attributeSelections)
+                    {
+                        if (item.Value.IsSelected)
                         {
-                            if (speciesAttributeValueIds.Contains(item.Key))
+                            if (currentSpeciesAttributeValueIds.Contains(item.Key))
                             {
                                 ++matches;
                             }
                             else
                             {
+                                Int64 attributeId = attributeValueIdToAttributeValueMap[item.Key].attribute_id;
+                                string text = attributesMap[attributeId].description + "=";
+                                
+                                if (currentSpeciesAttributeIdToAttributeValueIdMap.ContainsKey(attributeId))
+                                {
+                                    foreach (var temp in currentSpeciesAttributeIdToAttributeValueIdMap[attributeId])
+                                    {
+                                        mismatchedFeatures.Add(text + attributeValuesMap[temp].description);
+                                    }
+                                }
                                 ++mismatches;
                             }
                         }
@@ -104,12 +135,12 @@ namespace MycoKeys.WebApplication.Model
 
                 keyMatchViewModel.Species.Add(new SpeciesMatchData()
                 {
-                    Species = species[i],
+                    Species = species,
                     AttributeCount = numberOfAttributes,
                     Matches = matches,
-                    Mismatches = mismatches
+                    Mismatches = mismatches,
+                    MismatchedFeatures = mismatchedFeatures
                 });
-
             }
 
             keyMatchViewModel.Species = keyMatchViewModel.Species.OrderBy(
