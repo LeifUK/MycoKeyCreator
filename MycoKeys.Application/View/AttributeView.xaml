@@ -8,7 +8,7 @@
         Background="#F0F0F0"
         mc:Ignorable="d"
         SizeToContent="Height"
-        Title="Attribute Editor" Height="417" Width="400">
+        Title="Attribute Editor" Height="600" Width="400">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

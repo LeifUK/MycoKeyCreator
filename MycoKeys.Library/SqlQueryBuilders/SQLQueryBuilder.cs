@@ -84,6 +84,25 @@ namespace MycoKeys.Library.SqlQueryBuilders
             return stringBuilder.ToString();
         }
 
+        public string CreateLiteratureTable()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("CREATE TABLE ");
+            stringBuilder.Append(Database.TableNames.Literature);
+            stringBuilder.Append(" (");
+            AppendIdentityColumn(stringBuilder, "id");
+            stringBuilder.Append(", ");
+            AppendIntegerColumn(stringBuilder, "key_id");
+            stringBuilder.Append(", ");
+            AppendStringColumnNotNull(stringBuilder, "description", 1000);
+            stringBuilder.Append(", ");
+            AppendStringColumnNull(stringBuilder, "url", 1000);
+            stringBuilder.Append(", ");
+            AppendForeignKeyConstraint(stringBuilder, "FK_literature_key_id", "key_id", Database.TableNames.Key, "id");
+            stringBuilder.Append(");");
+            return stringBuilder.ToString();
+        }
+
         public string CreateAttributeTable()
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -94,7 +113,7 @@ namespace MycoKeys.Library.SqlQueryBuilders
             stringBuilder.Append(", ");
             AppendIntegerColumn(stringBuilder, "key_id");
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "description", 8000);
+            AppendStringColumnNull(stringBuilder, "description", 500);
             stringBuilder.Append(", ");
             AppendSmallIntColumn(stringBuilder, "position");
             stringBuilder.Append(", ");
@@ -115,7 +134,7 @@ namespace MycoKeys.Library.SqlQueryBuilders
             stringBuilder.Append(", ");
             AppendIntegerColumn(stringBuilder, "attribute_id");
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "description", 8000);
+            AppendStringColumnNull(stringBuilder, "description", 500);
             stringBuilder.Append(", ");
             AppendSmallIntColumn(stringBuilder, "position");
             stringBuilder.Append(", ");
@@ -159,41 +178,41 @@ namespace MycoKeys.Library.SqlQueryBuilders
             stringBuilder.Append(", ");
             AppendIntegerColumn(stringBuilder, "key_id");
             stringBuilder.Append(", ");
-            AppendStringColumnNotNull(stringBuilder, "name", 1000);
+            AppendStringColumnNotNull(stringBuilder, "name", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "qualified_name", 1000);
+            AppendStringColumnNull(stringBuilder, "qualified_name", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "synonyms", 1000);
+            AppendStringColumnNull(stringBuilder, "synonyms", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "common_name", 1000);
+            AppendStringColumnNull(stringBuilder, "common_name", 200);
             stringBuilder.Append(", ");
             AppendStringColumnNull(stringBuilder, "fruiting_body", 1000);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "cap", 1000);
+            AppendStringColumnNull(stringBuilder, "cap", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "hymenium", 1000);
+            AppendStringColumnNull(stringBuilder, "hymenium", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "gills", 1000);
+            AppendStringColumnNull(stringBuilder, "gills", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "pores", 1000);
+            AppendStringColumnNull(stringBuilder, "pores", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "spines", 1000);
+            AppendStringColumnNull(stringBuilder, "spines", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "stem", 1000);
+            AppendStringColumnNull(stringBuilder, "stem", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "flesh", 1000);
+            AppendStringColumnNull(stringBuilder, "flesh", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "smell", 1000);
+            AppendStringColumnNull(stringBuilder, "smell", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "taste", 1000);
+            AppendStringColumnNull(stringBuilder, "taste", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "season", 1000);
+            AppendStringColumnNull(stringBuilder, "season", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "distribution", 1000);
+            AppendStringColumnNull(stringBuilder, "distribution", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "habitat", 1000);
+            AppendStringColumnNull(stringBuilder, "habitat", 500);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "spore_print", 1000);
+            AppendStringColumnNull(stringBuilder, "spore_print", 500);
             stringBuilder.Append(", ");
             AppendStringColumnNull(stringBuilder, "microscopic_features", 1000);
             stringBuilder.Append(", ");

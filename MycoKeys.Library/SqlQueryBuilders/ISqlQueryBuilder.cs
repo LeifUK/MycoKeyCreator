@@ -4,6 +4,7 @@
     {
         string CreateDatabase(string folder, string dbName);
         string CreateKeyTable();
+        string CreateLiteratureTable();
         string CreateAttributeTable();
         string CreateAttributeValueTable();
         string CreateSpeciesTable();

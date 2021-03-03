@@ -4,34 +4,48 @@
     {
         public KeyHeaderViewModel(Library.Database.IKeyManager iKeyManager, Library.DBObject.Key key)
         {
-            _iKeyManager = iKeyManager;
-            _key = key;
-            Name = _key.name;
-            Title = _key.title;
-            Description = _key.description;
-            Copyright = _key.copyright;
-            Publish = _key.Publish;
+            IKeyManager = iKeyManager;
+            Key = key;
+            Name = Key.name;
+            Title = Key.title;
+            Description = Key.description;
+            Copyright = Key.copyright;
+            Publish = Key.Publish;
+            Load();
+        }
+
+        public void Load()
+        {
+            LiteratureItems = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature>();
+            foreach (var literature in IKeyManager.GetKeyLiteratureEnumerator(Key.id))
+            {
+                LiteratureItems.Add(literature);
+            }
+            if (LiteratureItems.Count > 0)
+            {
+                SelectedLiterature = LiteratureItems[0];
+            }
         }
 
         public void Save()
         {
-            _key.name = Name;
-            _key.title = Title;
-            _key.description = Description;
-            _key.copyright = Copyright;
-            _key.Publish = Publish;
-            if (_key.id == 0)
+            Key.name = Name;
+            Key.title = Title;
+            Key.description = Description;
+            Key.copyright = Copyright;
+            Key.Publish = Publish;
+            if (Key.id == 0)
             {
-                _iKeyManager.Insert(_key);
+                IKeyManager.Insert(Key);
             }
             else
             {
-                _iKeyManager.Update(_key);
+                IKeyManager.Update(Key);
             }
         }
 
-        private Library.Database.IKeyManager _iKeyManager;
-        private Library.DBObject.Key _key;
+        public readonly Library.Database.IKeyManager IKeyManager;
+        public readonly Library.DBObject.Key Key;
 
         private string _name;
         public string Name
@@ -75,6 +89,34 @@
             }
         }
 
+        private System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature> _literatureItems;
+        public System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature> LiteratureItems
+        {
+            get
+            {
+                return _literatureItems;
+            }
+            set
+            {
+                _literatureItems = value;
+                NotifyPropertyChanged("LiteratureItems");
+            }
+        }
+
+        private Library.DBObject.Literature _selectedLiterature;
+        public Library.DBObject.Literature SelectedLiterature
+        {
+            get
+            {
+                return _selectedLiterature;
+            }
+            set
+            {
+                _selectedLiterature = value;
+                NotifyPropertyChanged("SelectedLiterature");
+            }
+        }
+
         private string _copyright;
         public string Copyright
         {
@@ -100,6 +142,15 @@
             {
                 _publish = value;
                 NotifyPropertyChanged("Publish");
+            }
+        }
+
+        public void DeleteSelectedLiterature()
+        {
+            if (SelectedLiterature != null)
+            {
+                IKeyManager.Delete(SelectedLiterature);
+                Load();
             }
         }
     }

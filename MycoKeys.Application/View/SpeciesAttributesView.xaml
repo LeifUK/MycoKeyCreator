@@ -8,7 +8,7 @@
         Loaded="Window_Loaded"
         Background="#F0F0F0"
         ResizeMode="CanResizeWithGrip"
-        Title="{Binding Title}" Height="400" Width="400">
+        Title="{Binding Title}" Height="600" Width="400">
     <Window.Resources>
         <ResourceDictionary>
             <ControlTemplate x:Key="ExpanderButtonTemplate" TargetType="{x:Type ToggleButton}">

@@ -38,5 +38,10 @@
         {
             Database.AbortTransaction();
         }
+
+        public void CreateLiteratureTable()
+        {
+            Database.Execute(ISqlQueryBuilder.CreateLiteratureTable());
+        }
     }
 }

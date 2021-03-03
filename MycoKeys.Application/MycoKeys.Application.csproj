@@ -79,6 +79,7 @@
     <Compile Include="ViewModel\KeyHeaderViewModel.cs" />
     <Compile Include="ViewModel\KeysListViewModel.cs" />
     <Compile Include="ViewModel\KeyViewModel.cs" />
+    <Compile Include="ViewModel\LiteratureViewModel.cs" />
     <Compile Include="ViewModel\SpeciesAttributeValueModel.cs" />
     <Compile Include="ViewModel\SpeciesViewModel.cs" />
     <Compile Include="ViewModel\SpeciesAttributesViewModel.cs" />
@@ -96,6 +97,9 @@
     </Compile>
     <Compile Include="View\KeyView.xaml.cs">
       <DependentUpon>KeyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LiteratureView.xaml.cs">
+      <DependentUpon>LiteratureView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SpeciesView.xaml.cs">
       <DependentUpon>SpeciesView.xaml</DependentUpon>
@@ -136,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\KeyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LiteratureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

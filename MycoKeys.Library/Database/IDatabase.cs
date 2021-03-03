@@ -8,5 +8,6 @@
         void BeginTransaction();
         void CommitTransaction();
         void RollbackTransaction();
+        void CreateLiteratureTable();
     }
 }

@@ -137,6 +137,7 @@
     <Compile Include="Database\IDatabase.cs" />
     <Compile Include="Database\IKeyManager.cs" />
     <Compile Include="Database\ISpeciesAttributeValueTable.cs" />
+    <Compile Include="Database\ILiteratureTable.cs" />
     <Compile Include="Database\ITable.cs" />
     <Compile Include="Database\IAttributeTable.cs" />
     <Compile Include="Database\IKeyTable.cs" />
@@ -147,8 +148,10 @@
     <Compile Include="DBObject\Key.cs" />
     <Compile Include="DBObject\Attribute.cs" />
     <Compile Include="DBObject\IObject.cs" />
+    <Compile Include="DBObject\Literature.cs" />
     <Compile Include="DBObject\Species.cs" />
     <Compile Include="DBObject\SpeciesAttributeValue.cs" />
+    <Compile Include="PetaPocoAdapter\LiteratureTable.cs" />
     <Compile Include="PetaPocoAdapter\AttributeValueTable.cs" />
     <Compile Include="PetaPocoAdapter\DatabaseWrapper.cs" />
     <Compile Include="PetaPocoAdapter\KeyManagerFactory.cs" />

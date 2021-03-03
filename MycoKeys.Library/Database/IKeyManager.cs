@@ -5,10 +5,17 @@ namespace MycoKeys.Library.Database
 {
     public interface IKeyManager
     {
+        IEnumerable<DBObject.Key> GetKeyEnumerator();
         void Insert(DBObject.Key key);
         void Update(DBObject.Key key);
         bool Delete(DBObject.Key key);
-        IEnumerable<DBObject.Key> GetKeyEnumerator();
+
+        IEnumerable<DBObject.Literature> GetLiteratureEnumerator();
+        IEnumerable<DBObject.Literature> GetKeyLiteratureEnumerator(Int64 key_id);
+        void Insert(DBObject.Literature literature);
+        void Update(DBObject.Literature literature);
+        bool Delete(DBObject.Literature literature);
+
         Library.DBObject.SpeciesAttributeValue Select(Library.DBObject.SpeciesAttributeValue speciesDescription);
         IEnumerable<DBObject.SpeciesAttributeValue> GetKeySpeciesAttributeValueEnumerator(Int64 key_id);
         IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator(Int64 species_id);
@@ -16,6 +23,7 @@ namespace MycoKeys.Library.Database
         bool Update(Library.DBObject.SpeciesAttributeValue speciesAttribute);
         bool Delete(Library.DBObject.SpeciesAttributeValue speciesAttribute);
         IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeEnumerator(Int64 species_id);
+        
         IEnumerable<DBObject.Species> GetKeySpeciesEnumerator(Int64 key_id);
         bool Insert(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues);
         bool Update(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues);

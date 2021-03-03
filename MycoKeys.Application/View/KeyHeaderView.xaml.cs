@@ -22,5 +22,37 @@ namespace MycoKeys.Application.View
         {
             DialogResult = false;
         }
+
+        private void EditLiterature(Library.DBObject.Literature literature)
+        {
+            if (literature == null)
+            {
+                return;
+            }
+
+            ViewModel.KeyHeaderViewModel keyHeaderViewModel = (DataContext as ViewModel.KeyHeaderViewModel);
+            LiteratureView literatureView = new LiteratureView();
+            ViewModel.LiteratureViewModel literatureViewModel = new ViewModel.LiteratureViewModel(keyHeaderViewModel.IKeyManager, keyHeaderViewModel.Key, new Library.DBObject.Literature());
+            literatureView.DataContext = literatureViewModel;
+            if (literatureView.ShowDialog() == true)
+            {
+                keyHeaderViewModel.Load();
+            }
+        }
+
+        private void _buttonAddLiterature_Click(object sender, RoutedEventArgs e)
+        {
+            EditLiterature(new Library.DBObject.Literature());
+        }
+
+        private void _buttonEditLiterature_Click(object sender, RoutedEventArgs e)
+        {
+            EditLiterature((DataContext as ViewModel.KeyHeaderViewModel).SelectedLiterature);
+        }
+
+        private void _buttonDeleteLiterature_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModel.KeyHeaderViewModel).DeleteSelectedLiterature();
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace MycoKeys.Library.Database
         public KeyManager(
             Database.IDatabase iDatabase,
             Database.IKeyTable iKeyTable,
+            Database.ILiteratureTable iLiteratureTable,
             Database.ISpeciesTable iSpeciesTable,
             Database.IAttributeTable iAttributeTable,
             Database.IAttributeValueTable iAttributeValueTable,
@@ -16,14 +17,29 @@ namespace MycoKeys.Library.Database
         {
             _iDatabase = iDatabase;
             _iKeyTable = iKeyTable;
+            _iLiteratureTable = iLiteratureTable;
             _iSpeciesTable = iSpeciesTable;
             _iAttributeTable = iAttributeTable;
             _iAttributeValueTable = iAttributeValueTable;
             _iSpeciesAttributeValueTable = iSpeciesAttributeTable;
+
+            // Upgrades 
+            bool okay = false;
+            using (var enumerator = GetLiteratureEnumerator().GetEnumerator())
+            { 
+                // Throws and exception if the table does not exist
+                enumerator.MoveNext();
+                okay = true;
+            }
+            if (!okay)
+            {
+                _iDatabase.CreateLiteratureTable();
+            }
         }
 
         private readonly Database.IDatabase _iDatabase;
         private readonly Database.IKeyTable _iKeyTable;
+        private readonly Database.ILiteratureTable _iLiteratureTable;
         private readonly Database.ISpeciesTable _iSpeciesTable;
         private readonly Database.IAttributeTable _iAttributeTable;
         private readonly Database.IAttributeValueTable _iAttributeValueTable;
@@ -61,6 +77,42 @@ namespace MycoKeys.Library.Database
             catch
             {
                 _iDatabase.RollbackTransaction();
+                success = false;
+            }
+
+            return success;
+        }
+
+        public IEnumerable<DBObject.Literature> GetLiteratureEnumerator()
+        {
+            return _iLiteratureTable.Enumerator;
+        }
+
+        public IEnumerable<DBObject.Literature> GetKeyLiteratureEnumerator(Int64 key_id)
+        {
+            return _iLiteratureTable.GetEnumeratorForKey(key_id);
+        }
+
+        public void Insert(DBObject.Literature literature)
+        {
+            _iLiteratureTable.Insert(literature);
+        }
+
+        public void Update(DBObject.Literature literature)
+        {
+            _iLiteratureTable.Update(literature);
+        }
+
+        public bool Delete(DBObject.Literature literature)
+        {
+            bool success = true;
+            try
+            {
+                _iLiteratureTable.Delete(literature);
+            }
+            // Warning warning => error logging
+            catch
+            {
                 success = false;
             }
 

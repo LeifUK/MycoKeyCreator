@@ -58,6 +58,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -68,12 +70,54 @@
             <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Name}" Style="{StaticResource TextBoxStyle}"/>
             <Label Grid.Row="2" Grid.Column="0" Content="Title" Style="{StaticResource LabelStyle}"/>
             <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Title}" Style="{StaticResource TextBoxStyle}"/>
-            <Label Grid.Row="4" Grid.Column="0" Content="Description" Style="{StaticResource LabelStyle}"/>
+            <Label Grid.Row="4" Grid.Column="0" Content="Description" Style="{StaticResource LabelStyle}" VerticalAlignment="Top"/>
             <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Description}" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap"/>
             <Label Grid.Row="6" Grid.Column="0" Content="Copyright" Style="{StaticResource LabelStyle}"/>
             <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Copyright}" Style="{StaticResource TextBoxStyle}"/>
-            <Label Grid.Row="8" Grid.Column="0" Content="Publish" Style="{StaticResource HeaderLabelStyle}"/>
-            <CheckBox Grid.Row="8" Grid.Column="2" IsChecked="{Binding Publish}" />
+            <Label Grid.Row="8" Grid.Column="0" Content="Literature" Style="{StaticResource LabelStyle}" VerticalAlignment="Top"/>
+            <Grid Grid.Row="8" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" ItemsSource="{Binding LiteratureItems, Mode=OneWay}" SelectedItem="{Binding SelectedLiterature}" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Description" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding description}" Padding="4,0,4,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="URL" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding url}" Padding="4,0,4,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Grid.Row="8" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" x:Name="_buttonAddLiterature" Content="Add" Style="{StaticResource Button60Style}" Click="_buttonAddLiterature_Click"/>
+                    <Button Grid.Row="2" x:Name="_buttonEditLiterature" Content="Edit" Style="{StaticResource Button60Style}" Click="_buttonEditLiterature_Click" IsEnabled="{Binding SelectedLiterature, Converter={StaticResource ObjectToBooleanConverter}}"/>
+                    <Button Grid.Row="4" x:Name="_buttonDeleteLiterature" Content="Delete" Style="{StaticResource Button60Style}" Click="_buttonDeleteLiterature_Click" IsEnabled="{Binding SelectedLiterature, Converter={StaticResource ObjectToBooleanConverter}}"/>
+                </Grid>
+            </Grid>
+            
+            <Label Grid.Row="10" Grid.Column="0" Content="Publish" Style="{StaticResource HeaderLabelStyle}"/>
+            <CheckBox Grid.Row="10" Grid.Column="2" IsChecked="{Binding Publish}" />
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0" >
             <Grid.RowDefinitions>

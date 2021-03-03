@@ -1,4 +1,6 @@
-﻿namespace MycoKeys.Library.PetaPocoAdapter
+﻿using System;
+
+namespace MycoKeys.Library.PetaPocoAdapter
 {
     public class KeyManagerFactory
     {
@@ -9,10 +11,12 @@
             MycoKeys.Library.Database.KeyManager keyManager = new MycoKeys.Library.Database.KeyManager(
                 iDatabase,
                 new PetaPocoAdapter.KeyTable(iDatabase.ISqlQueryBuilder, database),
+                new PetaPocoAdapter.LiteratureTable(iDatabase.ISqlQueryBuilder, database),
                 new PetaPocoAdapter.SpeciesTable(iDatabase.ISqlQueryBuilder, database),
                 new PetaPocoAdapter.AttributeTable(iDatabase.ISqlQueryBuilder, database),
                 new PetaPocoAdapter.AttributeValueTable(iDatabase.ISqlQueryBuilder, database),
                 new PetaPocoAdapter.SpeciesAttributeValueTable(iDatabase.ISqlQueryBuilder, database));
+
             return keyManager;
         }
     }

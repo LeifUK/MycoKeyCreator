@@ -65,11 +65,12 @@
     <table border="0" cellspacing="0" cellpadding="0" class="standard-table">
         <tbody>
             @{
-                <tr>
-                    <th><p>Species</p></th>
-                    <th><p>Matches</p></th>
-                    <th><p>Mismatches</p></th>
-                </tr>
+                        <tr>
+                            <th><p>Species</p></th>
+                            <th><p>Matches</p></th>
+                            <th><p>Mismatches</p></th>
+                            <th><p>Mismatched Features</p></th>
+                        </tr>
                 foreach (var item in Model.Species)
                 {
                     <tr>
