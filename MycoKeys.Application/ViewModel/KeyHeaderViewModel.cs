@@ -16,11 +16,7 @@
 
         public void Load()
         {
-            LiteratureItems = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature>();
-            foreach (var literature in IKeyManager.GetKeyLiteratureEnumerator(Key.id))
-            {
-                LiteratureItems.Add(literature);
-            }
+            LiteratureItems = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetKeyLiteratureEnumerator(Key.id));
             if (LiteratureItems.Count > 0)
             {
                 SelectedLiterature = LiteratureItems[0];

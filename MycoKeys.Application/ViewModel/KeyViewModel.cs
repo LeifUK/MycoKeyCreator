@@ -22,6 +22,7 @@ namespace MycoKeys.Application.ViewModel
             Description = Key.description;
             Copyright = Key.copyright;
             Publish = Key.Publish;
+            LiteratureItems = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetKeyLiteratureEnumerator(Key.id));
         }
 
         public void LoadSpecies()
@@ -112,6 +113,20 @@ namespace MycoKeys.Application.ViewModel
             {
                 _copyright = value;
                 NotifyPropertyChanged("Copyright");
+            }
+        }
+
+        private System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature> _literatureItems;
+        public System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature> LiteratureItems
+        {
+            get
+            {
+                return _literatureItems;
+            }
+            set
+            {
+                _literatureItems = value;
+                NotifyPropertyChanged("LiteratureItems");
             }
         }
 

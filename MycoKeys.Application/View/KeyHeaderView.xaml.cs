@@ -32,8 +32,10 @@ namespace MycoKeys.Application.View
 
             ViewModel.KeyHeaderViewModel keyHeaderViewModel = (DataContext as ViewModel.KeyHeaderViewModel);
             LiteratureView literatureView = new LiteratureView();
-            ViewModel.LiteratureViewModel literatureViewModel = new ViewModel.LiteratureViewModel(keyHeaderViewModel.IKeyManager, keyHeaderViewModel.Key, new Library.DBObject.Literature());
+            ViewModel.LiteratureViewModel literatureViewModel = new ViewModel.LiteratureViewModel(keyHeaderViewModel.IKeyManager, keyHeaderViewModel.Key, literature);
             literatureView.DataContext = literatureViewModel;
+            literatureView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            literatureView.Owner = this;
             if (literatureView.ShowDialog() == true)
             {
                 keyHeaderViewModel.Load();
@@ -53,6 +55,11 @@ namespace MycoKeys.Application.View
         private void _buttonDeleteLiterature_Click(object sender, RoutedEventArgs e)
         {
             (DataContext as ViewModel.KeyHeaderViewModel).DeleteSelectedLiterature();
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            EditLiterature((DataContext as ViewModel.KeyHeaderViewModel).SelectedLiterature);
         }
     }
 }

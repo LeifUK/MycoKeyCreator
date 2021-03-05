@@ -32,6 +32,11 @@ namespace MycoKeys.WebApplication.Model
             keyMatchViewModel.KeyName = selectedKey.name;
             keyMatchViewModel.KeyTitle = selectedKey.title;
             keyMatchViewModel.KeyDescription = selectedKey.description;
+            keyMatchViewModel.Literature = new List<Library.DBObject.Literature>();
+            foreach (var literature in iKeyManager.GetKeyLiteratureEnumerator(selectedKey.id))
+            {
+                keyMatchViewModel.Literature.Add(literature);
+            }
             keyMatchViewModel.Copyright = selectedKey.copyright;
             keyMatchViewModel.AttributeSelections = new List<KeyMatchViewModel.AttributeSelection>();
 

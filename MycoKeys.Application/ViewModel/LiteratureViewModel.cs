@@ -8,14 +8,14 @@
             _key = key;
             _literature = literature;
 
+            Title = _literature.title;
             Description = _literature.description;
-            Url = _literature.url;
         }
 
         public void Save()
         {
+            _literature.title = Title;
             _literature.description = Description;
-            _literature.url = Url;
             if (_literature.id == 0)
             {
                 _literature.key_id = _key.id;
@@ -31,6 +31,20 @@
         private Library.DBObject.Key _key;
         private Library.DBObject.Literature _literature;
 
+        private string _title;
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value;
+                NotifyPropertyChanged("Title");
+            }
+        }
+
         private string _description;
         public string Description
         {
@@ -42,20 +56,6 @@
             {
                 _description = value;
                 NotifyPropertyChanged("Description");
-            }
-        }
-
-        private string _url;
-        public string Url
-        {
-            get
-            {
-                return _url;
-            }
-            set
-            {
-                _url = value;
-                NotifyPropertyChanged("Url");
             }
         }
     }

@@ -10,6 +10,29 @@
         Title="Key Summary" Height="450" Width="600">
     <Window.Resources>
         <ResourceDictionary>
+            <Style x:Key="DataGridNoFocusSelectionStyle" BasedOn="{StaticResource DataGridStyle}" TargetType="DataGrid">
+                <Setter Property="CellStyle">
+                    <Setter.Value>
+                        <Style TargetType="DataGridCell">
+                            <!-- We have to define these next two even though they are in the base style. Maybe this is a WPF bug. -->
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="LightSteelBlue"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="Background" Value="LightSteelBlue"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style x:Key="SummaryTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
                 <Setter Property="IsReadOnly" Value="True"/>
                 <Setter Property="BorderThickness" Value="1"/>
@@ -43,7 +66,7 @@
     </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -84,22 +107,25 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" ItemsSource="{Binding LiteratureItems, Mode=OneWay}" SelectedItem="{Binding SelectedLiterature}" AutoGenerateColumns="False">
+                <DataGrid Grid.Row="0" Grid.Column="0" SelectedItem="{Binding SelectedLiterature}" 
+                          Style="{StaticResource DataGridNoFocusSelectionStyle}" HorizontalScrollBarVisibility="Hidden" 
+                          ItemsSource="{Binding LiteratureItems, Mode=OneWay}" VerticalAlignment="Stretch" 
+                          HeadersVisibility="None" MouseDoubleClick="DataGrid_MouseDoubleClick">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Description" Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding description}" Padding="4,0,4,0"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="URL" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding url}" Padding="4,0,4,0"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Title" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding title}" Padding="4,0,4,0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Description" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding description}" Padding="4,0,4,0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Grid Grid.Row="8" Grid.Column="2">

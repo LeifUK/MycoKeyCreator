@@ -27,7 +27,7 @@ namespace MycoKeys.Library.Database
             bool okay = false;
             using (var enumerator = GetLiteratureEnumerator().GetEnumerator())
             { 
-                // Throws and exception if the table does not exist
+                // Throws an exception if the table does not exist
                 enumerator.MoveNext();
                 okay = true;
             }

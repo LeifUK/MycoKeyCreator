@@ -94,9 +94,9 @@ namespace MycoKeys.Library.SqlQueryBuilders
             stringBuilder.Append(", ");
             AppendIntegerColumn(stringBuilder, "key_id");
             stringBuilder.Append(", ");
-            AppendStringColumnNotNull(stringBuilder, "description", 1000);
+            AppendStringColumnNotNull(stringBuilder, "title", 1000);
             stringBuilder.Append(", ");
-            AppendStringColumnNull(stringBuilder, "url", 1000);
+            AppendStringColumnNull(stringBuilder, "description", 1000);
             stringBuilder.Append(", ");
             AppendForeignKeyConstraint(stringBuilder, "FK_literature_key_id", "key_id", Database.TableNames.Key, "id");
             stringBuilder.Append(");");
