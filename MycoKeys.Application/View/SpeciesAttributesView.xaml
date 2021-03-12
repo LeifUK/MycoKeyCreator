@@ -11,6 +11,12 @@
         Title="{Binding Title}" Height="600" Width="400">
     <Window.Resources>
         <ResourceDictionary>
+            <DataTemplate x:Key="ChoiceAttributeTemplate">
+                <Label Content="{Binding Path=Value}" HorizontalAlignment="Left" Style="{StaticResource LabelStyle}"/>
+            </DataTemplate>
+            <DataTemplate x:Key="SizeAttributeTemplate">
+                <TextBox Text="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" Style="{StaticResource TextBoxStyle}"/>
+            </DataTemplate>
             <ControlTemplate x:Key="ExpanderButtonTemplate" TargetType="{x:Type ToggleButton}">
                 <Border x:Name="ExpanderButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Height="{TemplateBinding Height}">
@@ -75,14 +81,20 @@
             HeadersVisibility="None" Style="{StaticResource DataGridStyle}" VerticalAlignment="Stretch" 
             VerticalContentAlignment="Stretch" AutoGenerateColumns="False" GridLinesVisibility="None" >
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Applied" Width="SizeToCells" >
+                <DataGridTemplateColumn Width="SizeToCells" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsUsed, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="30,0,0,0"/>
+                            <CheckBox IsChecked="{Binding IsUsed, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Margin="30,0,0,0" VerticalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Path=AttributeValue.description}" Width="SizeToCells" />
+                <DataGridTemplateColumn Width="SizeToCells">
+                    <DataGridTemplateColumn.CellTemplateSelector>
+                        <local:ClassTemplateSelector
+						ChoiceAttributeTemplate="{StaticResource ChoiceAttributeTemplate}"
+						SizeAttributeTemplate="{StaticResource SizeAttributeTemplate}"/>
+                    </DataGridTemplateColumn.CellTemplateSelector>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">

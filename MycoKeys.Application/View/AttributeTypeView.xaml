@@ -1,0 +1,51 @@
+﻿<Window x:Class="MycoKeys.Application.View.AttributeTypeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MycoKeys.Application.View"
+        xmlns:database="clr-namespace:MycoKeys.Library.Database;assembly=MycoKeys.Library"
+        Background="#F0F0F0"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
+        Title="Attribute Type" Height="600" Width="400" MinWidth="260">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Dictionary.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/OpenControls.Wpf.Utilities;component/View/Dictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="Attribute Type" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+        <ComboBox x:Name="comboBoxAttributeType" Grid.Row="1" Grid.Column="2" MinWidth="100"
+            ItemsSource="{Binding AttributeTypes}" DisplayMemberPath="Key" SelectedValue="{Binding SelectedAttributeType}"
+            Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Left"/>
+
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" Grid.Column="0" x:Name="_buttonOK" Content="OK" Style="{StaticResource Button80Style}" Click="_buttonOK_Click"/>
+            <Button Grid.Row="0" Grid.Column="2" x:Name="_buttonCancel" Content="Cancel" Style="{StaticResource Button80Style}" Click="_buttonCancel_Click"/>
+        </Grid>    
+    </Grid>
+</Window>

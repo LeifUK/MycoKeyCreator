@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,7 +86,7 @@ namespace MycoKeys.Application.View
             }
         }
 
-        private void EditAttribute(MycoKeys.Library.DBObject.Attribute attribute)
+        private void EditChoiceAttribute(MycoKeys.Library.DBObject.Attribute attribute)
         {
             if (attribute == null)
             {
@@ -103,24 +104,73 @@ namespace MycoKeys.Application.View
                 keyViewModel.ReloadAttributes();
             }
         }
-
+        
         private void _buttonAddAttribute_Click(object sender, RoutedEventArgs e)
         {
             MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
-            Library.DBObject.Attribute attribute = new Library.DBObject.Attribute();
-            attribute.position = (short)keyViewModel.Attributes.Count();
-            List<Library.DBObject.AttributeValue> attributeValues = new List<Library.DBObject.AttributeValue>();
-            EditAttribute(attribute);
+
+            View.AttributeTypeView attributeTypeView = new AttributeTypeView();
+            ViewModel.AttributeTypeViewModel attributeTypeViewModel = new ViewModel.AttributeTypeViewModel();
+            attributeTypeView.DataContext = attributeTypeViewModel;
+            if (attributeTypeView.ShowDialog() != true)
+            {
+                return;
+            }
+            if (attributeTypeViewModel.SelectedAttributeType.Value == Library.Database.AttributeType.Choice)
+            {
+                Library.DBObject.Attribute attribute = new Library.DBObject.Attribute();
+                attribute.type = (Int16)Library.Database.AttributeType.Choice;
+                attribute.position = (short)keyViewModel.Attributes.Count();
+                List<Library.DBObject.AttributeValue> attributeValues = new List<Library.DBObject.AttributeValue>();
+                EditChoiceAttribute(attribute);
+            }
+            else
+            {
+                string description = "";
+                if (OpenControls.Wpf.Utilities.View.InputTextView.ShowDialog(this, "New Attribute", "Description", ref description))
+                {
+                    Library.DBObject.Attribute attribute = new Library.DBObject.Attribute();
+                    attribute.type = (Int16)attributeTypeViewModel.SelectedAttributeType.Value;
+                    attribute.position = (short)keyViewModel.Attributes.Count();
+                    attribute.description = description;
+                    keyViewModel.AddAttribute(attribute);
+                    keyViewModel.ReloadAttributes();
+                }
+            }
+        }
+
+        private void EditAttribute()
+        {
+            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+
+            Library.DBObject.Attribute attribute = keyViewModel.SelectedAttribute;
+            if (attribute.type == (Int16)Library.Database.AttributeType.Choice)
+            {
+                EditChoiceAttribute(attribute);
+            }
+            else if (
+                        (attribute.type == (Int16)Library.Database.AttributeType.MaximumSize) ||
+                        (attribute.type == (Int16)Library.Database.AttributeType.MinimumSize)
+                    )
+            {
+                string description = attribute.description;
+                if (OpenControls.Wpf.Utilities.View.InputTextView.ShowDialog(this, "Edit Attribute", "Description", ref description))
+                {
+                    attribute.description = description;
+                    keyViewModel.UpdateAttribute(attribute);
+                    keyViewModel.ReloadAttributes();
+                }
+            }
         }
 
         private void _buttonEditAttribute_Click(object sender, RoutedEventArgs e)
         {
-            EditAttribute((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedAttribute);
+            EditAttribute();
         }
 
         private void _dataGridAttributes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            EditAttribute((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedAttribute);
+            EditAttribute();
         }
 
         private void _buttonDeleteAttribute_Click(object sender, RoutedEventArgs e)
@@ -131,7 +181,7 @@ namespace MycoKeys.Application.View
             }
         }
 
-        private void EditAttributes()
+        private void EditSpeciesAttributes()
         {
             MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
 
@@ -151,12 +201,12 @@ namespace MycoKeys.Application.View
 
         private void _dataGridSpecies_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            EditAttributes();
+            EditSpeciesAttributes();
         }
 
         private void _buttonAttributes_Click(object sender, RoutedEventArgs e)
         {
-            EditAttributes();
+            EditSpeciesAttributes();
         }
 
         private void _buttonMoveAttributeUp_Click(object sender, RoutedEventArgs e)

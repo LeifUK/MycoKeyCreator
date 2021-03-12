@@ -294,5 +294,16 @@ namespace MycoKeys.Application.ViewModel
             LoadAttributes();
             SelectedAttribute = Attributes[index + 1];
         }
+
+        public void AddAttribute(Library.DBObject.Attribute attribute)
+        {
+            attribute.key_id = Key.id;
+            IKeyManager.Insert(attribute);
+        }
+
+        public void UpdateAttribute(Library.DBObject.Attribute attribute)
+        {
+            IKeyManager.Update(attribute);
+        }
     }
 }
