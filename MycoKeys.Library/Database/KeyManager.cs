@@ -13,7 +13,8 @@ namespace MycoKeys.Library.Database
             Database.ISpeciesTable iSpeciesTable,
             Database.IAttributeTable iAttributeTable,
             Database.IAttributeValueTable iAttributeValueTable,
-        Database.ISpeciesAttributeValueTable iSpeciesAttributeTable)
+            Database.ISpeciesAttributeValueTable iSpeciesAttributeTable,
+            Database.ISpeciesSizeAttributeValueTable iSpeciesSizeAttributeValueTable)
         {
             _iDatabase = iDatabase;
             _iKeyTable = iKeyTable;
@@ -22,18 +23,25 @@ namespace MycoKeys.Library.Database
             _iAttributeTable = iAttributeTable;
             _iAttributeValueTable = iAttributeValueTable;
             _iSpeciesAttributeValueTable = iSpeciesAttributeTable;
+            _iSpeciesSizeAttributeValueTable = iSpeciesSizeAttributeValueTable;
 
             // Upgrades 
-            bool okay = false;
-            using (var enumerator = GetLiteratureEnumerator().GetEnumerator())
-            { 
+
+            var literatureEnumerator = GetLiteratureEnumerator().GetEnumerator();
+            try
+            {
                 // Throws an exception if the table does not exist
-                enumerator.MoveNext();
-                okay = true;
+                literatureEnumerator.MoveNext();
             }
-            if (!okay)
+            catch
             {
                 _iDatabase.CreateLiteratureTable();
+            }
+            literatureEnumerator.Dispose();
+
+            if (!_iSpeciesSizeAttributeValueTable.Exists())
+            {
+                _iDatabase.CreateSpeciesSizeAttributeValueTable();
             }
         }
 
@@ -44,6 +52,7 @@ namespace MycoKeys.Library.Database
         private readonly Database.IAttributeTable _iAttributeTable;
         private readonly Database.IAttributeValueTable _iAttributeValueTable;
         private readonly Database.ISpeciesAttributeValueTable _iSpeciesAttributeValueTable;
+        private readonly Database.ISpeciesSizeAttributeValueTable _iSpeciesSizeAttributeValueTable;
 
         public IEnumerable<DBObject.Key> GetKeyEnumerator()
         {
@@ -203,6 +212,56 @@ namespace MycoKeys.Library.Database
             return _iSpeciesAttributeValueTable.GetEnumeratorForSpecies(species_id);
         }
 
+        public bool Insert(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue)
+        {
+            bool success = true;
+            try
+            {
+                _iSpeciesSizeAttributeValueTable.Insert(speciesSizeAttributeValue);
+            }
+            catch
+            {
+                success = false;
+            }
+
+            return success;
+        }
+
+        public bool Update(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue)
+        {
+            bool success = true;
+            try
+            {
+                _iSpeciesSizeAttributeValueTable.Update(speciesSizeAttributeValue);
+            }
+            catch
+            {
+                success = false;
+            }
+
+            return success;
+        }
+
+        public bool Delete(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue)
+        {
+            bool success = true;
+            try
+            {
+                _iSpeciesSizeAttributeValueTable.Delete(speciesSizeAttributeValue);
+            }
+            catch
+            {
+                success = false;
+            }
+
+            return success;
+        }
+
+        public IEnumerable<DBObject.SpeciesSizeAttributeValue> GetSpeciesSizeAttributeValueEnumerator(Int64 species_id)
+        {
+            return _iSpeciesSizeAttributeValueTable.GetEnumeratorForSpecies(species_id);
+        }
+
         private IEnumerable<DBObject.Attribute> GetAttributeEnumerator()
         {
             return _iAttributeTable.Enumerator;
@@ -213,7 +272,7 @@ namespace MycoKeys.Library.Database
             return _iAttributeTable.GetEnumeratorForKey(key_id);
         }
 
-        private bool Insert(DBObject.Attribute attribute)
+        public bool Insert(DBObject.Attribute attribute)
         {
             bool success = true;
             try

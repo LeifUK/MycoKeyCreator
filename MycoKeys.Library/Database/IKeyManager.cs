@@ -19,12 +19,18 @@ namespace MycoKeys.Library.Database
         Library.DBObject.SpeciesAttributeValue Select(Library.DBObject.SpeciesAttributeValue speciesDescription);
         IEnumerable<DBObject.SpeciesAttributeValue> GetKeySpeciesAttributeValueEnumerator(Int64 key_id);
         IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator(Int64 species_id);
-        bool Insert(Library.DBObject.SpeciesAttributeValue speciesAttribute);
-        bool Update(Library.DBObject.SpeciesAttributeValue speciesAttribute);
-        bool Delete(Library.DBObject.SpeciesAttributeValue speciesAttribute);
+        bool Insert(Library.DBObject.SpeciesAttributeValue speciesAttributeValue);
+        bool Update(Library.DBObject.SpeciesAttributeValue speciesAttributeValue);
+        bool Delete(Library.DBObject.SpeciesAttributeValue speciesAttributeValue);
         IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeEnumerator(Int64 species_id);
-        
+
+        bool Insert(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue);
+        bool Update(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue);
+        bool Delete(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue);
+        IEnumerable<DBObject.SpeciesSizeAttributeValue> GetSpeciesSizeAttributeValueEnumerator(Int64 species_id);
+
         IEnumerable<DBObject.Species> GetKeySpeciesEnumerator(Int64 key_id);
+        bool Insert(DBObject.Attribute attribute);
         bool Insert(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues);
         bool Update(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues);
         bool Update(DBObject.Attribute attribute);

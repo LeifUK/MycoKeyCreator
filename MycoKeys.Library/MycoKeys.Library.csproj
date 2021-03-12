@@ -133,9 +133,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\AttributeType.cs" />
     <Compile Include="Database\IAttributeValueTable.cs" />
     <Compile Include="Database\IDatabase.cs" />
     <Compile Include="Database\IKeyManager.cs" />
+    <Compile Include="Database\ISpeciesSizeAttributeValueTable.cs" />
+    <Compile Include="Database\ISpeciesMaxSizeAttributeValueTable.cs" />
+    <Compile Include="Database\ISpeciesMinSizeAttributeValueTable.cs" />
     <Compile Include="Database\ISpeciesAttributeValueTable.cs" />
     <Compile Include="Database\ILiteratureTable.cs" />
     <Compile Include="Database\ITable.cs" />
@@ -144,18 +148,24 @@
     <Compile Include="Database\ISpeciesTable.cs" />
     <Compile Include="Database\KeyManager.cs" />
     <Compile Include="Database\TableNames.cs" />
+    <Compile Include="DBObject\MinSizeAttribute.cs" />
+    <Compile Include="DBObject\MaxSizeAttribute.cs" />
     <Compile Include="DBObject\AttributeValue.cs" />
     <Compile Include="DBObject\Key.cs" />
     <Compile Include="DBObject\Attribute.cs" />
     <Compile Include="DBObject\IObject.cs" />
     <Compile Include="DBObject\Literature.cs" />
     <Compile Include="DBObject\Species.cs" />
+    <Compile Include="DBObject\SpeciesSizeAttributeValue.cs" />
+    <Compile Include="DBObject\SpeciesMinSizeAttributeValue.cs" />
+    <Compile Include="DBObject\SpeciesMaxSizeAttributeValue.cs" />
     <Compile Include="DBObject\SpeciesAttributeValue.cs" />
     <Compile Include="PetaPocoAdapter\LiteratureTable.cs" />
     <Compile Include="PetaPocoAdapter\AttributeValueTable.cs" />
     <Compile Include="PetaPocoAdapter\DatabaseWrapper.cs" />
     <Compile Include="PetaPocoAdapter\KeyManagerFactory.cs" />
     <Compile Include="PetaPocoAdapter\AttributeTable.cs" />
+    <Compile Include="PetaPocoAdapter\SpeciesSizeAttributeValueTable.cs" />
     <Compile Include="PetaPocoAdapter\SpeciesAttributeValueTable.cs" />
     <Compile Include="PetaPocoAdapter\SpeciesTable.cs" />
     <Compile Include="PetaPocoAdapter\KeyTable.cs" />

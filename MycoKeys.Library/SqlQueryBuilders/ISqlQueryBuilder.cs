@@ -7,6 +7,7 @@
         string CreateLiteratureTable();
         string CreateAttributeTable();
         string CreateAttributeValueTable();
+        string CreateSpeciesSizeAttributeValueTable();
         string CreateSpeciesTable();
         string CreateSpeciesAttributeValueTable();
         string SelectByKey(string tableName);

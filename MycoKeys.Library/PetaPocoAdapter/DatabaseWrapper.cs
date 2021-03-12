@@ -43,5 +43,20 @@
         {
             Database.Execute(ISqlQueryBuilder.CreateLiteratureTable());
         }
+
+        public void CreateSpeciesSizeAttributeValueTable()
+        {
+            Database.Execute(ISqlQueryBuilder.CreateSpeciesSizeAttributeValueTable());
+        }
+
+        public void CreateTables()
+        {
+            Database.Execute(ISqlQueryBuilder.CreateKeyTable());
+            Database.Execute(ISqlQueryBuilder.CreateAttributeTable());
+            Database.Execute(ISqlQueryBuilder.CreateAttributeValueTable());
+            Database.Execute(ISqlQueryBuilder.CreateSpeciesTable());
+            Database.Execute(ISqlQueryBuilder.CreateSpeciesAttributeValueTable());
+            Database.Execute(ISqlQueryBuilder.CreateSpeciesSizeAttributeValueTable());
+        }
     }
 }

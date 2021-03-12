@@ -16,6 +16,23 @@ namespace MycoKeys.Library.PetaPocoAdapter
         protected readonly PetaPoco.NetCore.Database _database;
         protected readonly string _tableName;
 
+        public bool Exists()
+        {
+            bool exists = true;
+            var enumerator = Enumerator.GetEnumerator();
+            try
+            {
+                // Throws an exception if the table does not exist
+                enumerator.MoveNext();
+            }
+            catch
+            {
+                exists = false;
+            }
+            enumerator.Dispose();
+            return exists;
+        }
+
         public T Query(Int64 id)
         {
             T dbObject = default(T);

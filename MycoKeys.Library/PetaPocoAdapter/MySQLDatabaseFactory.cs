@@ -57,16 +57,12 @@ namespace MycoKeys.Library.PetaPocoAdapter
 
             OpenDatabase(out database, server, port, useWindowsAuthentication, userName, password, dbName);
 
-            // Create each table
-
-            database.Execute(iSqlQueryBuilder.CreateKeyTable());
-            database.Execute(iSqlQueryBuilder.CreateAttributeTable());
-            database.Execute(iSqlQueryBuilder.CreateAttributeValueTable());
-            database.Execute(iSqlQueryBuilder.CreateSpeciesTable());
-            database.Execute(iSqlQueryBuilder.CreateSpeciesAttributeValueTable());
-
             iDatabase = new DatabaseWrapper(database);
             iDatabase.ISqlQueryBuilder = iSqlQueryBuilder;
+
+            // Create each table
+
+            iDatabase.CreateTables();
         }
     }
 }

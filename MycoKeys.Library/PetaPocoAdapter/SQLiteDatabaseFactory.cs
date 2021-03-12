@@ -21,14 +21,10 @@
             OpenDatabase(out iDatabase, path);
             PetaPoco.NetCore.Database database = (iDatabase as DatabaseWrapper).Database;
             SqlQueryBuilders.ISqlQueryBuilder iSqlQueryBuilder = (iDatabase as DatabaseWrapper).ISqlQueryBuilder;
-            
+
             // Create each table
 
-            database.Execute(iSqlQueryBuilder.CreateKeyTable());
-            database.Execute(iSqlQueryBuilder.CreateAttributeTable());
-            database.Execute(iSqlQueryBuilder.CreateAttributeValueTable());
-            database.Execute(iSqlQueryBuilder.CreateSpeciesTable());
-            database.Execute(iSqlQueryBuilder.CreateSpeciesAttributeValueTable());
+            iDatabase.CreateTables();
         }
     }
 }

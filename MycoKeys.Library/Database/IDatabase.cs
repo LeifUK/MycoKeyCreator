@@ -9,5 +9,7 @@
         void CommitTransaction();
         void RollbackTransaction();
         void CreateLiteratureTable();
+        void CreateSpeciesSizeAttributeValueTable();
+        void CreateTables();
     }
 }

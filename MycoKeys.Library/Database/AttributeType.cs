@@ -1,10 +1,10 @@
 ﻿
-namespace FungiKeys.Library.Database
+namespace MycoKeys.Library.Database
 {
     public enum AttributeType
     {
-        String = 0,
-        Boolean = 1,
-        Enumeration = 2,
+        Choice = 0,
+        MaximumSize = 1,
+        MinimumSize = 2,
     }
 }

@@ -117,6 +117,8 @@ namespace MycoKeys.Library.SqlQueryBuilders
             stringBuilder.Append(", ");
             AppendSmallIntColumn(stringBuilder, "position");
             stringBuilder.Append(", ");
+            AppendSmallIntColumn(stringBuilder, "type");
+            stringBuilder.Append(", ");
             AppendForeignKeyConstraint(stringBuilder, "FK_attribute_key_id", "key_id", Database.TableNames.Key, "id");
             stringBuilder.Append(");");
             return stringBuilder.ToString();
@@ -159,11 +161,34 @@ namespace MycoKeys.Library.SqlQueryBuilders
             stringBuilder.Append(", ");
             AppendIntegerColumn(stringBuilder, "attributevalue_id");
             stringBuilder.Append(", ");
-            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattribute_key_id", "key_id", Database.TableNames.Key, "id");
+            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattributevalue_key_id", "key_id", Database.TableNames.Key, "id");
             stringBuilder.Append(", ");
-            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattribute_species_id", "species_id", Database.TableNames.Species, "id");
+            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattributevalue_species_id", "species_id", Database.TableNames.Species, "id");
             stringBuilder.Append(", ");
-            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattribute_attributevalue_id", "attributevalue_id", Database.TableNames.AttributeValue, "id");
+            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattributevalue_attributevalue_id", "attributevalue_id", Database.TableNames.AttributeValue, "id");
+            stringBuilder.Append(");");
+            return stringBuilder.ToString();
+        }
+
+        public string CreateSpeciesSizeAttributeValueTable()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("CREATE TABLE ");
+            stringBuilder.Append(Database.TableNames.SpeciesSizeAttributeValue);
+            stringBuilder.Append(" (");
+            AppendIdentityColumn(stringBuilder, "id");
+            stringBuilder.Append(", ");
+            AppendIntegerColumn(stringBuilder, "key_id");
+            stringBuilder.Append(", ");
+            AppendIntegerColumn(stringBuilder, "species_id");
+            stringBuilder.Append(", ");
+            AppendIntegerColumn(stringBuilder, "attribute_id");
+            stringBuilder.Append(", ");
+            AppendSmallIntColumn(stringBuilder, "value");
+            stringBuilder.Append(", ");
+            AppendForeignKeyConstraint(stringBuilder, "FK_speciessizeattributevalue_key_id", "key_id", Database.TableNames.Key, "id");
+            stringBuilder.Append(", ");
+            AppendForeignKeyConstraint(stringBuilder, "FK_speciessizeattributevalue_species_id", "species_id", Database.TableNames.Species, "id");
             stringBuilder.Append(");");
             return stringBuilder.ToString();
         }

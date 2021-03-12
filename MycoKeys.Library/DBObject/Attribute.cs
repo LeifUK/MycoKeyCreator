@@ -10,5 +10,6 @@ namespace MycoKeys.Library.DBObject
         public Int64 key_id { get; set; }
         public string description { get; set; }
         public Int16 position { get; set; }
+        public Int16 type { get; set; }
     }
 }
