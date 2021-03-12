@@ -72,6 +72,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\SpeciesAttributeChoiceModel.cs" />
+    <Compile Include="Model\SpeciesAttributeSizeModel.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModel\AttributeTypeViewModel.cs" />
     <Compile Include="ViewModel\AttributeViewModel.cs" />
@@ -83,8 +85,6 @@
     <Compile Include="ViewModel\KeyViewModel.cs" />
     <Compile Include="ViewModel\LiteratureViewModel.cs" />
     <Compile Include="Model\SpeciesAttributeValueModel.cs" />
-    <Compile Include="Model\SpeciesChoiceAttributeValueModel.cs" />
-    <Compile Include="Model\SpeciesSizeAttributeValueModel.cs" />
     <Compile Include="ViewModel\SpeciesViewModel.cs" />
     <Compile Include="ViewModel\SpeciesAttributesViewModel.cs" />
     <Compile Include="View\AttributeTypeView.xaml.cs">

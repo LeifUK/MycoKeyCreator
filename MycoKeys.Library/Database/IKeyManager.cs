@@ -16,31 +16,30 @@ namespace MycoKeys.Library.Database
         void Update(DBObject.Literature literature);
         bool Delete(DBObject.Literature literature);
 
-        Library.DBObject.SpeciesAttributeValue Select(Library.DBObject.SpeciesAttributeValue speciesDescription);
-        IEnumerable<DBObject.SpeciesAttributeValue> GetKeySpeciesAttributeValueEnumerator(Int64 key_id);
-        IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator(Int64 species_id);
-        bool Insert(Library.DBObject.SpeciesAttributeValue speciesAttributeValue);
-        bool Update(Library.DBObject.SpeciesAttributeValue speciesAttributeValue);
-        bool Delete(Library.DBObject.SpeciesAttributeValue speciesAttributeValue);
-        IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeEnumerator(Int64 species_id);
+        Library.DBObject.SpeciesAttributeChoice Select(Library.DBObject.SpeciesAttributeChoice speciesAttributeChoice);
+        IEnumerable<DBObject.SpeciesAttributeChoice> GetKeySpeciesAttributeChoiceEnumerator(Int64 key_id);
+        IEnumerable<DBObject.SpeciesAttributeChoice> GetSpeciesAttributeChoiceEnumerator(Int64 species_id);
+        bool Insert(Library.DBObject.SpeciesAttributeChoice speciesAttributeChoice);
+        bool Update(Library.DBObject.SpeciesAttributeChoice speciesAttributeChoice);
+        bool Delete(Library.DBObject.SpeciesAttributeChoice speciesAttributeChoice);
 
-        bool Insert(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue);
-        bool Update(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue);
-        bool Delete(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue);
-        IEnumerable<DBObject.SpeciesSizeAttributeValue> GetSpeciesSizeAttributeValueEnumerator(Int64 species_id);
+        IEnumerable<DBObject.SpeciesAttributeSize> GetSpeciesSizeAttributeEnumerator(Int64 species_id);
+        bool Insert(Library.DBObject.SpeciesAttributeSize speciesAttributeSize);
+        bool Update(Library.DBObject.SpeciesAttributeSize speciesAttributeSize);
+        bool Delete(Library.DBObject.SpeciesAttributeSize speciesAttributeSize);
 
         IEnumerable<DBObject.Species> GetKeySpeciesEnumerator(Int64 key_id);
         bool Insert(DBObject.Attribute attribute);
-        bool Insert(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues);
-        bool Update(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues);
+        bool Insert(DBObject.Attribute attribute, List<DBObject.AttributeChoice> attributeChoices);
+        bool Update(DBObject.Attribute attribute, List<DBObject.AttributeChoice> attributeChoices);
         bool Update(DBObject.Attribute attribute);
         bool Delete(DBObject.Attribute attribute);
         IEnumerable<DBObject.Attribute> GetKeyAttributeEnumerator(Int64 key_id);
-        bool Insert(DBObject.AttributeValue attributeValue);
-        bool Update(DBObject.AttributeValue attributeValue);
-        bool Delete(DBObject.AttributeValue attributeValue);
-        IEnumerable<DBObject.AttributeValue> GetKeyAttributeValueEnumerator(Int64 key_id);
-        IEnumerable<DBObject.AttributeValue> GetAttributeValueEnumerator(Int64 attribute_id);
+        bool Insert(DBObject.AttributeChoice attributeChoice);
+        bool Update(DBObject.AttributeChoice attributeChoice);
+        bool Delete(DBObject.AttributeChoice attributeChoice);
+        IEnumerable<DBObject.AttributeChoice> GetKeyAttributeChoiceEnumerator(Int64 key_id);
+        IEnumerable<DBObject.AttributeChoice> GetAttributeChoiceEnumerator(Int64 attribute_id);
         bool Insert(DBObject.Species species);
         bool Update(DBObject.Species species);
         bool Delete(DBObject.Species species);

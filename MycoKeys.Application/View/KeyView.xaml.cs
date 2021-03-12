@@ -112,6 +112,8 @@ namespace MycoKeys.Application.View
             View.AttributeTypeView attributeTypeView = new AttributeTypeView();
             ViewModel.AttributeTypeViewModel attributeTypeViewModel = new ViewModel.AttributeTypeViewModel();
             attributeTypeView.DataContext = attributeTypeViewModel;
+            attributeTypeView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            attributeTypeView.Owner = this;
             if (attributeTypeView.ShowDialog() != true)
             {
                 return;
@@ -121,7 +123,6 @@ namespace MycoKeys.Application.View
                 Library.DBObject.Attribute attribute = new Library.DBObject.Attribute();
                 attribute.type = (Int16)Library.Database.AttributeType.Choice;
                 attribute.position = (short)keyViewModel.Attributes.Count();
-                List<Library.DBObject.AttributeValue> attributeValues = new List<Library.DBObject.AttributeValue>();
                 EditChoiceAttribute(attribute);
             }
             else

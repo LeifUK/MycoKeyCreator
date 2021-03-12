@@ -6,7 +6,7 @@
         string CreateKeyTable();
         string CreateLiteratureTable();
         string CreateAttributeTable();
-        string CreateAttributeValueTable();
+        string CreateAttributeChoiceTable();
         string CreateSpeciesSizeAttributeValueTable();
         string CreateSpeciesTable();
         string CreateSpeciesAttributeValueTable();

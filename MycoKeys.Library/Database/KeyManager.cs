@@ -12,18 +12,18 @@ namespace MycoKeys.Library.Database
             Database.ILiteratureTable iLiteratureTable,
             Database.ISpeciesTable iSpeciesTable,
             Database.IAttributeTable iAttributeTable,
-            Database.IAttributeValueTable iAttributeValueTable,
-            Database.ISpeciesAttributeValueTable iSpeciesAttributeTable,
-            Database.ISpeciesSizeAttributeValueTable iSpeciesSizeAttributeValueTable)
+            Database.IAttributeChoiceTable iAttributeChoiceTable,
+            Database.ISpeciesAttributeChoiceTable iSpeciesAttributeChoiceTable,
+            Database.ISpeciesAttributeSizeTable iSpeciesAttributeTableSize)
         {
             _iDatabase = iDatabase;
             _iKeyTable = iKeyTable;
             _iLiteratureTable = iLiteratureTable;
             _iSpeciesTable = iSpeciesTable;
             _iAttributeTable = iAttributeTable;
-            _iAttributeValueTable = iAttributeValueTable;
-            _iSpeciesAttributeValueTable = iSpeciesAttributeTable;
-            _iSpeciesSizeAttributeValueTable = iSpeciesSizeAttributeValueTable;
+            _iAttributeChoiceTable = iAttributeChoiceTable;
+            _iSpeciesAttributeChoiceTable = iSpeciesAttributeChoiceTable;
+            _iSpeciesAttributeTableSize = iSpeciesAttributeTableSize;
 
             // Upgrades 
 
@@ -39,7 +39,7 @@ namespace MycoKeys.Library.Database
             }
             literatureEnumerator.Dispose();
 
-            if (!_iSpeciesSizeAttributeValueTable.Exists())
+            if (!_iSpeciesAttributeTableSize.Exists())
             {
                 _iDatabase.CreateSpeciesSizeAttributeValueTable();
             }
@@ -50,9 +50,9 @@ namespace MycoKeys.Library.Database
         private readonly Database.ILiteratureTable _iLiteratureTable;
         private readonly Database.ISpeciesTable _iSpeciesTable;
         private readonly Database.IAttributeTable _iAttributeTable;
-        private readonly Database.IAttributeValueTable _iAttributeValueTable;
-        private readonly Database.ISpeciesAttributeValueTable _iSpeciesAttributeValueTable;
-        private readonly Database.ISpeciesSizeAttributeValueTable _iSpeciesSizeAttributeValueTable;
+        private readonly Database.IAttributeChoiceTable _iAttributeChoiceTable;
+        private readonly Database.ISpeciesAttributeChoiceTable _iSpeciesAttributeChoiceTable;
+        private readonly Database.ISpeciesAttributeSizeTable _iSpeciesAttributeTableSize;
 
         public IEnumerable<DBObject.Key> GetKeyEnumerator()
         {
@@ -75,9 +75,9 @@ namespace MycoKeys.Library.Database
             try
             {
                 _iDatabase.BeginTransaction();
-                _iSpeciesAttributeValueTable.DeleteByKey(key.id);
+                _iSpeciesAttributeChoiceTable.DeleteByKey(key.id);
                 _iSpeciesTable.DeleteByKey(key.id);
-                _iAttributeValueTable.DeleteByKey(key.id);
+                _iAttributeChoiceTable.DeleteByKey(key.id);
                 _iAttributeTable.DeleteByKey(key.id);
                 _iKeyTable.Delete(key);
                 _iDatabase.CommitTransaction();
@@ -128,31 +128,31 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public Library.DBObject.SpeciesAttributeValue Select(Library.DBObject.SpeciesAttributeValue speciesAttribute)
+        public Library.DBObject.SpeciesAttributeChoice Select(Library.DBObject.SpeciesAttributeChoice speciesAttributeChoice)
         {
-            if (speciesAttribute.id == 0)
+            if (speciesAttributeChoice.id == 0)
             {
                 return null;
             }
 
-            Library.DBObject.SpeciesAttributeValue newSpeciesAttribute = null;
+            Library.DBObject.SpeciesAttributeChoice newSpeciesAttributeChoice = null;
             try
             {
-                newSpeciesAttribute = _iSpeciesAttributeValueTable.Query(speciesAttribute.id);
+                newSpeciesAttributeChoice = _iSpeciesAttributeChoiceTable.Query(speciesAttributeChoice.id);
             }
             catch
             {
             }
 
-            return newSpeciesAttribute;
+            return newSpeciesAttributeChoice;
         }
 
-        public bool Insert(Library.DBObject.SpeciesAttributeValue speciesAttribute)
+        public bool Insert(Library.DBObject.SpeciesAttributeChoice speciesAttributeChoice)
         {
             bool success = true;
             try
             {
-                _iSpeciesAttributeValueTable.Insert(speciesAttribute);
+                _iSpeciesAttributeChoiceTable.Insert(speciesAttributeChoice);
             }
             catch
             {
@@ -162,12 +162,12 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public bool Update(Library.DBObject.SpeciesAttributeValue speciesAttribute)
+        public bool Update(Library.DBObject.SpeciesAttributeChoice speciesAttributeChoice)
         {
             bool success = true;
             try
             {
-                _iSpeciesAttributeValueTable.Update(speciesAttribute);
+                _iSpeciesAttributeChoiceTable.Update(speciesAttributeChoice);
             }
             catch
             {
@@ -177,12 +177,12 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public bool Delete(Library.DBObject.SpeciesAttributeValue speciesAttribute)
+        public bool Delete(Library.DBObject.SpeciesAttributeChoice speciesAttributeChoice)
         {
             bool success = true;
             try
             {
-                _iSpeciesAttributeValueTable.Delete(speciesAttribute);
+                _iSpeciesAttributeChoiceTable.Delete(speciesAttributeChoice);
             }
             catch
             {
@@ -192,32 +192,27 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        private IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator()
+        private IEnumerable<DBObject.SpeciesAttributeChoice> GetSpeciesAttributeChoiceEnumerator()
         {
-            return _iSpeciesAttributeValueTable.Enumerator;
+            return _iSpeciesAttributeChoiceTable.Enumerator;
         }
 
-        public IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeEnumerator(Int64 species_id)
+        public IEnumerable<DBObject.SpeciesAttributeChoice> GetKeySpeciesAttributeChoiceEnumerator(Int64 key_id)
         {
-            return _iSpeciesAttributeValueTable.GetEnumeratorForSpecies(species_id);
+            return _iSpeciesAttributeChoiceTable.GetEnumeratorForKey(key_id);
         }
 
-        public IEnumerable<DBObject.SpeciesAttributeValue> GetKeySpeciesAttributeValueEnumerator(Int64 key_id)
+        public IEnumerable<DBObject.SpeciesAttributeChoice> GetSpeciesAttributeChoiceEnumerator(Int64 species_id)
         {
-            return _iSpeciesAttributeValueTable.GetEnumeratorForKey(key_id);
+            return _iSpeciesAttributeChoiceTable.GetEnumeratorForSpecies(species_id);
         }
 
-        public IEnumerable<DBObject.SpeciesAttributeValue> GetSpeciesAttributeValueEnumerator(Int64 species_id)
-        {
-            return _iSpeciesAttributeValueTable.GetEnumeratorForSpecies(species_id);
-        }
-
-        public bool Insert(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue)
+        public bool Insert(Library.DBObject.SpeciesAttributeSize speciesAttributeSize)
         {
             bool success = true;
             try
             {
-                _iSpeciesSizeAttributeValueTable.Insert(speciesSizeAttributeValue);
+                _iSpeciesAttributeTableSize.Insert(speciesAttributeSize);
             }
             catch
             {
@@ -227,12 +222,12 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public bool Update(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue)
+        public bool Update(Library.DBObject.SpeciesAttributeSize speciesAttributeSize)
         {
             bool success = true;
             try
             {
-                _iSpeciesSizeAttributeValueTable.Update(speciesSizeAttributeValue);
+                _iSpeciesAttributeTableSize.Update(speciesAttributeSize);
             }
             catch
             {
@@ -242,12 +237,12 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public bool Delete(Library.DBObject.SpeciesSizeAttributeValue speciesSizeAttributeValue)
+        public bool Delete(Library.DBObject.SpeciesAttributeSize speciesAttributeSize)
         {
             bool success = true;
             try
             {
-                _iSpeciesSizeAttributeValueTable.Delete(speciesSizeAttributeValue);
+                _iSpeciesAttributeTableSize.Delete(speciesAttributeSize);
             }
             catch
             {
@@ -257,9 +252,9 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public IEnumerable<DBObject.SpeciesSizeAttributeValue> GetSpeciesSizeAttributeValueEnumerator(Int64 species_id)
+        public IEnumerable<DBObject.SpeciesAttributeSize> GetSpeciesSizeAttributeEnumerator(Int64 species_id)
         {
-            return _iSpeciesSizeAttributeValueTable.GetEnumeratorForSpecies(species_id);
+            return _iSpeciesAttributeTableSize.GetEnumeratorForSpecies(species_id);
         }
 
         private IEnumerable<DBObject.Attribute> GetAttributeEnumerator()
@@ -287,7 +282,7 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public bool Insert(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues)
+        public bool Insert(DBObject.Attribute attribute, List<DBObject.AttributeChoice> attributeChoices)
         {
             bool success = true;
             try
@@ -295,11 +290,11 @@ namespace MycoKeys.Library.Database
                 _iDatabase.BeginTransaction();
                 _iAttributeTable.Insert(attribute);
 
-                foreach (var attributeValue in attributeValues)
+                foreach (var attributeChoice in attributeChoices)
                 {
-                    attributeValue.key_id = attribute.key_id;
-                    attributeValue.attribute_id = attribute.id;
-                    _iAttributeValueTable.Insert(attributeValue);
+                    attributeChoice.key_id = attribute.key_id;
+                    attributeChoice.attribute_id = attribute.id;
+                    _iAttributeChoiceTable.Insert(attributeChoice);
                 }
                 _iDatabase.CommitTransaction();
             }
@@ -312,7 +307,7 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public bool Update(DBObject.Attribute attribute, List<DBObject.AttributeValue> attributeValues)
+        public bool Update(DBObject.Attribute attribute, List<DBObject.AttributeChoice> attributeChoices)
         {
             bool success = true;
             try
@@ -320,29 +315,29 @@ namespace MycoKeys.Library.Database
                 _iDatabase.BeginTransaction();
                 _iAttributeTable.Update(attribute);
 
-                Dictionary<Int64, Library.DBObject.AttributeValue> attributeValueMap = _iAttributeValueTable.GetEnumeratorForAttribute(attribute.id).ToDictionary(n => n.id, n => n);
-                if (attributeValues != null)
+                Dictionary<Int64, Library.DBObject.AttributeChoice> attributeChoiceMap = _iAttributeChoiceTable.GetEnumeratorForAttribute(attribute.id).ToDictionary(n => n.id, n => n);
+                if (attributeChoices != null)
                 {
-                    foreach (var attributeValue in attributeValues)
+                    foreach (var attributeChoice in attributeChoices)
                     {
-                        attributeValue.key_id = attribute.key_id;
-                        attributeValue.attribute_id = attribute.id;
-                        if (attributeValue.id == 0)
+                        attributeChoice.key_id = attribute.key_id;
+                        attributeChoice.attribute_id = attribute.id;
+                        if (attributeChoice.id == 0)
                         {
-                            _iAttributeValueTable.Insert(attributeValue);
+                            _iAttributeChoiceTable.Insert(attributeChoice);
                         }
                         else
                         {
-                            attributeValueMap.Remove(attributeValue.id);
-                            _iAttributeValueTable.Update(attributeValue);
+                            attributeChoiceMap.Remove(attributeChoice.id);
+                            _iAttributeChoiceTable.Update(attributeChoice);
                         }
                     }
                 }
 
-                foreach (var attributeValue in attributeValueMap.Values)
+                foreach (var attributeChoice in attributeChoiceMap.Values)
                 {
-                    _iSpeciesAttributeValueTable.DeleteByAttributeValue(attributeValue.id);
-                    _iAttributeValueTable.Delete(attributeValue);
+                    _iSpeciesAttributeChoiceTable.DeleteByAttributeChoice(attributeChoice.id);
+                    _iAttributeChoiceTable.Delete(attributeChoice);
                 }
                 _iDatabase.CommitTransaction();
             }
@@ -375,11 +370,11 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
-                var attributeValues = _iAttributeValueTable.GetEnumeratorForAttribute(attribute.id).ToList();
-                foreach (var attributeValue in attributeValues)
+                var attributeChoices = _iAttributeChoiceTable.GetEnumeratorForAttribute(attribute.id).ToList();
+                foreach (var attributeChoice in attributeChoices)
                 {
-                    _iSpeciesAttributeValueTable.DeleteByAttributeValue(attributeValue.id);
-                    _iAttributeValueTable.Delete(attributeValue);
+                    _iSpeciesAttributeChoiceTable.DeleteByAttributeChoice(attributeChoice.id);
+                    _iAttributeChoiceTable.Delete(attributeChoice);
                 }
                 _iAttributeTable.Delete(attribute);
             }
@@ -391,27 +386,27 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public IEnumerable<DBObject.AttributeValue> GetAttributeValueEnumerator()
+        public IEnumerable<DBObject.AttributeChoice> GetAttributeChoiceEnumerator()
         {
-            return _iAttributeValueTable.Enumerator;
+            return _iAttributeChoiceTable.Enumerator;
         }
 
-        public IEnumerable<DBObject.AttributeValue> GetAttributeValueEnumerator(Int64 attribute_id)
+        public IEnumerable<DBObject.AttributeChoice> GetAttributeChoiceEnumerator(Int64 attribute_id)
         {
-            return _iAttributeValueTable.GetEnumeratorForAttribute(attribute_id);
+            return _iAttributeChoiceTable.GetEnumeratorForAttribute(attribute_id);
         }
 
-        public IEnumerable<DBObject.AttributeValue> GetKeyAttributeValueEnumerator(Int64 key_id)
+        public IEnumerable<DBObject.AttributeChoice> GetKeyAttributeChoiceEnumerator(Int64 key_id)
         {
-            return _iAttributeValueTable.GetEnumeratorForKey(key_id);
+            return _iAttributeChoiceTable.GetEnumeratorForKey(key_id);
         }
 
-        public bool Insert(DBObject.AttributeValue attributeValue)
+        public bool Insert(DBObject.AttributeChoice attributeChoice)
         {
             bool success = true;
             try
             {
-                _iAttributeValueTable.Insert(attributeValue);
+                _iAttributeChoiceTable.Insert(attributeChoice);
             }
             catch
             {
@@ -421,12 +416,12 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        public bool Update(DBObject.AttributeValue attributeValue)
+        public bool Update(DBObject.AttributeChoice attributeChoice)
         {
             bool success = true;
             try
             {
-                _iAttributeValueTable.Update(attributeValue);
+                _iAttributeChoiceTable.Update(attributeChoice);
             }
             catch
             {
@@ -437,13 +432,13 @@ namespace MycoKeys.Library.Database
         }
 
         // Warning warning => no delete
-        public bool Delete(DBObject.AttributeValue attributeValue)
+        public bool Delete(DBObject.AttributeChoice attributeChoice)
         {
             bool success = true;
             try
             {
-                _iSpeciesAttributeValueTable.DeleteByAttributeValue(attributeValue.id);
-                _iAttributeValueTable.Delete(attributeValue);
+                _iSpeciesAttributeChoiceTable.DeleteByAttributeChoice(attributeChoice.id);
+                _iAttributeChoiceTable.Delete(attributeChoice);
             }
             catch
             {
@@ -499,7 +494,7 @@ namespace MycoKeys.Library.Database
             try
             {
                 _iDatabase.BeginTransaction();
-                _iSpeciesAttributeValueTable.DeleteBySpecies(species.id);
+                _iSpeciesAttributeChoiceTable.DeleteBySpecies(species.id);
                 _iSpeciesTable.Delete(species);
                 _iDatabase.CommitTransaction();
             }
@@ -549,26 +544,26 @@ namespace MycoKeys.Library.Database
             }
 
             Dictionary<long, long> attributeValueIdMap = new Dictionary<long, long>();
-            foreach (DBObject.AttributeValue attributeValue in sourceKeyManager.GetAttributeValueEnumerator())
+            foreach (DBObject.AttributeChoice attributeChoice in sourceKeyManager.GetAttributeChoiceEnumerator())
             {
-                long attributevalue_id = attributeValue.id;
-                attributeValue.id = 0;
-                attributeValue.key_id = keyIdMap[attributeValue.key_id];
-                attributeValue.attribute_id = attributeIdMap[attributeValue.attribute_id];
-                targetKeyManager.Insert(attributeValue);
-                attributeValueIdMap.Add(attributevalue_id, attributeValue.id);
+                long attributechoice_id = attributeChoice.id;
+                attributeChoice.id = 0;
+                attributeChoice.key_id = keyIdMap[attributeChoice.key_id];
+                attributeChoice.attribute_id = attributeIdMap[attributeChoice.attribute_id];
+                targetKeyManager.Insert(attributeChoice);
+                attributeValueIdMap.Add(attributechoice_id, attributeChoice.id);
             }
 
-            Dictionary<long, long> speciesAttributeValueIdMap = new Dictionary<long, long>();
-            foreach (DBObject.SpeciesAttributeValue speciesAttributeValue in sourceKeyManager.GetSpeciesAttributeValueEnumerator())
+            Dictionary<long, long> speciesAttributeChoiceIdMap = new Dictionary<long, long>();
+            foreach (DBObject.SpeciesAttributeChoice speciesAttributeChoice in sourceKeyManager.GetSpeciesAttributeChoiceEnumerator())
             {
-                long speciesAttributevalue_id = speciesAttributeValue.id;
-                speciesAttributeValue.id = 0;
-                speciesAttributeValue.key_id = keyIdMap[speciesAttributeValue.key_id];
-                speciesAttributeValue.species_id = speciesIdMap[speciesAttributeValue.species_id];
-                speciesAttributeValue.attributevalue_id = attributeValueIdMap[speciesAttributeValue.attributevalue_id];
-                targetKeyManager.Insert(speciesAttributeValue);
-                speciesAttributeValueIdMap.Add(speciesAttributevalue_id, speciesAttributeValue.id);
+                long speciesAttributevalue_id = speciesAttributeChoice.id;
+                speciesAttributeChoice.id = 0;
+                speciesAttributeChoice.key_id = keyIdMap[speciesAttributeChoice.key_id];
+                speciesAttributeChoice.species_id = speciesIdMap[speciesAttributeChoice.species_id];
+                speciesAttributeChoice.attributechoice_id = attributeValueIdMap[speciesAttributeChoice.attributechoice_id];
+                targetKeyManager.Insert(speciesAttributeChoice);
+                speciesAttributeChoiceIdMap.Add(speciesAttributevalue_id, speciesAttributeChoice.id);
             }
         }
     }

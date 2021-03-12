@@ -23,16 +23,16 @@ namespace MycoKeys.Application.View
             DialogResult = false;
         }
 
-        private bool EditAttributeValue(Library.DBObject.AttributeValue attributeValue)
+        private bool EditAttributeValue(Library.DBObject.AttributeChoice attributeChoice)
         {
-            if (attributeValue == null)
+            if (attributeChoice == null)
             {
                 return false;
             }
 
             ViewModel.InputTextViewModel inputTextViewModel = new ViewModel.InputTextViewModel();
             inputTextViewModel.Title = "MycoKeys.Application";
-            inputTextViewModel.Text = attributeValue.description;
+            inputTextViewModel.Text = attributeChoice.description;
 
             InputTextView inputTextView = new InputTextView();
             inputTextView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -42,7 +42,7 @@ namespace MycoKeys.Application.View
             bool success = inputTextView.ShowDialog() == true;
             if (success)
             {
-                attributeValue.description = inputTextViewModel.Text;
+                attributeChoice.description = inputTextViewModel.Text;
             }
 
             return success;
@@ -51,18 +51,18 @@ namespace MycoKeys.Application.View
         private void EditSelectedAttributeValue()
         {
             ViewModel.AttributeViewModel attributeViewModel = (DataContext as ViewModel.AttributeViewModel);
-            if (attributeViewModel.SelectedAttributeValue == null)
+            if (attributeViewModel.SelectedAttributeChoice == null)
             {
                 return;
             }
 
-            EditAttributeValue(attributeViewModel.SelectedAttributeValue);
+            EditAttributeValue(attributeViewModel.SelectedAttributeChoice);
             attributeViewModel.Refresh();
         }
 
         private void _buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            Library.DBObject.AttributeValue attributeValue = new Library.DBObject.AttributeValue();
+            Library.DBObject.AttributeChoice attributeValue = new Library.DBObject.AttributeChoice();
             if (EditAttributeValue(attributeValue))
             {
                 (DataContext as ViewModel.AttributeViewModel).Add(attributeValue);

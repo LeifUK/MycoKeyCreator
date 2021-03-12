@@ -61,14 +61,14 @@ namespace MycoKeys.WebApplication.Model
             {
                 KeyMatchViewModel.AttributeSelection attributeSelection = new KeyMatchViewModel.AttributeSelection();
                 attributeSelection.Attribute = item.Value;
-                attributeSelection.AttributeValues = new List<Library.DBObject.AttributeValue>();
-                foreach (Library.DBObject.AttributeValue attributeValue in iKeyManager.GetAttributeValueEnumerator(item.Value.id).OrderBy(n => n.position))
+                attributeSelection.AttributeChoices = new List<Library.DBObject.AttributeChoice>();
+                foreach (Library.DBObject.AttributeChoice attributeChoice in iKeyManager.GetAttributeChoiceEnumerator(item.Value.id).OrderBy(n => n.position))
                 {
-                    attributeSelection.AttributeValues.Add(attributeValue);
-                    if ((attributeSelectionsMap != null) && attributeSelectionsMap.ContainsKey(attributeValue.id)) 
+                    attributeSelection.AttributeChoices.Add(attributeChoice);
+                    if ((attributeSelectionsMap != null) && attributeSelectionsMap.ContainsKey(attributeChoice.id)) 
                     {
-                        attributeSelection.IsSelected = attributeSelectionsMap[attributeValue.id].IsSelected;
-                        attributeSelection.SelectedAttributeValueId = attributeValue.id;
+                        attributeSelection.IsSelected = attributeSelectionsMap[attributeChoice.id].IsSelected;
+                        attributeSelection.SelectedAttributeValueId = attributeChoice.id;
                     }
                 }
                 keyMatchViewModel.AttributeSelections.Add(attributeSelection);
@@ -78,26 +78,26 @@ namespace MycoKeys.WebApplication.Model
              * Work out the matches/mismatches for each species
              */
 
-            Dictionary<Int64, Library.DBObject.AttributeValue> attributeValuesMap = iKeyManager.GetKeyAttributeValueEnumerator(selectedKey.id).ToDictionary(n => n.id, n => n);
-            List<Library.DBObject.SpeciesAttributeValue> speciesAttributeValues = iKeyManager.GetKeySpeciesAttributeValueEnumerator(selectedKey.id).ToList();
+            Dictionary<Int64, Library.DBObject.AttributeChoice> attributeChoicesMap = iKeyManager.GetKeyAttributeChoiceEnumerator(selectedKey.id).ToDictionary(n => n.id, n => n);
+            List<Library.DBObject.SpeciesAttributeChoice> speciesAttributeChoices = iKeyManager.GetKeySpeciesAttributeChoiceEnumerator(selectedKey.id).ToList();
 
             IEnumerable<Library.DBObject.Species> speciesEnumerator = iKeyManager.GetKeySpeciesEnumerator(selectedKey.id).ToList();
             foreach (Library.DBObject.Species species in speciesEnumerator)
             {
-                List<Int64> speciesAttributeValueIds = speciesAttributeValues.Where(n => n.species_id == species.id).Select(n => n.attributevalue_id).ToList();
+                List<Int64> speciesAttributeChoiceIds = speciesAttributeChoices.Where(n => n.species_id == species.id).Select(n => n.attributechoice_id).ToList();
 
                 /*
                  * For the current species => get the attribute values for each attribute
                  */
-                Dictionary<Int64, List<Int64>> speciesAttributeIdAttributeValueIdMap = new Dictionary<Int64, List<Int64>>();
-                foreach (var attributeValueId in speciesAttributeValueIds)
+                Dictionary<Int64, List<Int64>> speciesAttributeIdAttributeChoiceIdMap = new Dictionary<Int64, List<Int64>>();
+                foreach (var attributeValueId in speciesAttributeChoiceIds)
                 {
-                    Int64 attributeId = attributeValuesMap[attributeValueId].attribute_id;
-                    if (!speciesAttributeIdAttributeValueIdMap.ContainsKey(attributeId))
+                    Int64 attributeId = attributeChoicesMap[attributeValueId].attribute_id;
+                    if (!speciesAttributeIdAttributeChoiceIdMap.ContainsKey(attributeId))
                     {
-                        speciesAttributeIdAttributeValueIdMap.Add(attributeId, new List<long>());
+                        speciesAttributeIdAttributeChoiceIdMap.Add(attributeId, new List<long>());
                     }
-                    speciesAttributeIdAttributeValueIdMap[attributeId].Add(attributeValueId);
+                    speciesAttributeIdAttributeChoiceIdMap[attributeId].Add(attributeValueId);
                 }
 
                 int matches = 0;
@@ -109,20 +109,20 @@ namespace MycoKeys.WebApplication.Model
                     {
                         if (item.Value.IsSelected)
                         {
-                            if (speciesAttributeValueIds.Contains(item.Key))
+                            if (speciesAttributeChoiceIds.Contains(item.Key))
                             {
                                 ++matches;
                             }
                             else
                             {
-                                Int64 attributeId = attributeValuesMap[item.Key].attribute_id;
+                                Int64 attributeId = attributeChoicesMap[item.Key].attribute_id;
                                 string text = attributesMap[attributeId].description + " ";
                                 
-                                if (speciesAttributeIdAttributeValueIdMap.ContainsKey(attributeId))
+                                if (speciesAttributeIdAttributeChoiceIdMap.ContainsKey(attributeId))
                                 {
-                                    foreach (var attributeValueId in speciesAttributeIdAttributeValueIdMap[attributeId])
+                                    foreach (var attributeValueId in speciesAttributeIdAttributeChoiceIdMap[attributeId])
                                     {
-                                        mismatchedFeatures.Add(text + attributeValuesMap[attributeValueId].description.ToLower());
+                                        mismatchedFeatures.Add(text + attributeChoicesMap[attributeValueId].description.ToLower());
                                     }
                                 }
                                 ++mismatches;
@@ -131,7 +131,7 @@ namespace MycoKeys.WebApplication.Model
                     }
                 }
 
-                int numberOfAttributes = attributeValuesMap.Where(n => speciesAttributeValueIds.Contains(n.Key)).
+                int numberOfAttributes = attributeChoicesMap.Where(n => speciesAttributeChoiceIds.Contains(n.Key)).
                     Select(n => n.Value.attribute_id).Distinct().Count();
 
                 keyMatchViewModel.Species.Add(new SpeciesMatchData()

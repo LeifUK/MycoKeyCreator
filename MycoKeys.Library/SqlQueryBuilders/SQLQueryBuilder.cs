@@ -124,11 +124,11 @@ namespace MycoKeys.Library.SqlQueryBuilders
             return stringBuilder.ToString();
         }
 
-        public string CreateAttributeValueTable()
+        public string CreateAttributeChoiceTable()
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("CREATE TABLE ");
-            stringBuilder.Append(Database.TableNames.AttributeValue);
+            stringBuilder.Append(Database.TableNames.AttributeChoice);
             stringBuilder.Append(" (");
             AppendIdentityColumn(stringBuilder, "id");
             stringBuilder.Append(", ");
@@ -151,7 +151,7 @@ namespace MycoKeys.Library.SqlQueryBuilders
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("CREATE TABLE ");
-            stringBuilder.Append(Database.TableNames.SpeciesAttributeValue);
+            stringBuilder.Append(Database.TableNames.SpeciesAttributeChoice);
             stringBuilder.Append(" (");
             AppendIdentityColumn(stringBuilder, "id");
             stringBuilder.Append(", ");
@@ -159,13 +159,13 @@ namespace MycoKeys.Library.SqlQueryBuilders
             stringBuilder.Append(", ");
             AppendIntegerColumn(stringBuilder, "species_id");
             stringBuilder.Append(", ");
-            AppendIntegerColumn(stringBuilder, "attributevalue_id");
+            AppendIntegerColumn(stringBuilder, "attributechoice_id");
             stringBuilder.Append(", ");
-            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattributevalue_key_id", "key_id", Database.TableNames.Key, "id");
+            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattributechoice_key_id", "key_id", Database.TableNames.Key, "id");
             stringBuilder.Append(", ");
-            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattributevalue_species_id", "species_id", Database.TableNames.Species, "id");
+            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattributechoice_species_id", "species_id", Database.TableNames.Species, "id");
             stringBuilder.Append(", ");
-            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattributevalue_attributevalue_id", "attributevalue_id", Database.TableNames.AttributeValue, "id");
+            AppendForeignKeyConstraint(stringBuilder, "FK_speciesattributechoice_attributechoice_id", "attributechoice_id", Database.TableNames.AttributeChoice, "id");
             stringBuilder.Append(");");
             return stringBuilder.ToString();
         }
@@ -174,7 +174,7 @@ namespace MycoKeys.Library.SqlQueryBuilders
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("CREATE TABLE ");
-            stringBuilder.Append(Database.TableNames.SpeciesSizeAttributeValue);
+            stringBuilder.Append(Database.TableNames.SpeciesAttributeSize);
             stringBuilder.Append(" (");
             AppendIdentityColumn(stringBuilder, "id");
             stringBuilder.Append(", ");

@@ -52,8 +52,8 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" x:Name="_dataGridValues" ItemsSource="{Binding AttributeValues}" 
-                    SelectedItem="{Binding SelectedAttributeValue}" MouseDoubleClick="_dataGridValues_MouseDoubleClick"
+                <DataGrid Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" x:Name="_dataGridValues" ItemsSource="{Binding AttributeChoices}" 
+                    SelectedItem="{Binding SelectedAttributeChoice}" MouseDoubleClick="_dataGridValues_MouseDoubleClick"
                     HeadersVisibility="None" 
                     Style="{StaticResource DataGridStyle}" VerticalAlignment="Stretch" AutoGenerateColumns="False">
                     <DataGrid.Columns>
