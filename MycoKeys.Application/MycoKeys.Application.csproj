@@ -72,19 +72,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\SpeciesAttributeChoiceModel.cs" />
-    <Compile Include="Model\SpeciesAttributeSizeModel.cs" />
+    <Compile Include="Model\ISpeciesAttributeValue.cs" />
+    <Compile Include="Model\SpeciesAttributeChoice.cs" />
+    <Compile Include="Model\SpeciesAttributeSize.cs" />
+    <Compile Include="Model\SpeciesAttributeValue.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModel\AttributeTypeViewModel.cs" />
     <Compile Include="ViewModel\AttributeViewModel.cs" />
     <Compile Include="ViewModel\ISerialise.cs" />
     <Compile Include="ViewModel\InputTextViewModel.cs" />
-    <Compile Include="Model\ISpeciesAttributeValueModel.cs" />
     <Compile Include="ViewModel\KeyHeaderViewModel.cs" />
     <Compile Include="ViewModel\KeysListViewModel.cs" />
     <Compile Include="ViewModel\KeyViewModel.cs" />
     <Compile Include="ViewModel\LiteratureViewModel.cs" />
-    <Compile Include="Model\SpeciesAttributeValueModel.cs" />
     <Compile Include="ViewModel\SpeciesViewModel.cs" />
     <Compile Include="ViewModel\SpeciesAttributesViewModel.cs" />
     <Compile Include="View\AttributeTypeView.xaml.cs">

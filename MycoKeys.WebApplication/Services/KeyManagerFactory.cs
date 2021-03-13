@@ -18,7 +18,7 @@
                 true,
                 null,
                 null,
-                "MycoKeys");
+                "MycoKeys2");
             return iDatabase;
         }
 

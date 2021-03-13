@@ -42,8 +42,8 @@ namespace MycoKeys.Application.View
             }
             if (frameworkElement.Parent is System.Windows.Controls.DataGridCell)
             {
-                Model.ISpeciesAttributeValueModel iSpeciesAttributeValueModel = (frameworkElement.Parent as System.Windows.Controls.DataGridCell).DataContext as Model.ISpeciesAttributeValueModel;
-                if (!(iSpeciesAttributeValueModel.Value is string))
+                Model.ISpeciesAttributeValue iSpeciesAttributeValue = (frameworkElement.Parent as System.Windows.Controls.DataGridCell).DataContext as Model.ISpeciesAttributeValue;
+                if (!(iSpeciesAttributeValue.Value is string))
                 {
                     return SizeAttributeTemplate;
                 }

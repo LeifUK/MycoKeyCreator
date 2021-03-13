@@ -2,27 +2,27 @@
 
 namespace MycoKeys.Application.Model
 {
-    public class SpeciesAttributeSizeModel : SpeciesAttributeValueModel
+    public class SpeciesAttributeSize : SpeciesAttributeValue
     {
-        public Library.DBObject.SpeciesAttributeSize SpeciesAttributeSize { get; set; }
+        public Library.DBObject.SpeciesAttributeSize SpeciesAttributeSizeValue { get; set; }
         public override object Value
         {
             get
             {
-                if (SpeciesAttributeSize != null)
+                if (SpeciesAttributeSizeValue != null)
                 {
-                    return SpeciesAttributeSize.value;
+                    return SpeciesAttributeSizeValue.value;
                 }
                 return null;
             }
             set
             {
-                if (SpeciesAttributeSize != null)
+                if (SpeciesAttributeSizeValue != null)
                 {
                     Int16 i = 0;
                     if (Int16.TryParse((string)value, out i) && (i >= 0))
                     {
-                        SpeciesAttributeSize.value = i;
+                        SpeciesAttributeSizeValue.value = i;
                         IsUsed = true;
                     }
                 }

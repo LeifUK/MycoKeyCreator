@@ -14,7 +14,8 @@ namespace MycoKeys.WebApplication.Model
         {
             public bool IsSelected { get; set; }
             public Int64 AttributeId { get; set; }
-            public Int64 AttributeValueId { get; set; }
+            public Int16 AttributeType { get; set; }
+            public Int64 AttributeValue { get; set; }
         }
 
         public string KeyName { get; set; }

@@ -20,7 +20,7 @@ namespace MycoKeys.Application.ViewModel
 
         public void Load()
         {
-            SpeciesAttributes = new List<Model.ISpeciesAttributeValueModel>();
+            SpeciesAttributes = new List<Model.ISpeciesAttributeValue>();
 
             List<Library.DBObject.Attribute> attributes = new List<Library.DBObject.Attribute>(
                 IKeyManager.GetKeyAttributeEnumerator(Species.key_id).OrderBy(n => n.position));
@@ -41,82 +41,82 @@ namespace MycoKeys.Application.ViewModel
                             List<Library.DBObject.AttributeChoice> attributeChoices = IKeyManager.GetAttributeChoiceEnumerator(attribute.id).OrderBy(n => n.position).ToList();
                             foreach (var attributeChoice in attributeChoices)
                             {
-                                Model.SpeciesAttributeChoiceModel speciesAttributeChoiceModel = new Model.SpeciesAttributeChoiceModel();
-                                speciesAttributeChoiceModel.Attribute = attribute;
-                                speciesAttributeChoiceModel.AttributeChoice = attributeChoice;
+                                Model.SpeciesAttributeChoice speciesAttributeChoice = new Model.SpeciesAttributeChoice();
+                                speciesAttributeChoice.Attribute = attribute;
+                                speciesAttributeChoice.AttributeChoice = attributeChoice;
                                 if (speciesAttributeChoicesMap.ContainsKey(attributeChoice.id))
                                 {
-                                    speciesAttributeChoiceModel.IsUsed = true;
-                                    speciesAttributeChoiceModel.SpeciesAttributeChoice = speciesAttributeChoicesMap[attributeChoice.id];
+                                    speciesAttributeChoice.IsUsed = true;
+                                    speciesAttributeChoice.SpeciesAttributeChoiceValue = speciesAttributeChoicesMap[attributeChoice.id];
                                 }
-                                SpeciesAttributes.Add(speciesAttributeChoiceModel);
-                                speciesAttributeChoiceModel.OnChanged += SpeciesAttribute_OnChanged;
+                                SpeciesAttributes.Add(speciesAttributeChoice);
+                                speciesAttributeChoice.OnChanged += SpeciesAttribute_OnChanged;
                             }
                         }
                         break;
                     case Library.Database.AttributeType.MaximumSize:
                     case Library.Database.AttributeType.MinimumSize:
-                        Model.SpeciesAttributeSizeModel speciesAttributeSizeModel = new Model.SpeciesAttributeSizeModel();
-                        speciesAttributeSizeModel.Attribute = attribute;
+                        Model.SpeciesAttributeSize speciesAttributeSize = new Model.SpeciesAttributeSize();
+                        speciesAttributeSize.Attribute = attribute;
                         if (speciesAttributeSizesMap.ContainsKey(attribute.id))
                         {
-                            speciesAttributeSizeModel.IsUsed = true;
-                            speciesAttributeSizeModel.SpeciesAttributeSize = speciesAttributeSizesMap[attribute.id];
+                            speciesAttributeSize.IsUsed = true;
+                            speciesAttributeSize.SpeciesAttributeSizeValue = speciesAttributeSizesMap[attribute.id];
                         }
-                        SpeciesAttributes.Add(speciesAttributeSizeModel);
-                        speciesAttributeSizeModel.OnChanged += SpeciesAttribute_OnChanged;
+                        SpeciesAttributes.Add(speciesAttributeSize);
+                        speciesAttributeSize.OnChanged += SpeciesAttribute_OnChanged;
                         break;
                 }
             }
         }
 
-        private void SpeciesAttribute_OnChanged(Model.ISpeciesAttributeValueModel sender)
+        private void SpeciesAttribute_OnChanged(Model.ISpeciesAttributeValue sender)
         {
-            if (sender is Model.SpeciesAttributeChoiceModel)
+            if (sender is Model.SpeciesAttributeChoice)
             {
-                Model.SpeciesAttributeChoiceModel speciesAttributeChoiceModel = sender as Model.SpeciesAttributeChoiceModel;
+                Model.SpeciesAttributeChoice speciesAttributeChoice = sender as Model.SpeciesAttributeChoice;
                 if (sender.IsUsed)
                 {
-                    speciesAttributeChoiceModel.SpeciesAttributeChoice = new Library.DBObject.SpeciesAttributeChoice();
-                    speciesAttributeChoiceModel.SpeciesAttributeChoice.key_id = Key.id;
-                    speciesAttributeChoiceModel.SpeciesAttributeChoice.species_id = Species.id;
-                    speciesAttributeChoiceModel.SpeciesAttributeChoice.attributechoice_id = speciesAttributeChoiceModel.AttributeChoice.id;
-                    IKeyManager.Insert(speciesAttributeChoiceModel.SpeciesAttributeChoice);
+                    speciesAttributeChoice.SpeciesAttributeChoiceValue = new Library.DBObject.SpeciesAttributeChoice();
+                    speciesAttributeChoice.SpeciesAttributeChoiceValue.key_id = Key.id;
+                    speciesAttributeChoice.SpeciesAttributeChoiceValue.species_id = Species.id;
+                    speciesAttributeChoice.SpeciesAttributeChoiceValue.attributechoice_id = speciesAttributeChoice.AttributeChoice.id;
+                    IKeyManager.Insert(speciesAttributeChoice.SpeciesAttributeChoiceValue);
                 }
                 else
                 {
-                    if (speciesAttributeChoiceModel.SpeciesAttributeChoice != null)
+                    if (speciesAttributeChoice.SpeciesAttributeChoiceValue != null)
                     {
-                        IKeyManager.Delete(speciesAttributeChoiceModel.SpeciesAttributeChoice);
-                        speciesAttributeChoiceModel.SpeciesAttributeChoice = null;
+                        IKeyManager.Delete(speciesAttributeChoice.SpeciesAttributeChoiceValue);
+                        speciesAttributeChoice.SpeciesAttributeChoiceValue = null;
                     }
                 }
             }
-            else if (sender is Model.SpeciesAttributeSizeModel)
+            else if (sender is Model.SpeciesAttributeSize)
             {
-                Model.SpeciesAttributeSizeModel speciesAttributeSizeModel = sender as Model.SpeciesAttributeSizeModel;
+                Model.SpeciesAttributeSize speciesAttributeSize = sender as Model.SpeciesAttributeSize;
                 if (sender.IsUsed)
                 {
-                    if (speciesAttributeSizeModel.SpeciesAttributeSize != null)
+                    if (speciesAttributeSize.SpeciesAttributeSizeValue != null)
                     {
-                        IKeyManager.Update(speciesAttributeSizeModel.SpeciesAttributeSize);
+                        IKeyManager.Update(speciesAttributeSize.SpeciesAttributeSizeValue);
                     }
                     else
                     {
-                        speciesAttributeSizeModel.SpeciesAttributeSize = new Library.DBObject.SpeciesAttributeSize();
-                        speciesAttributeSizeModel.SpeciesAttributeSize.key_id = Key.id;
-                        speciesAttributeSizeModel.SpeciesAttributeSize.species_id = Species.id;
-                        speciesAttributeSizeModel.SpeciesAttributeSize.attribute_id = speciesAttributeSizeModel.Attribute.id;
-                        speciesAttributeSizeModel.SpeciesAttributeSize.value = 1;
-                        IKeyManager.Insert(speciesAttributeSizeModel.SpeciesAttributeSize);
+                        speciesAttributeSize.SpeciesAttributeSizeValue = new Library.DBObject.SpeciesAttributeSize();
+                        speciesAttributeSize.SpeciesAttributeSizeValue.key_id = Key.id;
+                        speciesAttributeSize.SpeciesAttributeSizeValue.species_id = Species.id;
+                        speciesAttributeSize.SpeciesAttributeSizeValue.attribute_id = speciesAttributeSize.Attribute.id;
+                        speciesAttributeSize.SpeciesAttributeSizeValue.value = 1;
+                        IKeyManager.Insert(speciesAttributeSize.SpeciesAttributeSizeValue);
                     }
                 }
                 else
                 {
-                    if (speciesAttributeSizeModel.SpeciesAttributeSize != null)
+                    if (speciesAttributeSize.SpeciesAttributeSizeValue != null)
                     {
-                        IKeyManager.Delete(speciesAttributeSizeModel.SpeciesAttributeSize);
-                        speciesAttributeSizeModel.SpeciesAttributeSize = null;
+                        IKeyManager.Delete(speciesAttributeSize.SpeciesAttributeSizeValue);
+                        speciesAttributeSize.SpeciesAttributeSizeValue = null;
                     }
                 }
             }
@@ -143,8 +143,8 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        private List<Model.ISpeciesAttributeValueModel> _speciesAttributes;
-        public List<Model.ISpeciesAttributeValueModel> SpeciesAttributes
+        private List<Model.ISpeciesAttributeValue> _speciesAttributes;
+        public List<Model.ISpeciesAttributeValue> SpeciesAttributes
         {
             get
             {

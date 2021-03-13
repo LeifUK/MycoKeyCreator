@@ -16,7 +16,16 @@ namespace MycoKeys.WebApplication.Model
         {
             public bool IsSelected { get; set; }
             public MycoKeys.Library.DBObject.Attribute Attribute { get; set; }
-            public Int64 SelectedAttributeValueId { get; set; }
+        }
+
+        public class AttributeSize : AttributeSelection
+        {
+            public Int16 Value { get; set; }
+        }
+
+        public class AttributeChoice : AttributeSelection
+        {
+            public Int64 SelectedAttributeChoiceId { get; set; }
             public List<MycoKeys.Library.DBObject.AttributeChoice> AttributeChoices { get; set; }
         }
 

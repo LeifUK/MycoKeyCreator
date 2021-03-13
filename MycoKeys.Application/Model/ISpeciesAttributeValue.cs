@@ -1,8 +1,8 @@
 ﻿namespace MycoKeys.Application.Model
 {
-    public delegate void OnChangedHandler(ISpeciesAttributeValueModel sender);
+    public delegate void OnChangedHandler(ISpeciesAttributeValue sender);
 
-    public interface ISpeciesAttributeValueModel
+    public interface ISpeciesAttributeValue
     {
         string Title { get; }
         bool IsUsed { get; set; }

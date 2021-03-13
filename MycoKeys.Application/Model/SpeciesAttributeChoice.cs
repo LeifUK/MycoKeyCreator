@@ -2,10 +2,10 @@
 
 namespace MycoKeys.Application.Model
 {
-    public class SpeciesAttributeChoiceModel : SpeciesAttributeValueModel
+    public class SpeciesAttributeChoice : SpeciesAttributeValue
     {
         public Library.DBObject.AttributeChoice AttributeChoice { get; set; }
-        public Library.DBObject.SpeciesAttributeChoice SpeciesAttributeChoice { get; set; }
+        public Library.DBObject.SpeciesAttributeChoice SpeciesAttributeChoiceValue { get; set; }
         public override object Value
         {
             get

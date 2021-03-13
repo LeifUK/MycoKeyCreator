@@ -2,7 +2,7 @@
 
 namespace MycoKeys.Application.Model
 {
-    public abstract class SpeciesAttributeValueModel: ISpeciesAttributeValueModel
+    public abstract class SpeciesAttributeValue: ISpeciesAttributeValue
     {
         public string Title 
         { 
