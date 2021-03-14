@@ -9,5 +9,6 @@ namespace MycoKeys.Library.Database
         IEnumerable<DBObject.SpeciesAttributeSize> GetEnumeratorForSpecies(Int64 species_id);
         void DeleteByKey(Int64 key_id);
         void DeleteBySpecies(Int64 species_id);
+        void DeleteByAttribute(Int64 attribute_id);
     }
 }

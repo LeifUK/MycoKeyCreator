@@ -24,5 +24,11 @@ namespace MycoKeys.Library.PetaPocoAdapter
         {
             _database.Delete<DBObject.SpeciesAttributeSize>("WHERE species_id=@0", species_id);
         }
+        
+        public void DeleteByAttribute(Int64 attribute_id)
+        {
+            _database.Delete<DBObject.SpeciesAttributeSize>("WHERE attribute_id=@0", attribute_id);
+        }
+
     }
 }

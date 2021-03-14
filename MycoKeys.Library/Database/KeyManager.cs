@@ -23,7 +23,7 @@ namespace MycoKeys.Library.Database
             _iAttributeTable = iAttributeTable;
             _iAttributeChoiceTable = iAttributeChoiceTable;
             _iSpeciesAttributeChoiceTable = iSpeciesAttributeChoiceTable;
-            _iSpeciesAttributeTableSize = iSpeciesAttributeTableSize;
+            _iSpeciesAttributeSizeTable = iSpeciesAttributeTableSize;
 
             // Upgrades 
 
@@ -39,7 +39,7 @@ namespace MycoKeys.Library.Database
             }
             literatureEnumerator.Dispose();
 
-            if (!_iSpeciesAttributeTableSize.Exists())
+            if (!_iSpeciesAttributeSizeTable.Exists())
             {
                 _iDatabase.CreateSpeciesSizeAttributeValueTable();
             }
@@ -52,7 +52,7 @@ namespace MycoKeys.Library.Database
         private readonly Database.IAttributeTable _iAttributeTable;
         private readonly Database.IAttributeChoiceTable _iAttributeChoiceTable;
         private readonly Database.ISpeciesAttributeChoiceTable _iSpeciesAttributeChoiceTable;
-        private readonly Database.ISpeciesAttributeSizeTable _iSpeciesAttributeTableSize;
+        private readonly Database.ISpeciesAttributeSizeTable _iSpeciesAttributeSizeTable;
 
         public IEnumerable<DBObject.Key> GetKeyEnumerator()
         {
@@ -76,6 +76,7 @@ namespace MycoKeys.Library.Database
             {
                 _iDatabase.BeginTransaction();
                 _iSpeciesAttributeChoiceTable.DeleteByKey(key.id);
+                _iSpeciesAttributeSizeTable.DeleteByKey(key.id);
                 _iSpeciesTable.DeleteByKey(key.id);
                 _iAttributeChoiceTable.DeleteByKey(key.id);
                 _iAttributeTable.DeleteByKey(key.id);
@@ -212,7 +213,7 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
-                _iSpeciesAttributeTableSize.Insert(speciesAttributeSize);
+                _iSpeciesAttributeSizeTable.Insert(speciesAttributeSize);
             }
             catch
             {
@@ -227,7 +228,7 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
-                _iSpeciesAttributeTableSize.Update(speciesAttributeSize);
+                _iSpeciesAttributeSizeTable.Update(speciesAttributeSize);
             }
             catch
             {
@@ -242,7 +243,7 @@ namespace MycoKeys.Library.Database
             bool success = true;
             try
             {
-                _iSpeciesAttributeTableSize.Delete(speciesAttributeSize);
+                _iSpeciesAttributeSizeTable.Delete(speciesAttributeSize);
             }
             catch
             {
@@ -252,9 +253,14 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
+        private IEnumerable<DBObject.SpeciesAttributeSize> GetSpeciesAttributeSizeEnumerator()
+        {
+            return _iSpeciesAttributeSizeTable.Enumerator;
+        }
+
         public IEnumerable<DBObject.SpeciesAttributeSize> GetSpeciesSizeAttributeEnumerator(Int64 species_id)
         {
-            return _iSpeciesAttributeTableSize.GetEnumeratorForSpecies(species_id);
+            return _iSpeciesAttributeSizeTable.GetEnumeratorForSpecies(species_id);
         }
 
         private IEnumerable<DBObject.Attribute> GetAttributeEnumerator()
@@ -376,6 +382,7 @@ namespace MycoKeys.Library.Database
                     _iSpeciesAttributeChoiceTable.DeleteByAttributeChoice(attributeChoice.id);
                     _iAttributeChoiceTable.Delete(attributeChoice);
                 }
+                _iSpeciesAttributeSizeTable.DeleteByAttribute(attribute.id);
                 _iAttributeTable.Delete(attribute);
             }
             catch
@@ -523,6 +530,13 @@ namespace MycoKeys.Library.Database
                 keyIdMap.Add(key_id, key.id);
             }
 
+            foreach(Library.DBObject.Literature literature in sourceKeyManager.GetLiteratureEnumerator())
+            {
+                literature.id = 0;
+                literature.key_id = keyIdMap[literature.key_id];
+                targetKeyManager.Insert(literature);
+            }
+
             Dictionary<long, long> speciesIdMap = new Dictionary<long, long>();
             foreach (DBObject.Species species in sourceKeyManager.GetSpeciesEnumerator())
             {
@@ -543,7 +557,7 @@ namespace MycoKeys.Library.Database
                 attributeIdMap.Add(attribute_id, attribute.id);
             }
 
-            Dictionary<long, long> attributeValueIdMap = new Dictionary<long, long>();
+            Dictionary<long, long> attributeChoiceIdMap = new Dictionary<long, long>();
             foreach (DBObject.AttributeChoice attributeChoice in sourceKeyManager.GetAttributeChoiceEnumerator())
             {
                 long attributechoice_id = attributeChoice.id;
@@ -551,19 +565,35 @@ namespace MycoKeys.Library.Database
                 attributeChoice.key_id = keyIdMap[attributeChoice.key_id];
                 attributeChoice.attribute_id = attributeIdMap[attributeChoice.attribute_id];
                 targetKeyManager.Insert(attributeChoice);
-                attributeValueIdMap.Add(attributechoice_id, attributeChoice.id);
+                attributeChoiceIdMap.Add(attributechoice_id, attributeChoice.id);
             }
 
-            Dictionary<long, long> speciesAttributeChoiceIdMap = new Dictionary<long, long>();
             foreach (DBObject.SpeciesAttributeChoice speciesAttributeChoice in sourceKeyManager.GetSpeciesAttributeChoiceEnumerator())
             {
                 long speciesAttributevalue_id = speciesAttributeChoice.id;
                 speciesAttributeChoice.id = 0;
                 speciesAttributeChoice.key_id = keyIdMap[speciesAttributeChoice.key_id];
                 speciesAttributeChoice.species_id = speciesIdMap[speciesAttributeChoice.species_id];
-                speciesAttributeChoice.attributechoice_id = attributeValueIdMap[speciesAttributeChoice.attributechoice_id];
+                speciesAttributeChoice.attributechoice_id = attributeChoiceIdMap[speciesAttributeChoice.attributechoice_id];
                 targetKeyManager.Insert(speciesAttributeChoice);
-                speciesAttributeChoiceIdMap.Add(speciesAttributevalue_id, speciesAttributeChoice.id);
+            }
+
+            foreach (DBObject.SpeciesAttributeSize speciesAttributeSize in sourceKeyManager.GetSpeciesAttributeSizeEnumerator())
+            {
+                long speciesAttributeSize_id = speciesAttributeSize.id;
+                try
+                {
+                    speciesAttributeSize.id = 0;
+                    speciesAttributeSize.key_id = keyIdMap[speciesAttributeSize.key_id];
+                    speciesAttributeSize.species_id = speciesIdMap[speciesAttributeSize.species_id];
+                    speciesAttributeSize.attribute_id = attributeIdMap[speciesAttributeSize.attribute_id];
+                    speciesAttributeSize.value = speciesAttributeSize.value;
+                    targetKeyManager.Insert(speciesAttributeSize);
+                }
+                catch (Exception exception)
+                {
+
+                }
             }
         }
     }
