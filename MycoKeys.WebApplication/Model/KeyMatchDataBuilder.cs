@@ -127,6 +127,46 @@ namespace MycoKeys.WebApplication.Model
                 int matches = 0;
                 int mismatches = 0;
                 List<string> mismatchedFeatures = new List<string>();
+                int numberOfAttributes = 0;
+
+                if (sizesMap != null)
+                {
+                    Dictionary<Int64, Library.DBObject.SpeciesAttributeSize> attributeSizesMap = iKeyManager.GetSpeciesSizeAttributeEnumerator(species.id).ToDictionary(n => n.attribute_id, n => n);
+
+                    foreach (var item in sizesMap)
+                    {
+                        if (item.Value.IsSelected)
+                        {
+                            if (attributeSizesMap.ContainsKey(item.Value.AttributeId))
+                            {
+                                ++numberOfAttributes;
+
+                                Library.DBObject.Attribute attribute = attributesMap[item.Value.AttributeId];
+                                Library.Database.AttributeType attributeType = (Library.Database.AttributeType)attribute.type;
+                                Library.DBObject.SpeciesAttributeSize speciesAttributeSize = attributeSizesMap[item.Value.AttributeId];
+                                if (
+                                     (
+                                       (attributeType == Library.Database.AttributeType.MaximumSize) &&
+                                       (item.Value.AttributeValue > speciesAttributeSize.value)
+                                     ) ||
+                                     (
+                                       (attributeType == Library.Database.AttributeType.MinimumSize) &&
+                                       (item.Value.AttributeValue < speciesAttributeSize.value)
+                                     )
+                                   )
+                                {
+                                    ++mismatches;
+                                    mismatchedFeatures.Add(attribute.description + " " + speciesAttributeSize.value);
+                                }
+                                else
+                                {
+                                    ++matches;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 if (choicesMap != null)
                 {
                     foreach (var item in choicesMap)
@@ -155,7 +195,7 @@ namespace MycoKeys.WebApplication.Model
                     }
                 }
 
-                int numberOfAttributes = attributeChoicesMap.Where(n => speciesAttributeChoiceIds.Contains(n.Key)).
+                numberOfAttributes += attributeChoicesMap.Where(n => speciesAttributeChoiceIds.Contains(n.Key)).
                     Select(n => n.Value.attribute_id).Distinct().Count();
 
                 keyMatchViewModel.Species.Add(new SpeciesMatchData()
