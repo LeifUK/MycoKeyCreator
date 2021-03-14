@@ -14,7 +14,7 @@ namespace MycoKeys.Library.PetaPocoAdapter
                 new PetaPocoAdapter.LiteratureTable(iDatabase.ISqlQueryBuilder, database),
                 new PetaPocoAdapter.SpeciesTable(iDatabase.ISqlQueryBuilder, database),
                 new PetaPocoAdapter.AttributeTable(iDatabase.ISqlQueryBuilder, database),
-                new PetaPocoAdapter.AttributeValueTable(iDatabase.ISqlQueryBuilder, database),
+                new PetaPocoAdapter.AttributeChoiceTable(iDatabase.ISqlQueryBuilder, database),
                 new PetaPocoAdapter.SpeciesAttributeChoiceTable(iDatabase.ISqlQueryBuilder, database),
                 new PetaPocoAdapter.SpeciesAttributeSizeTable(iDatabase.ISqlQueryBuilder, database));
 

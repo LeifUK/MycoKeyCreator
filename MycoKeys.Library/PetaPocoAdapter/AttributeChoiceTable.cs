@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace MycoKeys.Library.PetaPocoAdapter
 {
-    public class AttributeValueTable : Table<DBObject.AttributeChoice>, Database.IAttributeChoiceTable
+    public class AttributeChoiceTable : Table<DBObject.AttributeChoice>, Database.IAttributeChoiceTable
     {
-        public AttributeValueTable(SqlQueryBuilders.ISqlQueryBuilder iSqlQueryBuilder, PetaPoco.NetCore.Database database) : base(iSqlQueryBuilder, database, Database.TableNames.AttributeChoice)
+        public AttributeChoiceTable(SqlQueryBuilders.ISqlQueryBuilder iSqlQueryBuilder, PetaPoco.NetCore.Database database) : base(iSqlQueryBuilder, database, Database.TableNames.AttributeChoice)
         {
         }
         
