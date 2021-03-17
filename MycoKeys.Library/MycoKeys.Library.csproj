@@ -154,8 +154,8 @@
     <Compile Include="DBObject\Species.cs" />
     <Compile Include="DBObject\SpeciesAttributeChoice.cs" />
     <Compile Include="DBObject\SpeciesAttributeSize.cs" />
+    <Compile Include="PetaPocoAdapter\AttributeChoiceTable.cs" />
     <Compile Include="PetaPocoAdapter\LiteratureTable.cs" />
-    <Compile Include="PetaPocoAdapter\AttributeValueTable.cs" />
     <Compile Include="PetaPocoAdapter\DatabaseWrapper.cs" />
     <Compile Include="PetaPocoAdapter\KeyManagerFactory.cs" />
     <Compile Include="PetaPocoAdapter\AttributeTable.cs" />

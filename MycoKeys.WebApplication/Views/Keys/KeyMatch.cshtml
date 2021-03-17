@@ -2,63 +2,120 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
 
-<div class="container">
-    <h1 class="mainheader">@Model.KeyTitle</h1>
-    @{
-        if (!string.IsNullOrEmpty(@Model.KeyDescription))
-        {
-            <p>@Model.KeyDescription</p>
-        }
-        if (!string.IsNullOrEmpty(@Model.Copyright))
-        {
-            <p>Copyright @Model.Copyright</p>
-        }
-        if ((Model.Literature != null) && (Model.Literature.Count > 0))
-        {
-            <p>References:</p>
-            <ul>
-                @foreach (var literature in Model.Literature)
-                {
-                    string text = @literature.title;
-                    if (!string.IsNullOrEmpty(literature.description))
-                    {
-                        text += "<br/>" + literature.description;
-                    }
-                <li>@Html.Raw(@text)</li>
-                }
-            </ul>
-        }
+    .attribute-description {
+        text-align: right;
+        vertical-align: central;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        padding: 0px;
     }
-    <br />
-    <h2 class="mainheader"><a name="Features"></a>Features</h2>
-    <form action="/Keys/Update" method="post">
-        <input type="hidden" name="KeyName" value="@Model.KeyName" />
-        <table border="0" cellspacing="0" cellpadding="0" class="standard-table">
-            <tbody>
-                @{
-                    int i = 0;
-                    foreach (var attributeSelection in Model.AttributeSelections)
-                    {
-                        string IsSelected = "AttributeSelections[" + i + "].IsSelected";
-                        string AttributeId = "AttributeSelections[" + i + "].AttributeId";
-                        string AttributeType = "AttributeSelections[" + i + "].AttributeType";
-                        string AttributeValue = "AttributeSelections[" + i + "].AttributeValue";
-                        <tr>
-                            <td class="shrink">
-                                <p>
-                                    <input type="checkbox" name="@IsSelected" value="true" checked="@attributeSelection.IsSelected" />
-                                    <label asp-for="IsSelected">@attributeSelection.Attribute.description</label>
-                                    <input type="hidden" name="@AttributeType" value="@attributeSelection.Attribute.type" />
-                                    <input type="hidden" name="@AttributeId" value="@attributeSelection.Attribute.id" />
-                                </p>
-                            </td>
-                            <td class="expand">
-                                @if (@attributeSelection is MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeChoice)
-                                {
-                                    MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeChoice attributeChoice =
-                                        @attributeSelection as MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeChoice;
-                                <select name="@AttributeValue">
+
+    .attribute-choice {
+        display: block;
+        padding: 1px 2px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .attribute-number {
+        display: block;
+        padding: 1px 2px;
+        margin-top: 3px;
+        margin-bottom: 2px;
+        font-size: 1rem;
+        font-weight: 400;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .match-column {
+        vertical-align:top;
+        border: 0px;
+        padding: 0px;
+        padding-right: 10px;
+        margin: 0px;
+    }
+
+    .match-content {
+        border: 0px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-left: 0px;
+        padding-right: 0px;
+        margin: 0px;
+    }
+
+</style>
+<h1 class="mainheader">@Model.KeyTitle</h1>
+@{
+    if (!string.IsNullOrEmpty(@Model.KeyDescription))
+    {
+        <p>@Model.KeyDescription</p>
+    }
+    if (!string.IsNullOrEmpty(@Model.Copyright))
+    {
+        <p>Copyright @Model.Copyright</p>
+    }
+    if ((Model.Literature != null) && (Model.Literature.Count > 0))
+    {
+        <p>References:</p>
+        <ul>
+            @foreach (var literature in Model.Literature)
+            {
+                string text = @literature.title;
+                if (!string.IsNullOrEmpty(literature.description))
+                {
+                    text += "<br/>" + literature.description;
+                }
+                <li>@Html.Raw(@text)</li>
+            }
+        </ul>
+    }
+}
+<h2 class="mainheader"><a name="Features"></a>Features</h2>
+<form action="/Keys/Update" method="post">
+    <input type="hidden" name="KeyName" value="@Model.KeyName" />
+    <table border="0" cellspacing="0" cellpadding="0" class="table-standard">
+        <tbody>
+            @{
+                int i = 0;
+                foreach (var attributeSelection in Model.AttributeSelections)
+                {
+                    string IsSelected = "AttributeSelections[" + i + "].IsSelected";
+                    string AttributeId = "AttributeSelections[" + i + "].AttributeId";
+                    string AttributeType = "AttributeSelections[" + i + "].AttributeType";
+                    string AttributeValue = "AttributeSelections[" + i + "].AttributeValue";
+                    <tr>
+                        <td class="shrink">
+                            <label asp-for="IsSelected" class="attribute-description">
+                                <input type="checkbox" name="@IsSelected" value="true" checked="@attributeSelection.IsSelected" />
+                                @attributeSelection.Attribute.description
+                            </label>
+                            <input type="hidden" name="@AttributeType" value="@attributeSelection.Attribute.type" />
+                            <input type="hidden" name="@AttributeId" value="@attributeSelection.Attribute.id" />
+                            &nbsp;&nbsp;
+                        </td>
+                        <td class="expand">
+                            @if (@attributeSelection is MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeChoice)
+                            {
+                                MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeChoice attributeChoice =
+                                    @attributeSelection as MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeChoice;
+                                <select name="@AttributeValue" class="attribute-choice" >
                                     @foreach (var item in attributeChoice.AttributeChoices)
                                     {
                                         if (item.id == @attributeChoice.SelectedAttributeChoiceId)
@@ -71,50 +128,12 @@
                                         }
                                     }
                                 </select>
-                                }
-                                else if (@attributeSelection is MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeSize)
-                                {
-                                    MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeSize attributeSize =
-                                        @attributeSelection as MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeSize;
-                                    <input type="number" name="@AttributeValue" value="@attributeSize.Value"/>
-                                }
-                            </td>
-                        </tr>
-                        ++i;
-                    }
-                }
-            </tbody>
-        </table>
-
-        <input type="submit" value="Search" style="margin-left:30px; margin-top: 10px; margin-bottom: 10px; padding-left:10px; padding-right:10px; padding-top: 4px; padding-bottom: 4px;" />
-    </form>
-
-    <h2 class="mainheader"><a name="MatchResults"></a>Match Results</h2>
-    <table border="0" cellspacing="0" cellpadding="0" class="standard-table">
-        <tbody>
-            @{
-                <tr>
-                    <th><p>Species</p></th>
-                    <th><p>Matches</p></th>
-                    <th><p>Mismatches</p></th>
-                    <th><p>Mismatched Features</p></th>
-                </tr>
-                foreach (var item in Model.Species)
-                {
-                    <tr>
-                        <td class="shrink" valign="top">
-                            <p>@item.Species.name</p>
-                        </td>
-                        <td class="shrink" valign="top">
-                            <p>@item.Matches / @item.AttributeCount</p>
-                        </td>
-                        <td class="shrink" valign="top">
-                            <p>@item.Mismatches</p>
-                        </td>
-                        <td class="expand">
-                            @foreach (var text in item.MismatchedFeatures)
+                            }
+                            else if (@attributeSelection is MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeSize)
                             {
-                                <p>@text</p>
+                                MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeSize attributeSize =
+                                    @attributeSelection as MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeSize;
+                                <input type="number" name="@AttributeValue" value="@attributeSize.Value" class="attribute-number" />
                             }
                         </td>
                     </tr>
@@ -123,4 +142,40 @@
             }
         </tbody>
     </table>
-</div>
+
+    <input type="submit" value="Search" class="btn btn-success"  />
+</form>
+
+<h2 class="mainheader"><a name="MatchResults"></a>Match Results</h2>
+<table border="0" cellspacing="0" cellpadding="0" class="table-standard">
+    <tbody>
+        @{
+            <tr>
+                <th class="match-column">Species</th>
+                <th class="match-column">Matches</th>
+                <th class="match-column">Mismatches</th>
+                <th>Mismatched Features</th>
+            </tr>
+            foreach (var item in Model.Species)
+            {
+                <tr>
+                    <td class="match-column">
+                        <p class="match-content">@item.Species.name</p>
+                    </td>
+                    <td class="match-column">
+                        <p class="match-content">@item.Matches / @item.AttributeCount</p>
+                    </td>
+                    <td class="match-column">
+                        <p class="match-content">@item.Mismatches</p>
+                    </td>
+                    <td >
+                        @foreach (var text in item.MismatchedFeatures)
+                        {
+                            <p class="match-content">@text</p>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
