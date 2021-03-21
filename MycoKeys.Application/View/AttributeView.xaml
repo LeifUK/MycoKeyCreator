@@ -7,7 +7,7 @@
         xmlns:database="clr-namespace:MycoKeys.Library.Database;assembly=MycoKeys.Library"
         Background="#F0F0F0"
         mc:Ignorable="d"
-        SizeToContent="Height"
+        ResizeMode="CanResizeWithGrip"
         Title="Attribute Editor" Height="600" Width="400">
     <Window.Resources>
         <ResourceDictionary>
@@ -36,37 +36,73 @@
         <GroupBox Grid.Row="2" Grid.Column="0" Header="Values" Style="{StaticResource GroupBoxStyle}" Padding="10">
             <Grid Grid.Row="2" Grid.Column="2" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" x:Name="_dataGridValues" ItemsSource="{Binding AttributeChoices}" 
+
+                <Grid Grid.Row="0" Grid.Column="0" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Row="0" Grid.Column="0" Grid.RowSpan="11" x:Name="_dataGridValues" ItemsSource="{Binding AttributeChoices}" 
                     SelectedItem="{Binding SelectedAttributeChoice}" MouseDoubleClick="_dataGridValues_MouseDoubleClick"
                     HeadersVisibility="None" 
                     Style="{StaticResource DataGridStyle}" VerticalAlignment="Stretch" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="*" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Button Grid.Row="0" Grid.Column="2" x:Name="_buttonAdd" Content="Add" Style="{StaticResource Button80Style}" Click="_buttonAdd_Click"/>
-                <Button Grid.Row="2" Grid.Column="2" x:Name="_buttonEdit" Content="Edit" Style="{StaticResource Button80Style}" Click="_buttonEdit_Click"/>
-                <Button Grid.Row="4" Grid.Column="2" x:Name="_buttonDelete" Content="Delete" Style="{StaticResource Button80Style}" Click="_buttonDelete_Click"/>
-                <Button Grid.Row="6" Grid.Column="2" x:Name="_buttonUp" Content="Up" Style="{StaticResource Button80Style}" 
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Grid.Row="0" Grid.Column="2" x:Name="_buttonAdd" Content="Add" Style="{StaticResource Button80Style}" Click="_buttonAdd_Click"/>
+                    <Button Grid.Row="2" Grid.Column="2" x:Name="_buttonEdit" Content="Edit" Style="{StaticResource Button80Style}" Click="_buttonEdit_Click"/>
+                    <Button Grid.Row="4" Grid.Column="2" x:Name="_buttonDelete" Content="Delete" Style="{StaticResource Button80Style}" Click="_buttonDelete_Click"/>
+                    <Button Grid.Row="6" Grid.Column="2" x:Name="_buttonUp" Content="Up" Style="{StaticResource Button80Style}" 
                         Click="_buttonUp_Click" IsEnabled="{Binding CanMoveValueUp}"/>
-                <Button Grid.Row="8" Grid.Column="2" x:Name="_buttonDown" Content="Down" Style="{StaticResource Button80Style}" 
-                        Click="_buttonDown_Click" IsEnabled="{Binding CanMoveValueDown}"/>
+                    <Button Grid.Row="8" Grid.Column="2" x:Name="_buttonDown" Content="Down" Style="{StaticResource Button80Style}" 
+                        Click="_buttonDown_Click" IsEnabled="{Binding CanMoveValueDown}" VerticalAlignment="Top"/>
+                </Grid>
+
+                <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="99" Height="10" HorizontalAlignment="Stretch"/>
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="4"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Associated Species" Style="{StaticResource LabelStyle}" HorizontalAlignment="Left" />
+                    <DataGrid Grid.Row="2" Grid.Column="0" ItemsSource="{Binding AssociatedSpecies}" Style="{StaticResource DataGridStyle}" VerticalAlignment="Stretch" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding .}" Width="*" />
+                        </DataGrid.Columns>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Foreground" Value="Black" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{x:Null}" />
+                                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                </Grid>
             </Grid>
         </GroupBox>
 

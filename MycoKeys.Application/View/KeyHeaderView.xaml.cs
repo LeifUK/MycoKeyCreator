@@ -14,7 +14,12 @@ namespace MycoKeys.Application.View
 
         private void _buttonOK_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as ViewModel.KeyHeaderViewModel).Save();
+            ViewModel.KeyHeaderViewModel keyHeaderViewModel = (DataContext as ViewModel.KeyHeaderViewModel);
+            if (string.IsNullOrEmpty(keyHeaderViewModel.Name))
+            {
+                return;
+            }
+            keyHeaderViewModel.Save();
             DialogResult = true;
         }
 
@@ -23,28 +28,29 @@ namespace MycoKeys.Application.View
             DialogResult = false;
         }
 
-        private void EditLiterature(Library.DBObject.Literature literature)
+        private bool EditLiterature(Library.DBObject.Literature literature)
         {
             if (literature == null)
             {
-                return;
+                return false;
             }
 
             ViewModel.KeyHeaderViewModel keyHeaderViewModel = (DataContext as ViewModel.KeyHeaderViewModel);
             LiteratureView literatureView = new LiteratureView();
-            ViewModel.LiteratureViewModel literatureViewModel = new ViewModel.LiteratureViewModel(keyHeaderViewModel.IKeyManager, keyHeaderViewModel.Key, literature);
+            ViewModel.LiteratureViewModel literatureViewModel = new ViewModel.LiteratureViewModel(literature);
             literatureView.DataContext = literatureViewModel;
             literatureView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             literatureView.Owner = this;
-            if (literatureView.ShowDialog() == true)
-            {
-                keyHeaderViewModel.Load();
-            }
+            return (literatureView.ShowDialog() == true);
         }
 
         private void _buttonAddLiterature_Click(object sender, RoutedEventArgs e)
         {
-            EditLiterature(new Library.DBObject.Literature());
+            Library.DBObject.Literature literature = new Library.DBObject.Literature();
+            if (EditLiterature(literature))
+            {
+                (DataContext as ViewModel.KeyHeaderViewModel).LiteratureItems.Add(literature);
+            }
         }
 
         private void _buttonEditLiterature_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,6 @@
-﻿namespace MycoKeys.Application.ViewModel
+﻿using System.Collections.ObjectModel;
+
+namespace MycoKeys.Application.ViewModel
 {
     public class KeyHeaderViewModel : OpenControls.Wpf.Utilities.ViewModel.BaseViewModel
     {
@@ -12,11 +14,12 @@
             Copyright = Key.copyright;
             Publish = Key.Publish;
             Load();
+            _originalLiteratureItems = new ObservableCollection<Library.DBObject.Literature>(_literatureItems);
         }
 
         public void Load()
         {
-            LiteratureItems = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetKeyLiteratureEnumerator(Key.id));
+            LiteratureItems = new ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetKeyLiteratureEnumerator(Key.id));
             if (LiteratureItems.Count > 0)
             {
                 SelectedLiterature = LiteratureItems[0];
@@ -38,6 +41,24 @@
             {
                 IKeyManager.Update(Key);
             }
+            foreach (var literature in LiteratureItems)
+            {
+                if (_originalLiteratureItems.Contains(literature))
+                {
+                    IKeyManager.Update(literature);
+                    _originalLiteratureItems.Remove(literature);
+                }
+                else
+                {
+                    literature.key_id = Key.id;
+                    IKeyManager.Insert(literature);
+                }
+            }
+            foreach (var literature in _originalLiteratureItems)
+            {
+                IKeyManager.Delete(literature);
+            }
+            _originalLiteratureItems.Clear();
         }
 
         public readonly Library.Database.IKeyManager IKeyManager;
@@ -85,8 +106,10 @@
             }
         }
 
-        private System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature> _literatureItems;
-        public System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature> LiteratureItems
+        private ObservableCollection<Library.DBObject.Literature> _originalLiteratureItems;
+
+        private ObservableCollection<Library.DBObject.Literature> _literatureItems;
+        public ObservableCollection<Library.DBObject.Literature> LiteratureItems
         {
             get
             {

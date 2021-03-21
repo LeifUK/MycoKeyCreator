@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace MycoKeys.Application.ViewModel
 {
@@ -7,7 +8,7 @@ namespace MycoKeys.Application.ViewModel
     {
         public AttributeViewModel(Library.Database.IKeyManager keyManager, Library.DBObject.Key key, Library.DBObject.Attribute attribute)
         {
-            _keyManager = keyManager;
+            _iKeyManager = keyManager;
             _key = key;
             _attribute = attribute;
             Text = attribute.description;
@@ -17,7 +18,7 @@ namespace MycoKeys.Application.ViewModel
         public void LoadValues()
         {
             AttributeChoices = new ObservableCollection<Library.DBObject.AttributeChoice>(
-                _keyManager.GetAttributeChoiceEnumerator(_attribute.id).OrderBy(n => n.position));
+                _iKeyManager.GetAttributeChoiceEnumerator(_attribute.id).OrderBy(n => n.position));
             AssignPositions();
             if (AttributeChoices.Count > 0)
             {
@@ -35,7 +36,7 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        private Library.Database.IKeyManager _keyManager;
+        private Library.Database.IKeyManager _iKeyManager;
         private Library.DBObject.Key _key;
         private Library.DBObject.Attribute _attribute;
 
@@ -45,11 +46,11 @@ namespace MycoKeys.Application.ViewModel
             if (_attribute.id == 0)
             {
                 _attribute.key_id = _key.id;
-                _keyManager.Insert(_attribute, AttributeChoices.ToList());
+                _iKeyManager.Insert(_attribute, AttributeChoices.ToList());
             }
             else
             {
-                _keyManager.Update(_attribute, AttributeChoices.ToList());
+                _iKeyManager.Update(_attribute, AttributeChoices.ToList());
             }
         }
 
@@ -80,6 +81,17 @@ namespace MycoKeys.Application.ViewModel
                 NotifyPropertyChanged("SelectedAttributeChoice");
                 NotifyPropertyChanged("CanMoveValueUp");
                 NotifyPropertyChanged("CanMoveValueDown");
+
+                // Warning warning
+                if (_selectedAttributeChoice == null)
+                {
+                    AssociatedSpecies = null;
+                }
+                else
+                {
+                    var speciesList = _iKeyManager.GetKeySpeciesAttributeChoiceEnumerator(_key.id).Where(n => n.attributechoice_id == value.id).Select(n => n.species_id).ToList();
+                    AssociatedSpecies = _iKeyManager.GetKeySpeciesEnumerator(_key.id).Where(n => speciesList.Contains(n.id)).Select(n => n.name).ToList();
+                }
             }
         }
 
@@ -112,7 +124,7 @@ namespace MycoKeys.Application.ViewModel
             {
                 ++index;
             }
-            _keyManager.Insert(attributeValue);
+            _iKeyManager.Insert(attributeValue);
             AttributeChoices.Insert(index, attributeValue);
             AssignPositions();
             SelectedAttributeChoice = AttributeChoices[index];
@@ -122,7 +134,7 @@ namespace MycoKeys.Application.ViewModel
         {
             if (SelectedAttributeChoice != null)
             {
-                _keyManager.Delete(SelectedAttributeChoice);
+                _iKeyManager.Delete(SelectedAttributeChoice);
                 AttributeChoices.Remove(SelectedAttributeChoice);
                 AssignPositions();
             }
@@ -174,8 +186,8 @@ namespace MycoKeys.Application.ViewModel
             int index = AttributeChoices.IndexOf(SelectedAttributeChoice);
             AttributeChoices[index].position = (short)(index - 1);
             AttributeChoices[index - 1].position = (short)index;
-            _keyManager.Update(AttributeChoices[index - 1]);
-            _keyManager.Update(AttributeChoices[index]);
+            _iKeyManager.Update(AttributeChoices[index - 1]);
+            _iKeyManager.Update(AttributeChoices[index]);
             AttributeChoices = new ObservableCollection<Library.DBObject.AttributeChoice>(AttributeChoices.OrderBy(n => n.position));
             SelectedAttributeChoice = AttributeChoices[index - 1];
         }
@@ -190,10 +202,24 @@ namespace MycoKeys.Application.ViewModel
             int index = AttributeChoices.IndexOf(SelectedAttributeChoice);
             AttributeChoices[index].position = (short)(index + 1);
             AttributeChoices[index + 1].position = (short)index;
-            _keyManager.Update(AttributeChoices[index]);
-            _keyManager.Update(AttributeChoices[index + 1]);
+            _iKeyManager.Update(AttributeChoices[index]);
+            _iKeyManager.Update(AttributeChoices[index + 1]);
             AttributeChoices = new ObservableCollection<Library.DBObject.AttributeChoice>(AttributeChoices.OrderBy(n => n.position));
             SelectedAttributeChoice = AttributeChoices[index + 1];
+        }
+
+        List<string> _associatedSpecies;
+        public List<string> AssociatedSpecies
+        {
+            get
+            {
+                return _associatedSpecies;
+            }
+            set
+            {
+                _associatedSpecies = value;
+                NotifyPropertyChanged("AssociatedSpecies");
+            }
         }
     }
 }
