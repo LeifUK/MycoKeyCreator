@@ -65,6 +65,13 @@ namespace MycoKeyMaker.WebApplication
                     System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"wwwroot/css")),
                 RequestPath = "/CSS"
             });
+            
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+                    System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"wwwroot/Images")),
+                RequestPath = "/Images"
+            });
 
             app.UseHttpsRedirection();
             app.UseRouting();
