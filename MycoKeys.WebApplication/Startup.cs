@@ -84,6 +84,11 @@ namespace MycoKeys.WebApplication
                     defaults: new { controller = "Keys", action = "About" });
 
                 endpoints.MapControllerRoute(
+                    name: "MycoKeyMaker",
+                    pattern: "MycoKeyMaker",
+                    defaults: new { controller = "Keys", action = "MycoKeyMaker" });
+
+                endpoints.MapControllerRoute(
                     name: "update",
                     pattern: "{controller=Keys}/{action=Update}");
 

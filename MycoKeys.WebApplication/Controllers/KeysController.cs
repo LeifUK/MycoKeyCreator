@@ -21,7 +21,12 @@ namespace MycoKeys.WebApplication.Controllers
 
         public IActionResult About()
         {
-            return View("About", _iKeyManagerFactory.GetKeyManager().GetKeyEnumerator().Where(n => n.Publish).ToList());
+            return View("About");
+        }
+
+        public IActionResult MycoKeyMaker()
+        {
+            return View("MycoKeyMaker");
         }
 
         public IActionResult KeyMatch(string keyName)

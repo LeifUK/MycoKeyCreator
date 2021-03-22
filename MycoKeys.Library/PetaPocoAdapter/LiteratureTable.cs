@@ -10,7 +10,7 @@ namespace MycoKeys.Library.PetaPocoAdapter
 
         public void DeleteByKey(Int64 key_id)
         {
-            _database.Delete<DBObject.Attribute>("WHERE key_id=@0", key_id);
+            _database.Delete<DBObject.Literature>("WHERE key_id=@0", key_id);
         }
     }
 }

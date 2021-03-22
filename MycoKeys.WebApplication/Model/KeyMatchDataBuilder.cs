@@ -40,7 +40,7 @@ namespace MycoKeys.WebApplication.Model
             keyMatchViewModel.KeyName = selectedKey.name;
             keyMatchViewModel.KeyTitle = selectedKey.title;
             keyMatchViewModel.KeyDescription = selectedKey.description;
-            foreach (var literature in iKeyManager.GetKeyLiteratureEnumerator(selectedKey.id))
+            foreach (var literature in iKeyManager.GetLiteratureEnumeratorForKey(selectedKey.id))
             {
                 keyMatchViewModel.Literature.Add(literature);
             }
@@ -51,7 +51,7 @@ namespace MycoKeys.WebApplication.Model
              */
 
             Dictionary<Int64, Library.DBObject.Attribute> attributesMap = 
-                iKeyManager.GetKeyAttributeEnumerator(selectedKey.id).OrderBy(n => n.position).ToDictionary(n => n.id, n => n);
+                iKeyManager.GetAttributeEnumeratorForKey(selectedKey.id).OrderBy(n => n.position).ToDictionary(n => n.id, n => n);
             Dictionary<Int64, KeyMatchViewOutput.Selection> choicesMap = 
                 keyMatchViewOutput != null ? 
                 keyMatchViewOutput.AttributeSelections.Where(n => n.AttributeType == (Int16)Library.Database.AttributeType.Choice).
@@ -71,7 +71,7 @@ namespace MycoKeys.WebApplication.Model
                     KeyMatchViewModel.AttributeChoice attribute = new KeyMatchViewModel.AttributeChoice();
                     attribute.Attribute = item.Value;
                     attribute.AttributeChoices = new List<Library.DBObject.AttributeChoice>();
-                    foreach (Library.DBObject.AttributeChoice attributeChoice in iKeyManager.GetAttributeChoiceEnumerator(item.Value.id).OrderBy(n => n.position))
+                    foreach (Library.DBObject.AttributeChoice attributeChoice in iKeyManager.GetAttributeChoiceEnumeratorForAttribute(item.Value.id).OrderBy(n => n.position))
                     {
                         attribute.AttributeChoices.Add(attributeChoice);
                         if ((choicesMap != null) && choicesMap.ContainsKey(attributeChoice.id))
@@ -99,8 +99,8 @@ namespace MycoKeys.WebApplication.Model
              * Work out the matches/mismatches for each species
              */
 
-            Dictionary<Int64, Library.DBObject.AttributeChoice> attributeChoicesMap = iKeyManager.GetKeyAttributeChoiceEnumerator(selectedKey.id).ToDictionary(n => n.id, n => n);
-            List<Library.DBObject.SpeciesAttributeChoice> speciesAttributeChoices = iKeyManager.GetKeySpeciesAttributeChoiceEnumerator(selectedKey.id).ToList();
+            Dictionary<Int64, Library.DBObject.AttributeChoice> attributeChoicesMap = iKeyManager.GetAttributeChoiceEnumeratorForKey(selectedKey.id).ToDictionary(n => n.id, n => n);
+            List<Library.DBObject.SpeciesAttributeChoice> speciesAttributeChoices = iKeyManager.GetSpeciesAttributeChoiceEnumeratorForKey(selectedKey.id).ToList();
 
             IEnumerable<Library.DBObject.Species> speciesEnumerator = iKeyManager.GetKeySpeciesEnumerator(selectedKey.id).ToList();
             foreach (Library.DBObject.Species species in speciesEnumerator)
@@ -131,7 +131,7 @@ namespace MycoKeys.WebApplication.Model
 
                 if (sizesMap != null)
                 {
-                    Dictionary<Int64, Library.DBObject.SpeciesAttributeSize> attributeSizesMap = iKeyManager.GetSpeciesSizeAttributeEnumerator(species.id).ToDictionary(n => n.attribute_id, n => n);
+                    Dictionary<Int64, Library.DBObject.SpeciesAttributeSize> attributeSizesMap = iKeyManager.GetSpeciesSizeAttributeEnumeratorForSpecies(species.id).ToDictionary(n => n.attribute_id, n => n);
 
                     foreach (var item in sizesMap)
                     {

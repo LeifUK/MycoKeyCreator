@@ -23,13 +23,13 @@ namespace MycoKeys.Application.ViewModel
             SpeciesAttributes = new List<Model.ISpeciesAttributeValue>();
 
             List<Library.DBObject.Attribute> attributes = new List<Library.DBObject.Attribute>(
-                IKeyManager.GetKeyAttributeEnumerator(Species.key_id).OrderBy(n => n.position));
+                IKeyManager.GetAttributeEnumeratorForKey(Species.key_id).OrderBy(n => n.position));
 
             Dictionary<Int64, Library.DBObject.SpeciesAttributeChoice> speciesAttributeChoicesMap =
-                IKeyManager.GetSpeciesAttributeChoiceEnumerator(Species.id).ToDictionary(n => n.attributechoice_id, n => n);
+                IKeyManager.GetSpeciesAttributeChoiceEnumeratorForSpecies(Species.id).ToDictionary(n => n.attributechoice_id, n => n);
 
             Dictionary<Int64, Library.DBObject.SpeciesAttributeSize> speciesAttributeSizesMap =
-                IKeyManager.GetSpeciesSizeAttributeEnumerator(Species.id).ToDictionary(n => n.attribute_id, n => n);
+                IKeyManager.GetSpeciesSizeAttributeEnumeratorForSpecies(Species.id).ToDictionary(n => n.attribute_id, n => n);
 
             foreach (var attribute in attributes)
             {
@@ -38,7 +38,7 @@ namespace MycoKeys.Application.ViewModel
                 {
                     case Library.Database.AttributeType.Choice:
                         {
-                            List<Library.DBObject.AttributeChoice> attributeChoices = IKeyManager.GetAttributeChoiceEnumerator(attribute.id).OrderBy(n => n.position).ToList();
+                            List<Library.DBObject.AttributeChoice> attributeChoices = IKeyManager.GetAttributeChoiceEnumeratorForAttribute(attribute.id).OrderBy(n => n.position).ToList();
                             foreach (var attributeChoice in attributeChoices)
                             {
                                 Model.SpeciesAttributeChoice speciesAttributeChoice = new Model.SpeciesAttributeChoice();

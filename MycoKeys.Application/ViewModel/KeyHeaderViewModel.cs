@@ -19,7 +19,7 @@ namespace MycoKeys.Application.ViewModel
 
         public void Load()
         {
-            LiteratureItems = new ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetKeyLiteratureEnumerator(Key.id));
+            LiteratureItems = new ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetLiteratureEnumeratorForKey(Key.id));
             if (LiteratureItems.Count > 0)
             {
                 SelectedLiterature = LiteratureItems[0];

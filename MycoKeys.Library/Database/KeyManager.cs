@@ -80,6 +80,7 @@ namespace MycoKeys.Library.Database
                 _iSpeciesTable.DeleteByKey(key.id);
                 _iAttributeChoiceTable.DeleteByKey(key.id);
                 _iAttributeTable.DeleteByKey(key.id);
+                _iLiteratureTable.DeleteByKey(key.id);
                 _iKeyTable.Delete(key);
                 _iDatabase.CommitTransaction();
             }
@@ -98,7 +99,7 @@ namespace MycoKeys.Library.Database
             return _iLiteratureTable.Enumerator;
         }
 
-        public IEnumerable<DBObject.Literature> GetKeyLiteratureEnumerator(Int64 key_id)
+        public IEnumerable<DBObject.Literature> GetLiteratureEnumeratorForKey(Int64 key_id)
         {
             return _iLiteratureTable.GetEnumeratorForKey(key_id);
         }
@@ -127,6 +128,21 @@ namespace MycoKeys.Library.Database
             }
 
             return success;
+        }
+
+        private IEnumerable<DBObject.SpeciesAttributeChoice> GetSpeciesAttributeChoiceEnumerator()
+        {
+            return _iSpeciesAttributeChoiceTable.Enumerator;
+        }
+
+        public IEnumerable<DBObject.SpeciesAttributeChoice> GetSpeciesAttributeChoiceEnumeratorForKey(Int64 key_id)
+        {
+            return _iSpeciesAttributeChoiceTable.GetEnumeratorForKey(key_id);
+        }
+
+        public IEnumerable<DBObject.SpeciesAttributeChoice> GetSpeciesAttributeChoiceEnumeratorForSpecies(Int64 species_id)
+        {
+            return _iSpeciesAttributeChoiceTable.GetEnumeratorForSpecies(species_id);
         }
 
         public Library.DBObject.SpeciesAttributeChoice Select(Library.DBObject.SpeciesAttributeChoice speciesAttributeChoice)
@@ -193,19 +209,14 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        private IEnumerable<DBObject.SpeciesAttributeChoice> GetSpeciesAttributeChoiceEnumerator()
+        private IEnumerable<DBObject.SpeciesAttributeSize> GetSpeciesAttributeSizeEnumerator()
         {
-            return _iSpeciesAttributeChoiceTable.Enumerator;
+            return _iSpeciesAttributeSizeTable.Enumerator;
         }
 
-        public IEnumerable<DBObject.SpeciesAttributeChoice> GetKeySpeciesAttributeChoiceEnumerator(Int64 key_id)
+        public IEnumerable<DBObject.SpeciesAttributeSize> GetSpeciesSizeAttributeEnumeratorForSpecies(Int64 species_id)
         {
-            return _iSpeciesAttributeChoiceTable.GetEnumeratorForKey(key_id);
-        }
-
-        public IEnumerable<DBObject.SpeciesAttributeChoice> GetSpeciesAttributeChoiceEnumerator(Int64 species_id)
-        {
-            return _iSpeciesAttributeChoiceTable.GetEnumeratorForSpecies(species_id);
+            return _iSpeciesAttributeSizeTable.GetEnumeratorForSpecies(species_id);
         }
 
         public bool Insert(Library.DBObject.SpeciesAttributeSize speciesAttributeSize)
@@ -253,22 +264,12 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        private IEnumerable<DBObject.SpeciesAttributeSize> GetSpeciesAttributeSizeEnumerator()
-        {
-            return _iSpeciesAttributeSizeTable.Enumerator;
-        }
-
-        public IEnumerable<DBObject.SpeciesAttributeSize> GetSpeciesSizeAttributeEnumerator(Int64 species_id)
-        {
-            return _iSpeciesAttributeSizeTable.GetEnumeratorForSpecies(species_id);
-        }
-
         private IEnumerable<DBObject.Attribute> GetAttributeEnumerator()
         {
             return _iAttributeTable.Enumerator;
         }
 
-        public IEnumerable<DBObject.Attribute> GetKeyAttributeEnumerator(Int64 key_id)
+        public IEnumerable<DBObject.Attribute> GetAttributeEnumeratorForKey(Int64 key_id)
         {
             return _iAttributeTable.GetEnumeratorForKey(key_id);
         }
@@ -398,12 +399,12 @@ namespace MycoKeys.Library.Database
             return _iAttributeChoiceTable.Enumerator;
         }
 
-        public IEnumerable<DBObject.AttributeChoice> GetAttributeChoiceEnumerator(Int64 attribute_id)
+        public IEnumerable<DBObject.AttributeChoice> GetAttributeChoiceEnumeratorForAttribute(Int64 attribute_id)
         {
             return _iAttributeChoiceTable.GetEnumeratorForAttribute(attribute_id);
         }
 
-        public IEnumerable<DBObject.AttributeChoice> GetKeyAttributeChoiceEnumerator(Int64 key_id)
+        public IEnumerable<DBObject.AttributeChoice> GetAttributeChoiceEnumeratorForKey(Int64 key_id)
         {
             return _iAttributeChoiceTable.GetEnumeratorForKey(key_id);
         }
@@ -438,7 +439,6 @@ namespace MycoKeys.Library.Database
             return success;
         }
 
-        // Warning warning => no delete
         public bool Delete(DBObject.AttributeChoice attributeChoice)
         {
             bool success = true;
@@ -463,6 +463,12 @@ namespace MycoKeys.Library.Database
         public IEnumerable<DBObject.Species> GetKeySpeciesEnumerator(Int64 key_id)
         {
             return _iSpeciesTable.GetEnumeratorForKey(key_id);
+        }
+
+        public IEnumerable<Library.DBObject.Species> GetSpeciesEnumeratorForAttributeChoice(Int64 key_id, Int64 attributeChoiceId)
+        {
+            var speciesList = GetSpeciesAttributeChoiceEnumeratorForKey(key_id).Where(n => n.attributechoice_id == attributeChoiceId).Select(n => n.species_id).ToList();
+            return GetKeySpeciesEnumerator(key_id).Where(n => speciesList.Contains(n.id));
         }
 
         public bool Insert(DBObject.Species species)

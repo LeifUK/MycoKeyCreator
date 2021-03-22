@@ -65,6 +65,8 @@
 <p>
     <a class="btn btn-primary" data-toggle="collapse" href="#summary" role="button" aria-expanded="false" aria-controls="summary">
         Summary
+    </a>    <a class="btn btn-primary" data-toggle="collapse" href="#synonyms" role="button" aria-expanded="false" aria-controls="synonyms">
+        Synonyms
     </a>
 </p>
 <div class="collapse" id="summary">
@@ -94,7 +96,25 @@
         }
     }
 </div>
-
+<div class="collapse" id="synonyms">
+    <table border="0" cellspacing="0" cellpadding="0" class="table-standard">
+        <tbody>
+            @{
+                foreach (var item in Model.Species)
+                {
+                    <tr>
+                        <td class="match-column">
+                            <p class="match-content">@item.Species.name</p>
+                        </td>
+                        <td class="match-column">
+                            <p class="match-content">@item.Species.synonyms</p>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
 
 <div class="collapse.show" id="features">
     <h2 class="mainheader"><a name="Features"></a>Features</h2>

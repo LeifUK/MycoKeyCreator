@@ -18,7 +18,7 @@ namespace MycoKeys.Application.ViewModel
         public void LoadValues()
         {
             AttributeChoices = new ObservableCollection<Library.DBObject.AttributeChoice>(
-                _iKeyManager.GetAttributeChoiceEnumerator(_attribute.id).OrderBy(n => n.position));
+                _iKeyManager.GetAttributeChoiceEnumeratorForAttribute(_attribute.id).OrderBy(n => n.position));
             AssignPositions();
             if (AttributeChoices.Count > 0)
             {
@@ -82,15 +82,13 @@ namespace MycoKeys.Application.ViewModel
                 NotifyPropertyChanged("CanMoveValueUp");
                 NotifyPropertyChanged("CanMoveValueDown");
 
-                // Warning warning
                 if (_selectedAttributeChoice == null)
                 {
                     AssociatedSpecies = null;
                 }
                 else
                 {
-                    var speciesList = _iKeyManager.GetKeySpeciesAttributeChoiceEnumerator(_key.id).Where(n => n.attributechoice_id == value.id).Select(n => n.species_id).ToList();
-                    AssociatedSpecies = _iKeyManager.GetKeySpeciesEnumerator(_key.id).Where(n => speciesList.Contains(n.id)).Select(n => n.name).ToList();
+                    AssociatedSpecies = _iKeyManager.GetSpeciesEnumeratorForAttributeChoice(_key.id, value.id).Select(n => n.name).ToList();
                 }
             }
         }

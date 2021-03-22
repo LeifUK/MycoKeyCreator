@@ -22,7 +22,7 @@ namespace MycoKeys.Application.ViewModel
             Description = Key.description;
             Copyright = Key.copyright;
             Publish = Key.Publish;
-            LiteratureItems = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetKeyLiteratureEnumerator(Key.id));
+            LiteratureItems = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetLiteratureEnumeratorForKey(Key.id));
         }
 
         public void LoadSpecies()
@@ -35,7 +35,7 @@ namespace MycoKeys.Application.ViewModel
         public void LoadAttributes()
         {
             Attributes = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Attribute>(
-                IKeyManager.GetKeyAttributeEnumerator(Key.id).OrderBy(n => n.position));
+                IKeyManager.GetAttributeEnumeratorForKey(Key.id).OrderBy(n => n.position));
             if (Attributes.Count == 0)
             {
                 SelectedAttribute = null;
