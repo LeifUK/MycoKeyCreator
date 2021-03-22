@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MycoKeys.Library.DBObject
+namespace MycoKeyMaker.Library.DBObject
 {
     public interface IObject
     {

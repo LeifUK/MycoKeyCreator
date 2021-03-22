@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace MycoKeys.Library.Database
+namespace MycoKeyMaker.Library.Database
 {
     public class KeyManager : IKeyManager
     {

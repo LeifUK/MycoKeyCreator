@@ -1,7 +1,7 @@
-﻿namespace MycoKeys.WebApplication.Services
+﻿namespace MycoKeyMaker.WebApplication.Services
 {
     public interface IKeyManagerFactory
     {
-        MycoKeys.Library.Database.IKeyManager GetKeyManager();
+        MycoKeyMaker.Library.Database.IKeyManager GetKeyManager();
     }
 }

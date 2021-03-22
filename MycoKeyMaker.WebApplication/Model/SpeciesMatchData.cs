@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace MycoKeys.WebApplication.Model
+namespace MycoKeyMaker.WebApplication.Model
 {
     public class SpeciesMatchData
     {
-        public MycoKeys.Library.DBObject.Species Species { get; set; }
+        public MycoKeyMaker.Library.DBObject.Species Species { get; set; }
         public int AttributeCount { get; set; }
         public int Matches { get; set; }
         public int Mismatches { get; set; }

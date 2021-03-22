@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MycoKeys.Library.Database
+namespace MycoKeyMaker.Library.Database
 {
     public interface IKeyManager
     {

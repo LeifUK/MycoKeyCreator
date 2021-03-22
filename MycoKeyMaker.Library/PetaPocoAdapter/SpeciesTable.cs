@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MycoKeys.Library.PetaPocoAdapter
+namespace MycoKeyMaker.Library.PetaPocoAdapter
 {
     public class SpeciesTable : Table<DBObject.Species>, Database.ISpeciesTable
     {

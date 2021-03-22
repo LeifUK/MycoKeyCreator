@@ -1,4 +1,4 @@
-﻿namespace MycoKeys.Application.ViewModel
+﻿namespace MycoKeyMaker.Application.ViewModel
 {
     public interface ISerialise
     {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace MycoKeys.Library.SqlQueryBuilders
+namespace MycoKeyMaker.Library.SqlQueryBuilders
 {
     public class SqlServerQueryBuilder : SQLQueryBuilder
     {

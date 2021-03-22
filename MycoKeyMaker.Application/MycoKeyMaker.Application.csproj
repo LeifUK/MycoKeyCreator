@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{04CA695D-A4F8-4D00-9AF9-3DC67393530C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MycoKeys.Application</RootNamespace>
-    <AssemblyName>MycoKeys.Application</AssemblyName>
+    <RootNamespace>MycoKeyMaker.Application</RootNamespace>
+    <AssemblyName>MycoKeyMaker.Application</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -196,9 +196,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\MycoKeys.Library\MycoKeys.Library.csproj">
+    <ProjectReference Include="..\MycoKeyMaker.Library\MycoKeyMaker.Library.csproj">
       <Project>{7e4f55d1-e171-48ee-9d6f-f849235fcd7b}</Project>
-      <Name>MycoKeys.Library</Name>
+      <Name>MycoKeyMaker.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

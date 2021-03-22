@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace MycoKeys.WebApplication.Model
+namespace MycoKeyMaker.WebApplication.Model
 {
     public class KeyMatchViewModel
     {
@@ -15,7 +15,7 @@ namespace MycoKeys.WebApplication.Model
         public class AttributeSelection
         {
             public bool IsSelected { get; set; }
-            public MycoKeys.Library.DBObject.Attribute Attribute { get; set; }
+            public MycoKeyMaker.Library.DBObject.Attribute Attribute { get; set; }
         }
 
         public class AttributeSize : AttributeSelection
@@ -26,7 +26,7 @@ namespace MycoKeys.WebApplication.Model
         public class AttributeChoice : AttributeSelection
         {
             public Int64 SelectedAttributeChoiceId { get; set; }
-            public List<MycoKeys.Library.DBObject.AttributeChoice> AttributeChoices { get; set; }
+            public List<MycoKeyMaker.Library.DBObject.AttributeChoice> AttributeChoices { get; set; }
         }
 
         public string KeyName { get; set; }

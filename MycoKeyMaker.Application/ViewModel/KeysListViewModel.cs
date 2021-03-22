@@ -1,8 +1,8 @@
-﻿namespace MycoKeys.Application.ViewModel
+﻿namespace MycoKeyMaker.Application.ViewModel
 {
     public class KeysListViewModel : OpenControls.Wpf.Utilities.ViewModel.BaseViewModel
     {
-        public KeysListViewModel(string databaseName, MycoKeys.Library.Database.IKeyManager iKeyManager)
+        public KeysListViewModel(string databaseName, MycoKeyMaker.Library.Database.IKeyManager iKeyManager)
         {
             IKeyManager = iKeyManager;
             Title = "Database: " + databaseName;
@@ -11,10 +11,10 @@
 
         public void Load()
         {
-            Keys = new System.Collections.ObjectModel.ObservableCollection<MycoKeys.Library.DBObject.Key>(IKeyManager.GetKeyEnumerator());
+            Keys = new System.Collections.ObjectModel.ObservableCollection<MycoKeyMaker.Library.DBObject.Key>(IKeyManager.GetKeyEnumerator());
         }
 
-        public readonly MycoKeys.Library.Database.IKeyManager IKeyManager;
+        public readonly MycoKeyMaker.Library.Database.IKeyManager IKeyManager;
 
         private string _title;
         public string Title
@@ -30,8 +30,8 @@
             }
         }
 
-        private System.Collections.ObjectModel.ObservableCollection<MycoKeys.Library.DBObject.Key> _keys;
-        public System.Collections.ObjectModel.ObservableCollection<MycoKeys.Library.DBObject.Key> Keys
+        private System.Collections.ObjectModel.ObservableCollection<MycoKeyMaker.Library.DBObject.Key> _keys;
+        public System.Collections.ObjectModel.ObservableCollection<MycoKeyMaker.Library.DBObject.Key> Keys
         {
             get
             {
@@ -44,8 +44,8 @@
             }
         }
 
-        private MycoKeys.Library.DBObject.Key _selectedKey;
-        public MycoKeys.Library.DBObject.Key SelectedKey
+        private MycoKeyMaker.Library.DBObject.Key _selectedKey;
+        public MycoKeyMaker.Library.DBObject.Key SelectedKey
         {
             get
             {

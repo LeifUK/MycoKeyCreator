@@ -1,4 +1,4 @@
-﻿namespace MycoKeys.Application.Model
+﻿namespace MycoKeyMaker.Application.Model
 {
     public delegate void OnChangedHandler(ISpeciesAttributeValue sender);
 

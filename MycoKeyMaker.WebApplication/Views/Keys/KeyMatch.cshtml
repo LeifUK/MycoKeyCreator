@@ -1,4 +1,4 @@
-﻿@model MycoKeys.WebApplication.Model.KeyMatchViewModel
+﻿@model MycoKeyMaker.WebApplication.Model.KeyMatchViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -141,10 +141,10 @@
                                 &nbsp;&nbsp;
                             </td>
                             <td class="expand">
-                                @if (@attributeSelection is MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeChoice)
+                                @if (@attributeSelection is MycoKeyMaker.WebApplication.Model.KeyMatchViewModel.AttributeChoice)
                                 {
-                                    MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeChoice attributeChoice =
-                                        @attributeSelection as MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeChoice;
+                                    MycoKeyMaker.WebApplication.Model.KeyMatchViewModel.AttributeChoice attributeChoice =
+                                        @attributeSelection as MycoKeyMaker.WebApplication.Model.KeyMatchViewModel.AttributeChoice;
                                     <select name="@AttributeValue" class="attribute-choice">
                                         @foreach (var item in attributeChoice.AttributeChoices)
                                         {
@@ -159,10 +159,10 @@
                                         }
                                     </select>
                                 }
-                                else if (@attributeSelection is MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeSize)
+                                else if (@attributeSelection is MycoKeyMaker.WebApplication.Model.KeyMatchViewModel.AttributeSize)
                                 {
-                                    MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeSize attributeSize =
-                                        @attributeSelection as MycoKeys.WebApplication.Model.KeyMatchViewModel.AttributeSize;
+                                    MycoKeyMaker.WebApplication.Model.KeyMatchViewModel.AttributeSize attributeSize =
+                                        @attributeSelection as MycoKeyMaker.WebApplication.Model.KeyMatchViewModel.AttributeSize;
                                     <input type="number" name="@AttributeValue" value="@attributeSize.Value" class="attribute-number" />
                                 }
                             </td>

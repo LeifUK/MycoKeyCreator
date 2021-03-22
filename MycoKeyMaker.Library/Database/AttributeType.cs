@@ -1,5 +1,5 @@
 ﻿
-namespace MycoKeys.Library.Database
+namespace MycoKeyMaker.Library.Database
 {
     public enum AttributeType
     {

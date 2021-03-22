@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MycoKeys.WebApplication
+namespace MycoKeyMaker.WebApplication
 {
     public class Program
     {

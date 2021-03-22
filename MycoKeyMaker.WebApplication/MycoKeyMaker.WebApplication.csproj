@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MycoKeys.Library\MycoKeys.Library.csproj" />
+    <ProjectReference Include="..\MycoKeyMaker.Library\MycoKeyMaker.Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>

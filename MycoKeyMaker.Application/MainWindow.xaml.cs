@@ -1,9 +1,9 @@
-﻿using MycoKeys.Library.Database;
+﻿using MycoKeyMaker.Library.Database;
 using PetaPoco.NetCore;
 using System;
 using System.Windows;
 
-namespace MycoKeys.Application
+namespace MycoKeyMaker.Application
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -15,11 +15,11 @@ namespace MycoKeys.Application
             InitializeComponent();
         }
 
-        private string _keyPath = System.Environment.Is64BitOperatingSystem ? @"SOFTWARE\Wow6432Node\MycoKeys.Application\DatabaseSettings" : @"SOFTWARE\MycoKeys.Application\DatabaseSettings";
+        private string _keyPath = System.Environment.Is64BitOperatingSystem ? @"SOFTWARE\Wow6432Node\MycoKeyMaker.Application\DatabaseSettings" : @"SOFTWARE\MycoKeyMaker.Application\DatabaseSettings";
 
-        private void ShowKeysView(MycoKeys.Library.Database.IDatabase iDatabase, MycoKeys.Library.Database.KeyManager keyManager)
+        private void ShowKeysView(MycoKeyMaker.Library.Database.IDatabase iDatabase, MycoKeyMaker.Library.Database.KeyManager keyManager)
         {
-            MycoKeys.Application.View.KeysListView keysListView = new View.KeysListView(this);
+            MycoKeyMaker.Application.View.KeysListView keysListView = new View.KeysListView(this);
             ViewModel.KeysListViewModel keysListViewModel = new ViewModel.KeysListViewModel(iDatabase.Name, keyManager);
             keysListView.DataContext = keysListViewModel;
             keysListViewModel.Load();
@@ -33,7 +33,7 @@ namespace MycoKeys.Application
             iDatabase.CloseConnection();
         }
 
-        private bool OpenDatabase(out MycoKeys.Library.Database.IDatabase iDatabase, out MycoKeys.Library.Database.KeyManager keyManager)
+        private bool OpenDatabase(out MycoKeyMaker.Library.Database.IDatabase iDatabase, out MycoKeyMaker.Library.Database.KeyManager keyManager)
         {
             iDatabase = null;
             keyManager = null;
@@ -67,7 +67,7 @@ namespace MycoKeys.Application
                 OpenControls.Wpf.DatabaseDialogs.Model.Encryption encryption = new OpenControls.Wpf.DatabaseDialogs.Model.Encryption();
                 if (openDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.MicrosoftSQLServer)
                 {
-                    MycoKeys.Library.PetaPocoAdapter.SQLServerDatabaseFactory.OpenDatabase(
+                    MycoKeyMaker.Library.PetaPocoAdapter.SQLServerDatabaseFactory.OpenDatabase(
                         out iDatabase,
                         openDatabaseViewModel.SQLServer_UseLocalServer,
                         openDatabaseViewModel.SelectedSqlServerInstance,
@@ -80,7 +80,7 @@ namespace MycoKeys.Application
                 }
                 else if (openDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.MySQL)
                 {
-                    MycoKeys.Library.PetaPocoAdapter.MySQLDatabaseFactory.OpenDatabase(
+                    MycoKeyMaker.Library.PetaPocoAdapter.MySQLDatabaseFactory.OpenDatabase(
                         out iDatabase,
                         openDatabaseViewModel.MySQL_IPAddress,
                         openDatabaseViewModel.MySQL_Port,
@@ -91,7 +91,7 @@ namespace MycoKeys.Application
                 }
                 else if (openDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.PostGreSQL)
                 {
-                    MycoKeys.Library.PetaPocoAdapter.PostgreSQLServerDatabaseFactory.OpenDatabase(
+                    MycoKeyMaker.Library.PetaPocoAdapter.PostgreSQLServerDatabaseFactory.OpenDatabase(
                         out iDatabase,
                         openDatabaseViewModel.PostgreSQL_IPAddress,
                         openDatabaseViewModel.PostgreSQL_Port,
@@ -102,7 +102,7 @@ namespace MycoKeys.Application
                 }
                 else if (openDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.SQLite)
                 {
-                    MycoKeys.Library.PetaPocoAdapter.SQLiterDatabaseFactory.OpenDatabase(
+                    MycoKeyMaker.Library.PetaPocoAdapter.SQLiterDatabaseFactory.OpenDatabase(
                         out iDatabase,
                         openDatabaseViewModel.SQLite_Filename);
                 }
@@ -117,20 +117,20 @@ namespace MycoKeys.Application
                 return false;
             }
 
-            keyManager = MycoKeys.Library.PetaPocoAdapter.KeyManagerFactory.BuildKeyManager(iDatabase);
+            keyManager = MycoKeyMaker.Library.PetaPocoAdapter.KeyManagerFactory.BuildKeyManager(iDatabase);
 
             return true;
         }
 
         private void _buttonOpenDatabase_Click(object sender, RoutedEventArgs e)
         {
-            if (OpenDatabase(out MycoKeys.Library.Database.IDatabase iDatabase, out MycoKeys.Library.Database.KeyManager keyManager))
+            if (OpenDatabase(out MycoKeyMaker.Library.Database.IDatabase iDatabase, out MycoKeyMaker.Library.Database.KeyManager keyManager))
             {
                 ShowKeysView(iDatabase, keyManager);
             }
         }
 
-        private bool NewDatabase(out MycoKeys.Library.Database.IDatabase iDatabase, out MycoKeys.Library.Database.KeyManager keyManager)
+        private bool NewDatabase(out MycoKeyMaker.Library.Database.IDatabase iDatabase, out MycoKeyMaker.Library.Database.KeyManager keyManager)
         {
             iDatabase = null;
             keyManager = null;
@@ -164,7 +164,7 @@ namespace MycoKeys.Application
                 OpenControls.Wpf.DatabaseDialogs.Model.Encryption encryption = new OpenControls.Wpf.DatabaseDialogs.Model.Encryption();
                 if (newDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.MicrosoftSQLServer)
                 {
-                    MycoKeys.Library.PetaPocoAdapter.SQLServerDatabaseFactory.CreateDatabase(
+                    MycoKeyMaker.Library.PetaPocoAdapter.SQLServerDatabaseFactory.CreateDatabase(
                         out iDatabase,
                         newDatabaseViewModel.SelectedSqlServerInstance,
                         newDatabaseViewModel.SQLServer_UseWindowsAuthentication,
@@ -175,7 +175,7 @@ namespace MycoKeys.Application
                 }
                 else if (newDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.MySQL)
                 {
-                    MycoKeys.Library.PetaPocoAdapter.MySQLDatabaseFactory.CreateDatabase(
+                    MycoKeyMaker.Library.PetaPocoAdapter.MySQLDatabaseFactory.CreateDatabase(
                         out iDatabase,
                         newDatabaseViewModel.MySQL_IPAddress,
                         newDatabaseViewModel.MySQL_Port,
@@ -186,7 +186,7 @@ namespace MycoKeys.Application
                 }
                 else if (newDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.PostGreSQL)
                 {
-                    MycoKeys.Library.PetaPocoAdapter.MySQLDatabaseFactory.CreateDatabase(
+                    MycoKeyMaker.Library.PetaPocoAdapter.MySQLDatabaseFactory.CreateDatabase(
                         out iDatabase,
                         newDatabaseViewModel.PostgreSQL_IPAddress,
                         newDatabaseViewModel.PostgreSQL_Port,
@@ -197,7 +197,7 @@ namespace MycoKeys.Application
                 }
                 else if (newDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.SQLite)
                 {
-                    MycoKeys.Library.PetaPocoAdapter.SQLiterDatabaseFactory.CreateDatabase(
+                    MycoKeyMaker.Library.PetaPocoAdapter.SQLiterDatabaseFactory.CreateDatabase(
                         out iDatabase,
                         newDatabaseViewModel.SQLite_Folder,
                         newDatabaseViewModel.SQLite_DatabaseName);
@@ -207,7 +207,7 @@ namespace MycoKeys.Application
                     throw new Exception("Unsupported database type");
                 }
 
-                keyManager = MycoKeys.Library.PetaPocoAdapter.KeyManagerFactory.BuildKeyManager(iDatabase);
+                keyManager = MycoKeyMaker.Library.PetaPocoAdapter.KeyManagerFactory.BuildKeyManager(iDatabase);
             }
             catch (Exception exception)
             {
@@ -220,7 +220,7 @@ namespace MycoKeys.Application
 
         private void _buttonNewDatabase_Click(object sender, RoutedEventArgs e)
         {
-            if (NewDatabase(out MycoKeys.Library.Database.IDatabase iDatabase, out MycoKeys.Library.Database.KeyManager keyManager))
+            if (NewDatabase(out MycoKeyMaker.Library.Database.IDatabase iDatabase, out MycoKeyMaker.Library.Database.KeyManager keyManager))
             {
                 ShowKeysView(iDatabase, keyManager);
             }
@@ -228,7 +228,7 @@ namespace MycoKeys.Application
 
         public void Import(IKeyManager targetKeyManager)
         {
-            if (!OpenDatabase(out MycoKeys.Library.Database.IDatabase iSourceDatabase, out MycoKeys.Library.Database.KeyManager sourceKeyManager))
+            if (!OpenDatabase(out MycoKeyMaker.Library.Database.IDatabase iSourceDatabase, out MycoKeyMaker.Library.Database.KeyManager sourceKeyManager))
             {
                 if (iSourceDatabase != null)
                 {
@@ -237,13 +237,13 @@ namespace MycoKeys.Application
                 return;
             }
 
-            MycoKeys.Library.Database.KeyManager.Export(sourceKeyManager, targetKeyManager);
+            MycoKeyMaker.Library.Database.KeyManager.Export(sourceKeyManager, targetKeyManager);
             iSourceDatabase.CloseConnection();
         }
 
         public void Export(IKeyManager sourceKeyManager)
         {
-            if (!NewDatabase(out MycoKeys.Library.Database.IDatabase iTargetDatabase, out MycoKeys.Library.Database.KeyManager targetKeyManager))
+            if (!NewDatabase(out MycoKeyMaker.Library.Database.IDatabase iTargetDatabase, out MycoKeyMaker.Library.Database.KeyManager targetKeyManager))
             {
                 if (iTargetDatabase != null)
                 {
@@ -252,7 +252,7 @@ namespace MycoKeys.Application
                 return;
             }
 
-            MycoKeys.Library.Database.KeyManager.Export(sourceKeyManager, targetKeyManager);
+            MycoKeyMaker.Library.Database.KeyManager.Export(sourceKeyManager, targetKeyManager);
             iTargetDatabase.CloseConnection();
         }
 

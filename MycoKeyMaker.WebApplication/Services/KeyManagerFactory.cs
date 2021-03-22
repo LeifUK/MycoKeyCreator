@@ -1,4 +1,4 @@
-﻿namespace MycoKeys.WebApplication.Services
+﻿namespace MycoKeyMaker.WebApplication.Services
 {
     public class KeyManagerFactory : IKeyManagerFactory
     {
@@ -9,7 +9,7 @@
 
         private static Library.Database.IDatabase OpenConnection()
         {
-            MycoKeys.Library.PetaPocoAdapter.SQLServerDatabaseFactory.OpenDatabase(
+            MycoKeyMaker.Library.PetaPocoAdapter.SQLServerDatabaseFactory.OpenDatabase(
                 out Library.Database.IDatabase iDatabase,
                 true,
                 "DESKTOP-6RPCGOV\\SQLEXPRESS",
@@ -18,13 +18,13 @@
                 true,
                 null,
                 null,
-                "MycoKeys");
+                "MycoKeyMaker");
             return iDatabase;
         }
 
-        public MycoKeys.Library.Database.IKeyManager GetKeyManager()
+        public MycoKeyMaker.Library.Database.IKeyManager GetKeyManager()
         {
-            return MycoKeys.Library.PetaPocoAdapter.KeyManagerFactory.BuildKeyManager(OpenConnection());
+            return MycoKeyMaker.Library.PetaPocoAdapter.KeyManagerFactory.BuildKeyManager(OpenConnection());
         }
     }
 }

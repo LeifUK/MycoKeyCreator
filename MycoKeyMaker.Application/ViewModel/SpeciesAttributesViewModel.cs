@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MycoKeys.Application.ViewModel
+namespace MycoKeyMaker.Application.ViewModel
 {
     class SpeciesAttributesViewModel : OpenControls.Wpf.Utilities.ViewModel.BaseViewModel
     {
-        public SpeciesAttributesViewModel(MycoKeys.Library.Database.IKeyManager iKeyManager, MycoKeys.Library.DBObject.Key key, MycoKeys.Library.DBObject.Species species)
+        public SpeciesAttributesViewModel(MycoKeyMaker.Library.Database.IKeyManager iKeyManager, MycoKeyMaker.Library.DBObject.Key key, MycoKeyMaker.Library.DBObject.Species species)
         {
             Species = species;
             IKeyManager = iKeyManager;
@@ -14,9 +14,9 @@ namespace MycoKeys.Application.ViewModel
             Load();
         }
 
-        public readonly MycoKeys.Library.Database.IKeyManager IKeyManager;
-        public readonly MycoKeys.Library.DBObject.Key Key;
-        private readonly MycoKeys.Library.DBObject.Species Species;
+        public readonly MycoKeyMaker.Library.Database.IKeyManager IKeyManager;
+        public readonly MycoKeyMaker.Library.DBObject.Key Key;
+        private readonly MycoKeyMaker.Library.DBObject.Species Species;
 
         public void Load()
         {

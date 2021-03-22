@@ -1,4 +1,4 @@
-﻿namespace MycoKeys.Library.PetaPocoAdapter
+﻿namespace MycoKeyMaker.Library.PetaPocoAdapter
 {
     public class PostgreSQLServerDatabaseFactory
     {
@@ -21,14 +21,14 @@
             database.OpenSharedConnection();
         }
 
-        public static void OpenDatabase(out MycoKeys.Library.Database.IDatabase iDatabase, string host, int port, bool useWindowsAuthentication, string userName, string password, string dbName)
+        public static void OpenDatabase(out MycoKeyMaker.Library.Database.IDatabase iDatabase, string host, int port, bool useWindowsAuthentication, string userName, string password, string dbName)
         {
             OpenDatabase(out PetaPoco.NetCore.Database database, host, port, useWindowsAuthentication, userName, password, dbName);
             iDatabase = new DatabaseWrapper(database);
             iDatabase.ISqlQueryBuilder = new SqlQueryBuilders.PostgreSQLQueryBuilder();
         }
 
-        public static void CreateDatabase(out MycoKeys.Library.Database.IDatabase iDatabase, string host, int port, bool useWindowsAuthentication, string userName, string password, string dbName)
+        public static void CreateDatabase(out MycoKeyMaker.Library.Database.IDatabase iDatabase, string host, int port, bool useWindowsAuthentication, string userName, string password, string dbName)
         {
             // Connect to the master DB to create the requested database
 

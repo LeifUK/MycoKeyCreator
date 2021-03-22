@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MycoKeys.WebApplication.Model
+namespace MycoKeyMaker.WebApplication.Model
 {
     public class KeyNode
     {

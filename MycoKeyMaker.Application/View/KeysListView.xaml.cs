@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace MycoKeys.Application.View
+namespace MycoKeyMaker.Application.View
 {
     /// <summary>
     /// Interaction logic for KeysView.xaml
@@ -21,19 +21,19 @@ namespace MycoKeys.Application.View
 
         }
 
-        private void ShowKeyView(MycoKeys.Library.Database.IKeyManager iKeyManager, MycoKeys.Library.DBObject.Key key)
+        private void ShowKeyView(MycoKeyMaker.Library.Database.IKeyManager iKeyManager, MycoKeyMaker.Library.DBObject.Key key)
         {
-            MycoKeys.Application.View.KeyView keyView = new MycoKeys.Application.View.KeyView();
+            MycoKeyMaker.Application.View.KeyView keyView = new MycoKeyMaker.Application.View.KeyView();
             keyView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             keyView.Owner = this;
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = new MycoKeys.Application.ViewModel.KeyViewModel(iKeyManager, key);
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = new MycoKeyMaker.Application.ViewModel.KeyViewModel(iKeyManager, key);
             keyView.DataContext = keyViewModel;
             keyView.ShowDialog();
         }
 
         private void EditSelectedKey()
         {
-            MycoKeys.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeys.Application.ViewModel.KeysListViewModel;
+            MycoKeyMaker.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeysListViewModel;
             if (keysListViewModel.SelectedKey != null)
             {
                 ShowKeyView(keysListViewModel.IKeyManager, keysListViewModel.SelectedKey);
@@ -53,9 +53,9 @@ namespace MycoKeys.Application.View
 
         private void _buttonNew_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeys.Application.ViewModel.KeysListViewModel;
+            MycoKeyMaker.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeysListViewModel;
 
-            MycoKeys.Library.DBObject.Key key = new MycoKeys.Library.DBObject.Key();
+            MycoKeyMaker.Library.DBObject.Key key = new MycoKeyMaker.Library.DBObject.Key();
             View.KeyHeaderView keyHeaderView = new KeyHeaderView();
             ViewModel.KeyHeaderViewModel keyHeaderViewModel = new ViewModel.KeyHeaderViewModel(keysListViewModel.IKeyManager, key);
             keyHeaderView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -72,7 +72,7 @@ namespace MycoKeys.Application.View
         {
             if (System.Windows.MessageBox.Show("Are you sure you want to delete the selected key?\nThis operation cannot be undone.", "Delete Key", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                (DataContext as MycoKeys.Application.ViewModel.KeysListViewModel).DeleteSelectedKey();
+                (DataContext as MycoKeyMaker.Application.ViewModel.KeysListViewModel).DeleteSelectedKey();
             }
         }
 
@@ -83,14 +83,14 @@ namespace MycoKeys.Application.View
 
         private void _buttonImportDB_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeys.Application.ViewModel.KeysListViewModel;
+            MycoKeyMaker.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeysListViewModel;
             _iISerialise.Import(keysListViewModel.IKeyManager);
             keysListViewModel.Load();
         }
 
         private void _buttonExportDB_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeys.Application.ViewModel.KeysListViewModel;
+            MycoKeyMaker.Application.ViewModel.KeysListViewModel keysListViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeysListViewModel;
             _iISerialise.Export(keysListViewModel.IKeyManager);
             keysListViewModel.Load();
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MycoKeys.Library.PetaPocoAdapter
+namespace MycoKeyMaker.Library.PetaPocoAdapter
 {
     public class LiteratureTable : Table<DBObject.Literature>, Database.ILiteratureTable
     {

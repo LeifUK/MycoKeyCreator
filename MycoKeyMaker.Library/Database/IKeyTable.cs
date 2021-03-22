@@ -1,4 +1,4 @@
-﻿namespace MycoKeys.Library.Database
+﻿namespace MycoKeyMaker.Library.Database
 {
     public interface IKeyTable : ITable<DBObject.Key>
     {

@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MycoKeys.Application.View
+namespace MycoKeyMaker.Application.View
 {
     /// <summary>
     /// Interaction logic for KeyView.xaml
@@ -23,10 +23,10 @@ namespace MycoKeys.Application.View
 
         private bool EditText(string label, ref string text)
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
 
             ViewModel.InputTextViewModel inputTextViewModel = new ViewModel.InputTextViewModel();
-            inputTextViewModel.Title = "MycoKeys.Application";
+            inputTextViewModel.Title = "MycoKeyMaker.Application";
             inputTextViewModel.Text = text;
 
             InputTextView inputTextView = new InputTextView();
@@ -49,7 +49,7 @@ namespace MycoKeys.Application.View
                 return;
             }
 
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
             ViewModel.SpeciesViewModel speciesViewModel = new ViewModel.SpeciesViewModel(keyViewModel.IKeyManager, keyViewModel.Key, species);
             View.SpeciesView speciesView = new SpeciesView();
             speciesView.DataContext = speciesViewModel;
@@ -63,37 +63,37 @@ namespace MycoKeys.Application.View
 
         private void _buttonAddSpecies_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
             Library.DBObject.Species species = new Library.DBObject.Species();
             EditSpecies(species);
         }
 
         private void _buttonEditSpecies_Click(object sender, RoutedEventArgs e)
         {
-            EditSpecies((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedSpecies);
+            EditSpecies((DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel).SelectedSpecies);
         }
 
         private void _dataGridSpeciesDescriptions_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            EditSpecies((DataContext as MycoKeys.Application.ViewModel.KeyViewModel).SelectedSpecies);
+            EditSpecies((DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel).SelectedSpecies);
         }
 
         private void _buttonDeleteSpecies_Click(object sender, RoutedEventArgs e)
         {
             if (System.Windows.MessageBox.Show("Are you sure you want to delete the selected species?\nThis operation cannot be undone.", "Delete Species", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                (DataContext as MycoKeys.Application.ViewModel.KeyViewModel).DeleteSelectedSpecies();
+                (DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel).DeleteSelectedSpecies();
             }
         }
 
-        private void EditChoiceAttribute(MycoKeys.Library.DBObject.Attribute attribute)
+        private void EditChoiceAttribute(MycoKeyMaker.Library.DBObject.Attribute attribute)
         {
             if (attribute == null)
             {
                 return;
             }
 
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
             ViewModel.AttributeViewModel attributeViewModel = new ViewModel.AttributeViewModel(keyViewModel.IKeyManager, keyViewModel.Key, attribute);
             View.AttributeView attributeView = new AttributeView();
             attributeView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -107,7 +107,7 @@ namespace MycoKeys.Application.View
         
         private void _buttonAddAttribute_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
 
             View.AttributeTypeView attributeTypeView = new AttributeTypeView();
             ViewModel.AttributeTypeViewModel attributeTypeViewModel = new ViewModel.AttributeTypeViewModel();
@@ -142,7 +142,7 @@ namespace MycoKeys.Application.View
 
         private void EditAttribute()
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
 
             Library.DBObject.Attribute attribute = keyViewModel.SelectedAttribute;
             if (attribute.type == (Int16)Library.Database.AttributeType.Choice)
@@ -178,13 +178,13 @@ namespace MycoKeys.Application.View
         {
             if (System.Windows.MessageBox.Show("Are you sure you want to delete the selected condition and its associations?\nThis operation cannot be undone.", "Delete Condition", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                (DataContext as MycoKeys.Application.ViewModel.KeyViewModel).DeleteSelectedAttribute();
+                (DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel).DeleteSelectedAttribute();
             }
         }
 
         private void EditSpeciesAttributes()
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
 
             if (keyViewModel.SelectedSpecies == null)
             {
@@ -212,17 +212,17 @@ namespace MycoKeys.Application.View
 
         private void _buttonMoveAttributeUp_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MycoKeys.Application.ViewModel.KeyViewModel).MoveSelectedAttributeUp();
+            (DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel).MoveSelectedAttributeUp();
         }
 
         private void _buttonMoveAttributeDown_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MycoKeys.Application.ViewModel.KeyViewModel).MoveSelectedAttributeDown();
+            (DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel).MoveSelectedAttributeDown();
         }
 
         private void _buttonEditHeader_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
 
             View.KeyHeaderView keyHeaderView = new KeyHeaderView();
             ViewModel.KeyHeaderViewModel keyHeaderViewModel = new ViewModel.KeyHeaderViewModel(keyViewModel.IKeyManager, keyViewModel.Key);
@@ -237,7 +237,7 @@ namespace MycoKeys.Application.View
 
         private void _buttonEditKeyName_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
             string text = keyViewModel.Name;
             if (EditText("Name", ref text))
             {
@@ -248,7 +248,7 @@ namespace MycoKeys.Application.View
 
         private void _buttonEditTitle_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
             string text = keyViewModel.Title;
             if (EditText("Title", ref text))
             {
@@ -259,7 +259,7 @@ namespace MycoKeys.Application.View
 
         private void _buttonEditCopyright_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
             string text = keyViewModel.Copyright;
             if (EditText("Copyright", ref text))
             {
@@ -270,7 +270,7 @@ namespace MycoKeys.Application.View
 
         private void _buttonEditDescription_Click(object sender, RoutedEventArgs e)
         {
-            MycoKeys.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeys.Application.ViewModel.KeyViewModel;
+            MycoKeyMaker.Application.ViewModel.KeyViewModel keyViewModel = DataContext as MycoKeyMaker.Application.ViewModel.KeyViewModel;
             string text = keyViewModel.Description;
             if (EditText("Description", ref text))
             {

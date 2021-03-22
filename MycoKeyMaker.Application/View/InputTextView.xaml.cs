@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MycoKeys.Application.View
+namespace MycoKeyMaker.Application.View
 {
     /// <summary>
     /// Interaction logic for InputTextView.xaml

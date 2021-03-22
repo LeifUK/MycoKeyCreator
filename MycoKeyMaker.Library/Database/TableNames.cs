@@ -1,4 +1,4 @@
-﻿namespace MycoKeys.Library.Database
+﻿namespace MycoKeyMaker.Library.Database
 {
     internal static class TableNames
     {

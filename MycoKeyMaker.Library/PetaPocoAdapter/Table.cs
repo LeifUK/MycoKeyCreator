@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MycoKeys.Library.PetaPocoAdapter
+namespace MycoKeyMaker.Library.PetaPocoAdapter
 {
     public class Table<T> where T : DBObject.IObject
     {

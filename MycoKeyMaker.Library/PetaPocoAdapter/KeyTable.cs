@@ -1,4 +1,4 @@
-﻿namespace MycoKeys.Library.PetaPocoAdapter
+﻿namespace MycoKeyMaker.Library.PetaPocoAdapter
 {
     public class KeyTable : Table<DBObject.Key>, Database.IKeyTable
     {

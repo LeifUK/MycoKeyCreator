@@ -1,4 +1,4 @@
-﻿namespace MycoKeys.Library.PetaPocoAdapter
+﻿namespace MycoKeyMaker.Library.PetaPocoAdapter
 {
     public class SQLiterDatabaseFactory
     {
@@ -15,7 +15,7 @@
             iDatabase.ISqlQueryBuilder = new SqlQueryBuilders.SQLiteQueryBuilder();
         }
 
-        public static void CreateDatabase(out MycoKeys.Library.Database.IDatabase iDatabase, string folder, string dbName)
+        public static void CreateDatabase(out MycoKeyMaker.Library.Database.IDatabase iDatabase, string folder, string dbName)
         {
             string path = System.IO.Path.Combine(folder, dbName + ".sqlite");
             OpenDatabase(out iDatabase, path);

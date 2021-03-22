@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace MycoKeys.Application.ViewModel
+namespace MycoKeyMaker.Application.ViewModel
 {
     public class KeyHeaderViewModel : OpenControls.Wpf.Utilities.ViewModel.BaseViewModel
     {

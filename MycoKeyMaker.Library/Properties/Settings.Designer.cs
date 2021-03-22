@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MycoKeys.Library.Properties
+namespace MycoKeyMaker.Library.Properties
 {
     
     

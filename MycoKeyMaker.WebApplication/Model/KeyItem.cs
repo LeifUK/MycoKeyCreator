@@ -1,4 +1,4 @@
-﻿namespace MycoKeys.WebApplication.Model
+﻿namespace MycoKeyMaker.WebApplication.Model
 {
     //public class KeyItem
     //{

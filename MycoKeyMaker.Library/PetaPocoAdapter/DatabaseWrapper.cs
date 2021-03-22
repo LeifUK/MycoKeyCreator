@@ -1,6 +1,6 @@
-﻿namespace MycoKeys.Library.PetaPocoAdapter
+﻿namespace MycoKeyMaker.Library.PetaPocoAdapter
 {
-    public class DatabaseWrapper : MycoKeys.Library.Database.IDatabase
+    public class DatabaseWrapper : MycoKeyMaker.Library.Database.IDatabase
     {
         public DatabaseWrapper(PetaPoco.NetCore.Database database)
         {

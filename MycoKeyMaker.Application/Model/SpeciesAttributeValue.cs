@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MycoKeys.Application.Model
+namespace MycoKeyMaker.Application.Model
 {
     public abstract class SpeciesAttributeValue: ISpeciesAttributeValue
     {

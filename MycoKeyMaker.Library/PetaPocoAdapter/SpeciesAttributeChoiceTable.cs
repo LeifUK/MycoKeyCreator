@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MycoKeys.Library.PetaPocoAdapter
+namespace MycoKeyMaker.Library.PetaPocoAdapter
 {
     public class SpeciesAttributeChoiceTable : Table<DBObject.SpeciesAttributeChoice>, Database.ISpeciesAttributeChoiceTable
     {

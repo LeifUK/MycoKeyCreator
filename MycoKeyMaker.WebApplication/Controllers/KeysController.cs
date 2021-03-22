@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace MycoKeys.WebApplication.Controllers
+namespace MycoKeyMaker.WebApplication.Controllers
 {
     public class KeysController : Controller
     {

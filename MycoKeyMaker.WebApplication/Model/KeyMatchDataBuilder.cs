@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MycoKeys.WebApplication.Model
+namespace MycoKeyMaker.WebApplication.Model
 {
     public class KeyMatchViewDataBuilder
     {

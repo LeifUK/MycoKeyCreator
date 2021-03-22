@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-namespace MycoKeys.WebApplication
+namespace MycoKeyMaker.WebApplication
 {
     public class Startup
     {

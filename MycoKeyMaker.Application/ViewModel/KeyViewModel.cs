@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace MycoKeys.Application.ViewModel
+namespace MycoKeyMaker.Application.ViewModel
 {
     public class KeyViewModel : OpenControls.Wpf.Utilities.ViewModel.BaseViewModel
     {
-        public KeyViewModel(MycoKeys.Library.Database.IKeyManager iKeyManager, MycoKeys.Library.DBObject.Key key)
+        public KeyViewModel(MycoKeyMaker.Library.Database.IKeyManager iKeyManager, MycoKeyMaker.Library.DBObject.Key key)
         {
             IKeyManager = iKeyManager;
             Key = key;
@@ -56,9 +56,9 @@ namespace MycoKeys.Application.ViewModel
             IKeyManager.Update(Key);
         }
 
-        public readonly MycoKeys.Library.Database.IKeyManager IKeyManager;
+        public readonly MycoKeyMaker.Library.Database.IKeyManager IKeyManager;
 
-        public readonly MycoKeys.Library.DBObject.Key Key;
+        public readonly MycoKeyMaker.Library.DBObject.Key Key;
 
         private string _name;
         public string Name
@@ -144,8 +144,8 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        private System.Collections.ObjectModel.ObservableCollection<MycoKeys.Library.DBObject.Species> _species;
-        public System.Collections.ObjectModel.ObservableCollection<MycoKeys.Library.DBObject.Species> Species
+        private System.Collections.ObjectModel.ObservableCollection<MycoKeyMaker.Library.DBObject.Species> _species;
+        public System.Collections.ObjectModel.ObservableCollection<MycoKeyMaker.Library.DBObject.Species> Species
         {
             get
             {
@@ -158,8 +158,8 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        private MycoKeys.Library.DBObject.Species _selectedSpecies;
-        public MycoKeys.Library.DBObject.Species SelectedSpecies
+        private MycoKeyMaker.Library.DBObject.Species _selectedSpecies;
+        public MycoKeyMaker.Library.DBObject.Species SelectedSpecies
         {
             get
             {

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 
-namespace MycoKeys.Application.ViewModel
+namespace MycoKeyMaker.Application.ViewModel
 {
     internal class AttributeViewModel : OpenControls.Wpf.Utilities.ViewModel.BaseViewModel
     {

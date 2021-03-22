@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MycoKeys.Application.View
+namespace MycoKeyMaker.Application.View
 {
     /// <summary>
     /// Interaction logic for AttributeView.xaml
@@ -31,7 +31,7 @@ namespace MycoKeys.Application.View
             }
 
             ViewModel.InputTextViewModel inputTextViewModel = new ViewModel.InputTextViewModel();
-            inputTextViewModel.Title = "MycoKeys.Application";
+            inputTextViewModel.Title = "MycoKeyMaker.Application";
             inputTextViewModel.Text = attributeChoice.description;
 
             InputTextView inputTextView = new InputTextView();

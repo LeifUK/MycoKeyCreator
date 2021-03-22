@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace MycoKeys.Application.ViewModel
+namespace MycoKeyMaker.Application.ViewModel
 {
     public class SpeciesViewModel :  OpenControls.Wpf.Utilities.ViewModel.BaseViewModel
     {
-        public SpeciesViewModel(MycoKeys.Library.Database.IKeyManager keyManager, MycoKeys.Library.DBObject.Key key, MycoKeys.Library.DBObject.Species species)
+        public SpeciesViewModel(MycoKeyMaker.Library.Database.IKeyManager keyManager, MycoKeyMaker.Library.DBObject.Key key, MycoKeyMaker.Library.DBObject.Species species)
         {
             _iKeyManager = keyManager;
             _key = key;
@@ -28,8 +28,8 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        private readonly MycoKeys.Library.Database.IKeyManager _iKeyManager;
-        private readonly MycoKeys.Library.DBObject.Key _key;
+        private readonly MycoKeyMaker.Library.Database.IKeyManager _iKeyManager;
+        private readonly MycoKeyMaker.Library.DBObject.Key _key;
 
         private ObservableCollection<KeyValuePair<string, string>> _speciesFields;
         public ObservableCollection<KeyValuePair<string, string>> SpeciesFields
@@ -45,8 +45,8 @@ namespace MycoKeys.Application.ViewModel
             }
         }
 
-        public readonly MycoKeys.Library.DBObject.Species EditedSpecies;
-        public readonly MycoKeys.Library.DBObject.Species Species;
+        public readonly MycoKeyMaker.Library.DBObject.Species EditedSpecies;
+        public readonly MycoKeyMaker.Library.DBObject.Species Species;
 
         public string Name
         {

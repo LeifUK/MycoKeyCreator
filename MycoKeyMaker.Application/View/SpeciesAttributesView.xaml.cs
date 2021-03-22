@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Controls;
 
-namespace MycoKeys.Application.View
+namespace MycoKeyMaker.Application.View
 {
     /// <summary>
     /// Interaction logic for SpeciesView.xaml

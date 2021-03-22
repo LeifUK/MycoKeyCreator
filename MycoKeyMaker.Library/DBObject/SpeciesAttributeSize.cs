@@ -1,7 +1,7 @@
 ﻿using System;
 using PetaPoco.NetCore;
 
-namespace MycoKeys.Library.DBObject
+namespace MycoKeyMaker.Library.DBObject
 {
     [TableName(Database.TableNames.SpeciesAttributeSize)]
     public class SpeciesAttributeSize : IObject
