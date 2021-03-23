@@ -1,0 +1,104 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="mainheader">MycoKeyCreator</h1>
+<p>
+    MycoKeyCreator is a free software package for the creation and maintenance of online fungi
+    keys.
+</p>
+<p>
+    A desktop application allows the user to create and edit the keys.
+</p>
+
+
+<ul class="nav nav-pills mb-3" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="keys-tab" data-toggle="pill" href="#keys" role="tab" aria-controls="keys" aria-selected="true">Key List</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="keyeditor-tab" data-toggle="pill" href="#keyeditor" role="tab" aria-controls="keyeditor" aria-selected="true">Key Editor</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="keysummary-tab" data-toggle="pill" href="#keysummary" role="tab" aria-controls="keysummary" aria-selected="true">Summary Editor</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="attributes-tab" data-toggle="pill" href="#attributes" role="tab" aria-controls="attributes" aria-selected="false">Attributes Editor</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="speciesattributes-tab" data-toggle="pill" href="#speciesattributes" role="tab" aria-controls="speciesattributes" aria-selected="false">Species Attributes Editor</a>
+    </li>
+</ul>
+
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="keys" role="tabpanel" aria-labelledby="keys-tab">
+        <p>
+            The user can add, edit and delete keys:
+        </p>
+        <p>
+            @{
+                <img src="/Images/Keys.png" style="margin-left:30px; margin-right:30px;" border="0">
+            }
+        </p>
+    </div>
+    <div class="tab-pane fade" id="keyeditor" role="tabpanel" aria-labelledby="keyeditor-tab">
+        <p>
+            The user can open a key for editing:
+        </p>
+        <p>
+            @{
+                <img src="/Images/KeyEditor.png" style="margin-left:30px; margin-right:30px;" border="0">
+            }
+        </p>
+    </div>
+    <div class="tab-pane fade" id="keysummary" role="tabpanel" aria-labelledby="keysummary-tab">
+        <p>
+            The user can edit the summary information:
+        </p>
+        <p>
+            @{
+                <img src="/Images/KeySummary.png" style="margin-left:30px; margin-right:30px;" border="0">
+            }
+        </p>
+    </div>
+    <div class="tab-pane fade" id="attributes" role="tabpanel" aria-labelledby="attributes-tab">
+        <p>
+            The user can create attributes:
+        </p>
+        <p>
+            @{
+                <img src="/Images/AttributeEditor.png" style="margin-left:30px; margin-right:30px;" border="0">
+            }
+        </p>
+    </div>
+    <div class="tab-pane fade" id="speciesattributes" role="tabpanel" aria-labelledby="speciesattributes-tab">
+        <p>
+            And then assign attributes to each species:
+        </p>
+        <p>
+            @{
+                <img src="/Images/SpeciesAttributesEditor.png" style="margin-left:30px; margin-right:30px;" border="0">
+            }
+        </p>
+    </div>
+</div>
+
+<p>
+    It is written in C# and .Net and runs on a Windows PC.
+</p>
+<p>
+    A web application creates a web site - such as this one - with the online keys.
+    It is written in Asp.Net Core.
+</p>
+<p>
+    The keys are stored in a Microsoft SQLServer database.
+</p>
+<p>
+    You are welcome to use the software to create your own web site. You will of course have to edit
+    some pages to suit your needs. Alternatively you can create a database, and I will add it to
+    this web site. There is currently no documentation available: I will create some as and when it is
+    needed. The software is still in development.
+</p>
+<h2 class="mainheader">Software Download</h2>
+<p>The source code is available from the GitHub web site:</p>
+<a href="https://github.com/LeifUK/MycoKeyCreator">MycoKeyCreator Download</a>
