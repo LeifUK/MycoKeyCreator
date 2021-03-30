@@ -91,6 +91,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -106,10 +108,12 @@
                 <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Title}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}"/>
                 <Label Grid.Row="4" Grid.Column="0" Content="Description:" Style="{StaticResource HeaderLabelStyle}"/>
                 <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Description}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}" TextWrapping="Wrap"/>
-                <Label Grid.Row="6" Grid.Column="0" Content="Copyright:" Style="{StaticResource HeaderLabelStyle}"/>
-                <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Copyright}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}"/>
-                <Label Grid.Row="8" Grid.Column="0" Content="References:" Style="{StaticResource HeaderLabelStyle}"/>
-                <DataGrid Grid.Row="8" Grid.Column="2" VerticalAlignment="Stretch" Style="{StaticResource DataGridDisabledStyle}" 
+                <Label Grid.Row="6" Grid.Column="0" Content="Notes:" Style="{StaticResource HeaderLabelStyle}"/>
+                <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Notes}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}" TextWrapping="Wrap"/>
+                <Label Grid.Row="8" Grid.Column="0" Content="Copyright:" Style="{StaticResource HeaderLabelStyle}"/>
+                <TextBox Grid.Row="8" Grid.Column="2" Text="{Binding Copyright}" IsReadOnly="True" Style="{StaticResource TextBoxLabelStyle}"/>
+                <Label Grid.Row="10" Grid.Column="0" Content="References:" Style="{StaticResource HeaderLabelStyle}"/>
+                <DataGrid Grid.Row="10" Grid.Column="2" VerticalAlignment="Stretch" Style="{StaticResource DataGridDisabledStyle}" 
                           ItemsSource="{Binding LiteratureItems, Mode=OneWay}" SelectedItem="{Binding SelectedLiterature}" >
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Title" Width="Auto">
@@ -128,8 +132,8 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Label Grid.Row="10" Grid.Column="0" Content="Publish:" Style="{StaticResource HeaderLabelStyle}"/>
-                <CheckBox Grid.Row="10" Grid.Column="2" IsChecked="{Binding Publish}" IsEnabled="False" />
+                <Label Grid.Row="12" Grid.Column="0" Content="Publish:" Style="{StaticResource HeaderLabelStyle}"/>
+                <CheckBox Grid.Row="12" Grid.Column="2" IsChecked="{Binding Publish}" IsEnabled="False" />
             </Grid>
         </Grid>
         

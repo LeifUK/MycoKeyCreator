@@ -10,6 +10,7 @@ namespace MycoKeyCreator.Library.DBObject
         public string name { get; set; }
         public string title { get; set; }
         public string description { get; set; }
+        public string notes { get; set; }
         public string copyright { get; set; }
         public Int16 flags { get; set; }
 

@@ -40,6 +40,7 @@ namespace MycoKeyCreator.WebApplication.Model
             keyMatchViewModel.KeyName = selectedKey.name;
             keyMatchViewModel.KeyTitle = selectedKey.title;
             keyMatchViewModel.KeyDescription = selectedKey.description;
+            keyMatchViewModel.KeyNotes = selectedKey.notes;
             foreach (var literature in iKeyManager.GetLiteratureEnumeratorForKey(selectedKey.id))
             {
                 keyMatchViewModel.Literature.Add(literature);

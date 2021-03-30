@@ -11,6 +11,7 @@ namespace MycoKeyCreator.Application.ViewModel
             Name = Key.name;
             Title = Key.title;
             Description = Key.description;
+            Notes = Key.notes;
             Copyright = Key.copyright;
             Publish = Key.Publish;
             Load();
@@ -31,6 +32,7 @@ namespace MycoKeyCreator.Application.ViewModel
             Key.name = Name;
             Key.title = Title;
             Key.description = Description;
+            Key.notes = Notes;
             Key.copyright = Copyright;
             Key.Publish = Publish;
             if (Key.id == 0)
@@ -103,6 +105,20 @@ namespace MycoKeyCreator.Application.ViewModel
             {
                 _description = value;
                 NotifyPropertyChanged("Description");
+            }
+        }
+
+        private string _notes;
+        public string Notes
+        {
+            get
+            {
+                return _notes;
+            }
+            set
+            {
+                _notes = value;
+                NotifyPropertyChanged("Notes");
             }
         }
 

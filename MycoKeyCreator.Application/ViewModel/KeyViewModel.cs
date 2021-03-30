@@ -20,6 +20,7 @@ namespace MycoKeyCreator.Application.ViewModel
             Name = Key.name;
             Title = Key.title;
             Description = Key.description;
+            Notes = Key.notes;
             Copyright = Key.copyright;
             Publish = Key.Publish;
             LiteratureItems = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetLiteratureEnumeratorForKey(Key.id));
@@ -51,6 +52,7 @@ namespace MycoKeyCreator.Application.ViewModel
             Key.name = Name;
             Key.title = Title;
             Key.description = Description;
+            Key.notes = Notes;
             Key.copyright = Copyright;
             Key.Publish = Publish;
             IKeyManager.Update(Key);
@@ -99,6 +101,20 @@ namespace MycoKeyCreator.Application.ViewModel
             {
                 _description = value;
                 NotifyPropertyChanged("Description");
+            }
+        }
+
+        private string _notes;
+        public string Notes
+        {
+            get
+            {
+                return _notes;
+            }
+            set
+            {
+                _notes = value;
+                NotifyPropertyChanged("Notes");
             }
         }
 

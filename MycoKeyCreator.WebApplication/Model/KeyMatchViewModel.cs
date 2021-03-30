@@ -32,6 +32,7 @@ namespace MycoKeyCreator.WebApplication.Model
         public string KeyName { get; set; }
         public string KeyTitle { get; set; }
         public string KeyDescription { get; set; }
+        public string KeyNotes { get; set; }
         public List<Library.DBObject.Literature> Literature { get; private set; }
         public string Copyright { get; set; }
         public List<AttributeSelection> AttributeSelections { get; private set; }
