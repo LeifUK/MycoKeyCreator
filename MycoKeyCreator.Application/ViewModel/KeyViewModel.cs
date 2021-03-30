@@ -23,7 +23,7 @@ namespace MycoKeyCreator.Application.ViewModel
             Notes = Key.notes;
             Copyright = Key.copyright;
             Publish = Key.Publish;
-            LiteratureItems = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetLiteratureEnumeratorForKey(Key.id));
+            LiteratureItems = new System.Collections.ObjectModel.ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetLiteratureEnumeratorForKey(Key.id).OrderBy(n => n.position));
         }
 
         public void LoadSpecies()

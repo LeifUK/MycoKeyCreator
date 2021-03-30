@@ -67,5 +67,15 @@ namespace MycoKeyCreator.Application.View
         {
             EditLiterature((DataContext as ViewModel.KeyHeaderViewModel).SelectedLiterature);
         }
+
+        private void _buttonUp_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModel.KeyHeaderViewModel).Up();
+        }
+
+        private void _buttonDown_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as ViewModel.KeyHeaderViewModel).Down();
+        }
     }
 }

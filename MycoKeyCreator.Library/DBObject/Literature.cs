@@ -10,5 +10,6 @@ namespace MycoKeyCreator.Library.DBObject
         public Int64 key_id { get; set; }
         public string title { get; set; }
         public string description { get; set; }
+        public Int16 position { get; set; }
     }
 }

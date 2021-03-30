@@ -69,6 +69,12 @@
     <li class="nav-item">
         <a class="nav-link" id="summary-tab" data-toggle="pill" href="#summary" role="tab" aria-controls="summary" aria-selected="false">Summary</a>
     </li>
+    @if (!string.IsNullOrEmpty(@Model.KeyNotes))
+    {
+        <li class="nav-item">
+            <a class="nav-link" id="notes-tab" data-toggle="pill" href="#notes" role="tab" aria-controls="notes" aria-selected="false">Notes</a>
+        </li>
+    }
     <li class="nav-item">
         <a class="nav-link" id="synonyms-tab" data-toggle="pill" href="#synonyms" role="tab" aria-controls="synonyms" aria-selected="false">Synonyms</a>
     </li>
@@ -80,10 +86,6 @@
             if (!string.IsNullOrEmpty(@Model.KeyDescription))
             {
                 <p>@Html.Raw(@Model.KeyDescription)</p>
-            }
-            if (!string.IsNullOrEmpty(@Model.KeyNotes))
-            {
-                <p>@Html.Raw(@Model.KeyNotes)</p>
             }
             if (!string.IsNullOrEmpty(@Model.Copyright))
             {
@@ -103,6 +105,14 @@
                         <li>@Html.Raw(@text)</li>
                     }
                 </ul>
+            }
+        }
+    </div>
+    <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+        @{
+            if (!string.IsNullOrEmpty(@Model.KeyNotes))
+            {
+                <p>@Html.Raw(@Model.KeyNotes)</p>
             }
         }
     </div>

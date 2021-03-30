@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
+using System;
 
 namespace MycoKeyCreator.Application.ViewModel
 {
@@ -20,7 +22,7 @@ namespace MycoKeyCreator.Application.ViewModel
 
         public void Load()
         {
-            LiteratureItems = new ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetLiteratureEnumeratorForKey(Key.id));
+            LiteratureItems = new ObservableCollection<Library.DBObject.Literature>(IKeyManager.GetLiteratureEnumeratorForKey(Key.id).OrderBy(n => n.position));
             if (LiteratureItems.Count > 0)
             {
                 SelectedLiterature = LiteratureItems[0];
@@ -149,6 +151,8 @@ namespace MycoKeyCreator.Application.ViewModel
             {
                 _selectedLiterature = value;
                 NotifyPropertyChanged("SelectedLiterature");
+                NotifyPropertyChanged("CanMoveUp");
+                NotifyPropertyChanged("CanMoveDown");
             }
         }
 
@@ -187,6 +191,58 @@ namespace MycoKeyCreator.Application.ViewModel
                 IKeyManager.Delete(SelectedLiterature);
                 Load();
             }
+        }
+
+        public bool CanMoveUp
+        {
+            get
+            {
+                return (SelectedLiterature != null) && (LiteratureItems.IndexOf(SelectedLiterature) > 0);
+            }
+        }
+
+        public bool CanMoveDown
+        {
+            get
+            {
+                return (SelectedLiterature != null) && (LiteratureItems.IndexOf(SelectedLiterature) < (LiteratureItems.Count - 1));
+            }
+        }
+
+        private void Move(int indexFrom, int indexTo)
+        {
+            var literatureMoved = LiteratureItems[indexFrom];
+            var literature = LiteratureItems[indexTo];
+            LiteratureItems.RemoveAt(indexFrom);
+            LiteratureItems.Insert(indexTo, literatureMoved);
+
+            literatureMoved.position = (Int16)indexTo;
+            literature.position = (Int16)indexFrom;
+            IKeyManager.Update(literatureMoved);
+            IKeyManager.Update(literature);
+            SelectedLiterature = LiteratureItems[indexTo];
+        }
+
+        public void Up()
+        {
+            if (!CanMoveUp)
+            {
+                return;
+            }
+            
+            int index = LiteratureItems.IndexOf(SelectedLiterature);
+            Move(index, index - 1);
+        }
+
+        public void Down()
+        {
+            if (!CanMoveDown)
+            {
+                return;
+            }
+
+            int index = LiteratureItems.IndexOf(SelectedLiterature);
+            Move(index, index + 1);
         }
     }
 }

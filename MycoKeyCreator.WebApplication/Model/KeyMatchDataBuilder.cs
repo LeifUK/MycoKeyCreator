@@ -41,7 +41,7 @@ namespace MycoKeyCreator.WebApplication.Model
             keyMatchViewModel.KeyTitle = selectedKey.title;
             keyMatchViewModel.KeyDescription = selectedKey.description;
             keyMatchViewModel.KeyNotes = selectedKey.notes;
-            foreach (var literature in iKeyManager.GetLiteratureEnumeratorForKey(selectedKey.id))
+            foreach (var literature in iKeyManager.GetLiteratureEnumeratorForKey(selectedKey.id).OrderBy(n => n.position))
             {
                 keyMatchViewModel.Literature.Add(literature);
             }
