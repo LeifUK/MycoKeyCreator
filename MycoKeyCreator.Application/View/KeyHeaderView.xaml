@@ -76,9 +76,9 @@
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="10"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="10"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="10"/>
@@ -96,9 +96,10 @@
             <Label Grid.Row="2" Grid.Column="0" Content="Title" Style="{StaticResource LabelStyle}"/>
             <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Title}" Style="{StaticResource TextBoxStyle}"/>
             <Label Grid.Row="4" Grid.Column="0" Content="Description" Style="{StaticResource LabelStyle}" VerticalAlignment="Top" Margin="0,1,0,0"/>
-            <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Description}" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap"/>
+            <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Description}" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" VerticalAlignment="Stretch" />
+            <GridSplitter Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="99" Height="10" HorizontalAlignment="Stretch"/>
             <Label Grid.Row="6" Grid.Column="0" Content="Notes" Style="{StaticResource LabelStyle}" VerticalAlignment="Top" Margin="0,1,0,0"/>
-            <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Notes}" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap"/>
+            <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Notes}" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" VerticalAlignment="Stretch" />
             <Label Grid.Row="8" Grid.Column="0" Content="Copyright" Style="{StaticResource LabelStyle}"/>
             <TextBox Grid.Row="8" Grid.Column="2" Text="{Binding Copyright}" Style="{StaticResource TextBoxStyle}"/>
             <Label Grid.Row="10" Grid.Column="0" Content="Literature" Style="{StaticResource LabelStyle}" VerticalAlignment="Top"/>

@@ -78,7 +78,7 @@
                         Click="_buttonDown_Click" IsEnabled="{Binding CanMoveValueDown}" VerticalAlignment="Top"/>
                 </Grid>
 
-                <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="99" Height="10" HorizontalAlignment="Stretch"/>
+                <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="99" Height="10" HorizontalAlignment="Stretch" Background="Transparent"/>
                 <Grid Grid.Row="2" Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
