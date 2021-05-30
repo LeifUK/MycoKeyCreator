@@ -24,18 +24,11 @@ namespace MycoKeyCreator.WebApplication
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            System.Data.Common.DbProviderFactories.RegisterFactory("System.Data.SqlClient", System.Data.SqlClient.SqlClientFactory.Instance);
-#if DEBUG
-            if (IWebHostEnvironment.IsDevelopment())
-            {
-                services.AddControllersWithViews().AddRazorRuntimeCompilation();
-                services.AddRazorPages().AddRazorRuntimeCompilation();
-                services.AddMvc().AddRazorRuntimeCompilation();
-            }
-#endif
+            services.AddMvc();
             services.Add(new ServiceDescriptor(typeof(Services.IKeyManagerFactory), new Services.KeyManagerFactory()));
+            System.Data.Common.DbProviderFactories.RegisterFactory("System.Data.SqlClient", System.Data.SqlClient.SqlClientFactory.Instance);
         }
-        
+
         private IWebHostEnvironment IWebHostEnvironment;
         private Microsoft.Extensions.Configuration.IConfiguration IConfiguration;
 

@@ -80,6 +80,8 @@ namespace MycoKeyCreator.Library.SqlQueryBuilders
             AppendStringColumnNull(stringBuilder, "copyright", 200);
             stringBuilder.Append(", ");
             AppendSmallIntColumn(stringBuilder, "flags");
+            stringBuilder.Append(", ");
+            AppendStringColumnNull(stringBuilder, "notes", 1000);
             stringBuilder.Append(");");
             return stringBuilder.ToString();
         }
@@ -97,6 +99,8 @@ namespace MycoKeyCreator.Library.SqlQueryBuilders
             AppendStringColumnNotNull(stringBuilder, "title", 1000);
             stringBuilder.Append(", ");
             AppendStringColumnNull(stringBuilder, "description", 1000);
+            stringBuilder.Append(", ");
+            AppendSmallIntColumn(stringBuilder, "position");
             stringBuilder.Append(", ");
             AppendForeignKeyConstraint(stringBuilder, "FK_literature_key_id", "key_id", Database.TableNames.Key, "id");
             stringBuilder.Append(");");

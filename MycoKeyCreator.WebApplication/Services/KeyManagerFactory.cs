@@ -9,16 +9,29 @@
 
         private static Library.Database.IDatabase OpenConnection()
         {
+#if DEBUG
             MycoKeyCreator.Library.PetaPocoAdapter.SQLServerDatabaseFactory.OpenDatabase(
-                out Library.Database.IDatabase iDatabase,
-                true,
+                 out Library.Database.IDatabase iDatabase, 
+                 true,
                 "DESKTOP-6RPCGOV\\SQLEXPRESS",
                 "127.0.0.1",
                 1433,
                 true,
                 null,
                 null,
-                "MycoKeys");
+                "LeifGoodwin_MycologyKeys");
+#else
+            MycoKeyCreator.Library.PetaPocoAdapter.SQLServerDatabaseFactory.OpenDatabase(
+                 out Library.Database.IDatabase iDatabase, 
+                true,
+                "mssql4.websitelive.net",
+                null,
+                0,
+                false,
+                "LeifGoodwin_Admin", 
+                "$WebWiz1625",
+                "LeifGoodwin_MycologyKeys");
+#endif        
             return iDatabase;
         }
 
