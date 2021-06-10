@@ -8,7 +8,7 @@
         Background="#F0F0F0"
         mc:Ignorable="d"
         ResizeMode="CanResizeWithGrip"
-        Title="Attribute Editor" Height="600" Width="400">
+        Title="Choice Attribute" Height="600" Width="400">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,7 +29,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <GroupBox Grid.Row="0" Grid.Column="0" Header="Attribute" Style="{StaticResource GroupBoxStyle}" Padding="10">
+        <GroupBox Grid.Row="0" Grid.Column="0" Header="Description" Style="{StaticResource GroupBoxStyle}" Padding="10">
             <TextBox x:Name="subHeaderText" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Text}" Style="{StaticResource TextBoxStyle}" Padding="0,0,0,2"/>
         </GroupBox>
         

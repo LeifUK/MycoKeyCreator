@@ -154,8 +154,9 @@ namespace MycoKeyCreator.Application.View
                         (attribute.type == (Int16)Library.Database.AttributeType.MinimumSize)
                     )
             {
+                string title = (attribute.type == (Int16)Library.Database.AttributeType.MaximumSize) ? "Maximum Size Attribute" : "Minimum Size Attribute";
                 string description = attribute.description;
-                if (OpenControls.Wpf.Utilities.View.InputTextView.ShowDialog(this, "Edit Attribute", "Description", ref description))
+                if (OpenControls.Wpf.Utilities.View.InputTextView.ShowDialog(this, title, "Description", ref description))
                 {
                     attribute.description = description;
                     keyViewModel.UpdateAttribute(attribute);
