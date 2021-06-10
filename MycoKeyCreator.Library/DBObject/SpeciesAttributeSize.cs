@@ -10,6 +10,6 @@ namespace MycoKeyCreator.Library.DBObject
         public Int64 key_id { get; set; }
         public Int64 species_id { get; set; }
         public Int64 attribute_id { get; set; }
-        public Int16 value { get; set; }
+        public float value { get; set; }
     }
 }

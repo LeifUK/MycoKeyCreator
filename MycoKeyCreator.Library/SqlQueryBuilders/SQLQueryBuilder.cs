@@ -6,6 +6,12 @@ namespace MycoKeyCreator.Library.SqlQueryBuilders
     {
         public abstract void AppendIdentityColumn(StringBuilder stringBuilder, string columnName);
 
+        public void AppendFloatColumn(StringBuilder stringBuilder, string columnName)
+        {
+            stringBuilder.Append(columnName);
+            stringBuilder.Append(" REAL");
+        }
+
         public void AppendIntegerColumn(StringBuilder stringBuilder, string columnName)
         {
             stringBuilder.Append(columnName);
@@ -188,7 +194,7 @@ namespace MycoKeyCreator.Library.SqlQueryBuilders
             stringBuilder.Append(", ");
             AppendIntegerColumn(stringBuilder, "attribute_id");
             stringBuilder.Append(", ");
-            AppendSmallIntColumn(stringBuilder, "value");
+            AppendFloatColumn(stringBuilder, "value");
             stringBuilder.Append(", ");
             AppendForeignKeyConstraint(stringBuilder, "FK_speciessizeattributevalue_key_id", "key_id", Database.TableNames.Key, "id");
             stringBuilder.Append(", ");

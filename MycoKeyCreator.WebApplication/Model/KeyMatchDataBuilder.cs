@@ -56,7 +56,7 @@ namespace MycoKeyCreator.WebApplication.Model
             Dictionary<Int64, KeyMatchViewOutput.Selection> choicesMap = 
                 keyMatchViewOutput != null ? 
                 keyMatchViewOutput.AttributeSelections.Where(n => n.AttributeType == (Int16)Library.Database.AttributeType.Choice).
-                ToDictionary(n => n.AttributeValue, n => n) : 
+                ToDictionary(n => (Int64)n.AttributeValue, n => n) : 
                 null;
 
             Dictionary<Int64, KeyMatchViewOutput.Selection> sizesMap =
@@ -90,7 +90,7 @@ namespace MycoKeyCreator.WebApplication.Model
                     if ((sizesMap != null) && sizesMap.ContainsKey(item.Value.id))
                     {
                         attribute.IsSelected = sizesMap[item.Value.id].IsSelected;
-                        attribute.Value = (Int16)sizesMap[item.Value.id].AttributeValue;
+                        attribute.Value = sizesMap[item.Value.id].AttributeValue;
                     }
                     keyMatchViewModel.AttributeSelections.Add(attribute);
                 }
@@ -174,6 +174,8 @@ namespace MycoKeyCreator.WebApplication.Model
                     {
                         if (item.Value.IsSelected)
                         {
+                            ++numberOfAttributes;
+
                             if (speciesAttributeChoiceIds.Contains(item.Key))
                             {
                                 ++matches;
@@ -195,9 +197,6 @@ namespace MycoKeyCreator.WebApplication.Model
                         }
                     }
                 }
-
-                numberOfAttributes += attributeChoicesMap.Where(n => speciesAttributeChoiceIds.Contains(n.Key)).
-                    Select(n => n.Value.attribute_id).Distinct().Count();
 
                 keyMatchViewModel.Species.Add(new SpeciesMatchData()
                 {

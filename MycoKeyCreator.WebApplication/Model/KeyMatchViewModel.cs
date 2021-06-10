@@ -20,7 +20,7 @@ namespace MycoKeyCreator.WebApplication.Model
 
         public class AttributeSize : AttributeSelection
         {
-            public Int16 Value { get; set; }
+            public float Value { get; set; }
         }
 
         public class AttributeChoice : AttributeSelection

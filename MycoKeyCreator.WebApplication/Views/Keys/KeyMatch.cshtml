@@ -152,7 +152,7 @@
                                 <td class="shrink">
                                     <label asp-for="IsSelected" class="attribute-description">
                                         <input type="checkbox" name="@IsSelected" value="true" checked="@attributeSelection.IsSelected" />
-                                        @attributeSelection.Attribute.description
+                                        @Html.Raw(@attributeSelection.Attribute.description)
                                     </label>
                                     <input type="hidden" name="@AttributeType" value="@attributeSelection.Attribute.type" />
                                     <input type="hidden" name="@AttributeId" value="@attributeSelection.Attribute.id" />
@@ -181,7 +181,7 @@
                                     {
                                         MycoKeyCreator.WebApplication.Model.KeyMatchViewModel.AttributeSize attributeSize =
                                             @attributeSelection as MycoKeyCreator.WebApplication.Model.KeyMatchViewModel.AttributeSize;
-                                        <input type="number" name="@AttributeValue" value="@attributeSize.Value" class="attribute-number" />
+                                        <input type="number" step=".001" name="@AttributeValue" value="@attributeSize.Value" class="attribute-number" />
                                     }
                                 </td>
                             </tr>
@@ -217,7 +217,7 @@
                             <td>
                                 @foreach (var text in item.MismatchedFeatures)
                                 {
-                                    <p class="match-content">@text</p>
+                                    <p class="match-content">@Html.Raw(@text)</p>
                                 }
                             </td>
                         </tr>

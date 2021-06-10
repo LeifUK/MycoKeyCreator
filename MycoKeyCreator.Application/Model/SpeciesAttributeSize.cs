@@ -11,7 +11,7 @@ namespace MycoKeyCreator.Application.Model
             {
                 if (SpeciesAttributeSizeValue != null)
                 {
-                    return SpeciesAttributeSizeValue.value;
+                    return (_previousValue != null) ? (object)_previousValue : SpeciesAttributeSizeValue.value;
                 }
                 return null;
             }
@@ -19,14 +19,26 @@ namespace MycoKeyCreator.Application.Model
             {
                 if (SpeciesAttributeSizeValue != null)
                 {
-                    Int16 i = 0;
-                    if (Int16.TryParse((string)value, out i) && (i >= 0))
+                    float i = 0;
+                    if (float.TryParse((string)value, out i) && (i >= 0))
                     {
                         SpeciesAttributeSizeValue.value = i;
                         IsUsed = true;
+                        _previousValue = (string)value;
+                        if (i == SpeciesAttributeSizeValue.value)
+                        {
+                            _previousValue = (string)value;
+                        }
+                        else
+                        {
+                            _previousValue = i.ToString();
+                        }
                     }
                 }
             }
         }
+
+        // This allows the user to enter a decimal at the end without it being removed eg "35."
+        private string _previousValue = null;
     }
 }
